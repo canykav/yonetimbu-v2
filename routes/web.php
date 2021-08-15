@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Auth::routes();
+/*
+Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 */
+
+Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
+Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login');
+
 Route::any('/{all}', function () {
     return view('admin.index');
 })->where(['all' => '.*']);

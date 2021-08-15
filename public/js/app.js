@@ -2082,6 +2082,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_1__.default);
 var navbar = vue__WEBPACK_IMPORTED_MODULE_0__.default.component('navbar', __webpack_require__(/*! ../components/Navbar.vue */ "./resources/js/components/Navbar.vue").default);
 var sidebar = vue__WEBPACK_IMPORTED_MODULE_0__.default.component('sidebar', __webpack_require__(/*! ../components/Sidebar.vue */ "./resources/js/components/Sidebar.vue").default);
+var register = vue__WEBPACK_IMPORTED_MODULE_0__.default.component('register', __webpack_require__(/*! ../views/Register.vue */ "./resources/js/views/Register.vue").default);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
   routes: configRoutes()
@@ -2101,7 +2102,7 @@ function configRoutes() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_person_Persons_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/person/Persons.vue */ "./resources/js/views/admin/person/Persons.vue"));
     }
   }, {
-    name: 'NewPerson',
+    name: 'newPerson',
     path: '/persons/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_person_NewPerson_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/person/NewPerson.vue */ "./resources/js/views/admin/person/NewPerson.vue"));
@@ -2113,34 +2114,94 @@ function configRoutes() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_property_Properties_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/property/Properties.vue */ "./resources/js/views/admin/property/Properties.vue"));
     }
   }, {
-    name: 'NewProperty',
+    name: 'newProperty',
     path: '/properties/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_property_NewProperty_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/property/NewProperty.vue */ "./resources/js/views/admin/property/NewProperty.vue"));
     }
   }, {
-    name: 'Vaults',
+    name: 'vaults',
     path: '/vaults',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_vault_Vaults_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/vault/Vaults.vue */ "./resources/js/views/admin/vault/Vaults.vue"));
     }
   }, {
-    name: 'NewVault',
+    name: 'newVault',
     path: '/vaults/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_vault_NewVault_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/vault/NewVault.vue */ "./resources/js/views/admin/vault/NewVault.vue"));
     }
   }, {
-    name: 'Companies',
+    name: 'companies',
     path: '/companies',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_company_Companies_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/company/Companies.vue */ "./resources/js/views/admin/company/Companies.vue"));
     }
   }, {
-    name: 'NewCompany',
+    name: 'newCompany',
     path: '/companies/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_admin_company_NewCompany_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/company/NewCompany.vue */ "./resources/js/views/admin/company/NewCompany.vue"));
+    }
+  }, {
+    name: 'employees',
+    path: '/employees',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_employee_Employees_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/employee/Employees.vue */ "./resources/js/views/admin/employee/Employees.vue"));
+    }
+  }, {
+    name: 'newEmployee',
+    path: '/employees/new',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_employee_NewEmployee_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/employee/NewEmployee.vue */ "./resources/js/views/admin/employee/NewEmployee.vue"));
+    }
+  }, {
+    name: 'debits',
+    path: '/debits',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_debit_Debits_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/debit/Debits.vue */ "./resources/js/views/admin/debit/Debits.vue"));
+    }
+  }, {
+    name: 'newDebit',
+    path: '/debits/new',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_debit_NewDebit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/debit/NewDebit.vue */ "./resources/js/views/admin/debit/NewDebit.vue"));
+    }
+  }, {
+    name: 'newMultiDebit',
+    path: '/debits/new-multi',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_debit_NewMultiDebit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/debit/NewMultiDebit.vue */ "./resources/js/views/admin/debit/NewMultiDebit.vue"));
+    }
+  }, {
+    name: 'collections',
+    path: '/collections',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_collection_Collections_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/collection/Collections.vue */ "./resources/js/views/admin/collection/Collections.vue"));
+    }
+  }, {
+    name: 'newCollection',
+    path: '/collections/new',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_collection_NewCollection_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/collection/NewCollection.vue */ "./resources/js/views/admin/collection/NewCollection.vue"));
+    }
+  }, {
+    name: 'newDebitCollection',
+    path: '/collections/new-d',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_collection_NewDebitCollection_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/collection/NewDebitCollection.vue */ "./resources/js/views/admin/collection/NewDebitCollection.vue"));
+    }
+  }, {
+    name: 'expenses',
+    path: '/expenses',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_expense_Expenses_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/expense/Expenses.vue */ "./resources/js/views/admin/expense/Expenses.vue"));
+    }
+  }, {
+    name: 'newExpense',
+    path: '/expenses/new',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_admin_expense_NewExpense_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/admin/expense/NewExpense.vue */ "./resources/js/views/admin/expense/NewExpense.vue"));
     }
   }];
 }
@@ -55794,6 +55855,40 @@ component.options.__file = "resources/js/components/Sidebar.vue"
 
 /***/ }),
 
+/***/ "./resources/js/views/Register.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/views/Register.vue ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__.default)(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/views/Register.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Navbar.vue?vue&type=script&lang=js&":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/Navbar.vue?vue&type=script&lang=js& ***!
@@ -71611,7 +71706,7 @@ Vue.compile = compileToFunctions;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_admin_Dashboard_vue":1,"resources_js_views_admin_person_Persons_vue":1,"resources_js_views_admin_person_NewPerson_vue":1,"resources_js_views_admin_property_Properties_vue":1,"resources_js_views_admin_property_NewProperty_vue":1,"resources_js_views_admin_vault_Vaults_vue":1,"resources_js_views_admin_vault_NewVault_vue":1,"resources_js_views_admin_company_Companies_vue":1,"resources_js_views_admin_company_NewCompany_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_admin_Dashboard_vue":1,"resources_js_views_admin_person_Persons_vue":1,"resources_js_views_admin_person_NewPerson_vue":1,"resources_js_views_admin_property_Properties_vue":1,"resources_js_views_admin_property_NewProperty_vue":1,"resources_js_views_admin_vault_Vaults_vue":1,"resources_js_views_admin_vault_NewVault_vue":1,"resources_js_views_admin_company_Companies_vue":1,"resources_js_views_admin_company_NewCompany_vue":1,"resources_js_views_admin_employee_Employees_vue":1,"resources_js_views_admin_employee_NewEmployee_vue":1,"resources_js_views_admin_debit_Debits_vue":1,"resources_js_views_admin_debit_NewDebit_vue":1,"resources_js_views_admin_debit_NewMultiDebit_vue":1,"resources_js_views_admin_collection_Collections_vue":1,"resources_js_views_admin_collection_NewCollection_vue":1,"resources_js_views_admin_collection_NewDebitCollection_vue":1,"resources_js_views_admin_expense_Expenses_vue":1,"resources_js_views_admin_expense_NewExpense_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
