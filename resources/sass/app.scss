@@ -1,0 +1,149 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all.sass";
+
+// Card
+$card-shadow: 0 1px 3px 0 #0000001a,0 1px 2px 0 #0000000f;
+$card-radius: 6px;
+
+
+// Font Family
+$family-sans-serif: 'Poppins', sans-serif;
+$family-primary: 'Poppins', sans-serif;
+
+// Body
+$body-background: #f1f5f9;
+$body-background-color: #f1f5f9;
+
+// Set your colors
+$primary: #8c67ef;
+$primary-light: findLightColor($primary);
+$primary-dark: findDarkColor($primary);
+$primary-invert: findColorInvert($primary);
+$twitter: #4099FF;
+$twitter-invert: findColorInvert($twitter);
+
+// Lists and maps
+$custom-colors: null !default;
+$custom-shades: null !default;
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: mergeColorMaps(
+    (
+        "white": (
+            $white,
+            $black,
+        ),
+        "black": (
+            $black,
+            $white,
+        ),
+        "light": (
+            $light,
+            $light-invert,
+        ),
+        "dark": (
+            $dark,
+            $dark-invert,
+        ),
+        "primary": (
+            $primary,
+            $primary-invert,
+            $primary-light,
+            $primary-dark,
+        ),
+        "link": (
+            $link,
+            $link-invert,
+            $link-light,
+            $link-dark,
+        ),
+        "info": (
+            $info,
+            $info-invert,
+            $info-light,
+            $info-dark,
+        ),
+        "success": (
+            $success,
+            $success-invert,
+            $success-light,
+            $success-dark,
+        ),
+        "warning": (
+            $warning,
+            $warning-invert,
+            $warning-light,
+            $warning-dark,
+        ),
+        "danger": (
+            $danger,
+            $danger-invert,
+            $danger-light,
+            $danger-dark,
+        ),
+    ),
+    $custom-colors
+);
+
+// Radiuses
+$radius-small: 6px;
+$radius: 6px;
+$radius-large: 8px;
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Menu
+$menu-item-color: #9fa2aa;
+$menu-item-hover-background-color: #2c3344;
+$menu-item-radius: 6px;
+$menu-item-hover-color: #ffffff;
+$menu-item-active-color: #ffffff;
+$menu-item-active-background-color: #2c3344;
+$menu-label-color: $primary;
+
+.menu {
+    .menu-list {
+        li {
+            a:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.card {
+    border: none;
+}
+
+// Import Bulma and Buefy styles
+@import "~bulma/bulma.sass";
+@import "~buefy/src/scss/buefy";
+
+body {
+    background-color: $body-background-color;
+}
+
+// Hero
+.hero {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+// Propery List on New Person Page
+ul.new-person-property-list  {
+    margin: 0;
+    padding: 0;
+    li {
+        border-radius: $radius-small;
+        border: 1px solid #dbdbdb;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+}
