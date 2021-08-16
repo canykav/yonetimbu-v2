@@ -253,6 +253,15 @@ ul.list li:not(:last-child) {
   border-bottom: 1px solid #e2e8f0;
 }
 
+.manager-auth-left {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+.full-height-for-columns {
+  min-height: calc(100vh + 0.75rem);
+}
+
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,
@@ -1709,7 +1718,7 @@ a.box:active {
   color: #cc0f35;
 }
 .button.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .button.is-small:not(.is-rounded) {
   border-radius: 6px;
@@ -1746,7 +1755,7 @@ a.box:active {
 .button.is-static {
   background-color: whitesmoke;
   border-color: #dbdbdb;
-  color: #7a7a7a;
+  color: #64748b;
   box-shadow: none;
   pointer-events: none;
 }
@@ -1775,7 +1784,7 @@ a.box:active {
   margin-bottom: 1rem;
 }
 .buttons.are-small .button:not(.is-normal):not(.is-medium):not(.is-large) {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .buttons.are-small .button:not(.is-normal):not(.is-medium):not(.is-large):not(.is-rounded) {
   border-radius: 6px;
@@ -2021,7 +2030,7 @@ a.box:active {
   margin-top: 0;
 }
 .content.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .content.is-normal {
   font-size: 1rem;
@@ -2449,7 +2458,7 @@ div.icon-text {
   animation-name: none;
 }
 .progress.is-small, .is-small.progress-wrapper.is-not-native {
-  height: 0.75rem;
+  height: 0.8rem;
 }
 .progress.is-medium, .is-medium.progress-wrapper.is-not-native {
   height: 1.25rem;
@@ -2702,7 +2711,7 @@ div.icon-text {
   border-radius: 6px;
   color: #4a4a4a;
   display: inline-flex;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   height: 2em;
   justify-content: center;
   line-height: 1.5;
@@ -2779,7 +2788,7 @@ div.icon-text {
   color: #cc0f35;
 }
 .tag:not(body).is-normal {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .tag:not(body).is-medium {
   font-size: 1rem;
@@ -2892,7 +2901,7 @@ a.tag:hover {
   font-size: 1rem;
 }
 .title.is-7 {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 
 .subtitle {
@@ -2927,7 +2936,7 @@ a.tag:hover {
   font-size: 1rem;
 }
 .subtitle.is-7 {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 
 .heading {
@@ -2983,19 +2992,19 @@ a.tag:hover {
   background-color: whitesmoke;
   border-color: whitesmoke;
   box-shadow: none;
-  color: #7a7a7a;
+  color: #64748b;
 }
 .select select[disabled]::-moz-placeholder, .taginput [disabled].taginput-container.is-focusable::-moz-placeholder, [disabled].textarea::-moz-placeholder, [disabled].input::-moz-placeholder, fieldset[disabled] .select select::-moz-placeholder, .select fieldset[disabled] select::-moz-placeholder, fieldset[disabled] .taginput .taginput-container.is-focusable::-moz-placeholder, .taginput fieldset[disabled] .taginput-container.is-focusable::-moz-placeholder, fieldset[disabled] .textarea::-moz-placeholder, fieldset[disabled] .input::-moz-placeholder {
-  color: rgba(122, 122, 122, 0.3);
+  color: rgba(100, 116, 139, 0.3);
 }
 .select select[disabled]::-webkit-input-placeholder, .taginput [disabled].taginput-container.is-focusable::-webkit-input-placeholder, [disabled].textarea::-webkit-input-placeholder, [disabled].input::-webkit-input-placeholder, fieldset[disabled] .select select::-webkit-input-placeholder, .select fieldset[disabled] select::-webkit-input-placeholder, fieldset[disabled] .taginput .taginput-container.is-focusable::-webkit-input-placeholder, .taginput fieldset[disabled] .taginput-container.is-focusable::-webkit-input-placeholder, fieldset[disabled] .textarea::-webkit-input-placeholder, fieldset[disabled] .input::-webkit-input-placeholder {
-  color: rgba(122, 122, 122, 0.3);
+  color: rgba(100, 116, 139, 0.3);
 }
 .select select[disabled]:-moz-placeholder, .taginput [disabled].taginput-container.is-focusable:-moz-placeholder, [disabled].textarea:-moz-placeholder, [disabled].input:-moz-placeholder, fieldset[disabled] .select select:-moz-placeholder, .select fieldset[disabled] select:-moz-placeholder, fieldset[disabled] .taginput .taginput-container.is-focusable:-moz-placeholder, .taginput fieldset[disabled] .taginput-container.is-focusable:-moz-placeholder, fieldset[disabled] .textarea:-moz-placeholder, fieldset[disabled] .input:-moz-placeholder {
-  color: rgba(122, 122, 122, 0.3);
+  color: rgba(100, 116, 139, 0.3);
 }
 .select select[disabled]:-ms-input-placeholder, .taginput [disabled].taginput-container.is-focusable:-ms-input-placeholder, [disabled].textarea:-ms-input-placeholder, [disabled].input:-ms-input-placeholder, fieldset[disabled] .select select:-ms-input-placeholder, .select fieldset[disabled] select:-ms-input-placeholder, fieldset[disabled] .taginput .taginput-container.is-focusable:-ms-input-placeholder, .taginput fieldset[disabled] .taginput-container.is-focusable:-ms-input-placeholder, fieldset[disabled] .textarea:-ms-input-placeholder, fieldset[disabled] .input:-ms-input-placeholder {
-  color: rgba(122, 122, 122, 0.3);
+  color: rgba(100, 116, 139, 0.3);
 }
 
 .taginput .taginput-container.is-focusable, .textarea, .input {
@@ -3068,7 +3077,7 @@ a.tag:hover {
 }
 .taginput .is-small.taginput-container.is-focusable, .is-small.textarea, .is-small.input {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .taginput .is-medium.taginput-container.is-focusable, .is-medium.textarea, .is-medium.input {
   font-size: 1.25rem;
@@ -3131,7 +3140,7 @@ a.tag:hover {
 [disabled].radio, [disabled].checkbox, fieldset[disabled] .radio, fieldset[disabled] .checkbox,
 .radio input[disabled],
 .checkbox input[disabled] {
-  color: #7a7a7a;
+  color: #64748b;
   cursor: not-allowed;
 }
 
@@ -3305,7 +3314,7 @@ a.tag:hover {
 }
 .select.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .select.is-medium {
   font-size: 1.25rem;
@@ -3314,7 +3323,7 @@ a.tag:hover {
   font-size: 1.5rem;
 }
 .select.is-disabled::after {
-  border-color: #7a7a7a;
+  border-color: #64748b;
 }
 .select.is-fullwidth {
   width: 100%;
@@ -3330,7 +3339,7 @@ a.tag:hover {
   transform: none;
 }
 .select.is-loading.is-small:after {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .select.is-loading.is-medium:after {
   font-size: 1.25rem;
@@ -3546,7 +3555,7 @@ a.tag:hover {
   color: #fff;
 }
 .file.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .file.is-normal {
   font-size: 1rem;
@@ -3708,13 +3717,13 @@ a.tag:hover {
   color: #363636;
   display: block;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .label:not(:last-child) {
   margin-bottom: 0.5em;
 }
 .label.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .label.is-medium {
   font-size: 1.25rem;
@@ -3725,7 +3734,7 @@ a.tag:hover {
 
 .help {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 .help.is-white {
@@ -3885,7 +3894,7 @@ a.tag:hover {
     text-align: right;
   }
   .field-label.is-small {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding-top: 0.375em;
   }
   .field-label.is-normal {
@@ -3940,7 +3949,7 @@ a.tag:hover {
 .control.has-icons-left .input.is-small ~ .icon,
 .control.has-icons-left .select.is-small ~ .icon, .control.has-icons-right .input.is-small ~ .icon,
 .control.has-icons-right .select.is-small ~ .icon {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .control.has-icons-left .input.is-medium ~ .icon,
 .control.has-icons-left .select.is-medium ~ .icon, .control.has-icons-right .input.is-medium ~ .icon,
@@ -3982,7 +3991,7 @@ a.tag:hover {
   z-index: 4;
 }
 .control.is-loading.is-small:after {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .control.is-loading.is-medium:after {
   font-size: 1.25rem;
@@ -4044,7 +4053,7 @@ a.tag:hover {
   justify-content: flex-end;
 }
 .breadcrumb.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .breadcrumb.is-medium {
   font-size: 1.25rem;
@@ -4395,7 +4404,7 @@ button.dropdown-item.is-active {
   font-size: 1rem;
 }
 .menu.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .menu.is-medium {
   font-size: 1.25rem;
@@ -4453,7 +4462,7 @@ button.dropdown-item.is-active {
   text-decoration: underline;
 }
 .message.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .message.is-medium {
   font-size: 1.25rem;
@@ -5715,7 +5724,7 @@ body.has-spaced-navbar-fixed-bottom {
   margin: -0.25rem;
 }
 .pagination.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .pagination.is-medium {
   font-size: 1.25rem;
@@ -5782,7 +5791,7 @@ body.has-spaced-navbar-fixed-bottom {
   background-color: #dbdbdb;
   border-color: #dbdbdb;
   box-shadow: none;
-  color: #7a7a7a;
+  color: #64748b;
   opacity: 0.5;
 }
 
@@ -6071,7 +6080,7 @@ label.panel-block:hover {
   text-align: center;
   vertical-align: top;
   width: 1em;
-  color: #7a7a7a;
+  color: #64748b;
   margin-right: 0.75em;
 }
 .panel-icon .fa {
@@ -6207,7 +6216,7 @@ label.panel-block:hover {
   padding-right: 1.25em;
 }
 .tabs.is-small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .tabs.is-medium {
   font-size: 1.25rem;
@@ -8247,11 +8256,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .has-text-grey {
-  color: #7a7a7a !important;
+  color: #64748b !important;
 }
 
 .has-background-grey {
-  background-color: #7a7a7a !important;
+  background-color: #64748b !important;
 }
 
 .has-text-grey-light {
@@ -9050,7 +9059,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .is-size-7 {
-  font-size: 0.75rem !important;
+  font-size: 0.8rem !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -9079,7 +9088,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-mobile {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 @media screen and (min-width: 769px), print {
@@ -9108,7 +9117,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-tablet {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 @media screen and (max-width: 1023px) {
@@ -9137,7 +9146,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-touch {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 @media screen and (min-width: 1024px) {
@@ -9166,7 +9175,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-desktop {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 @media screen and (min-width: 1216px) {
@@ -9195,7 +9204,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-widescreen {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 @media screen and (min-width: 1408px) {
@@ -9224,7 +9233,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   }
 
   .is-size-7-fullhd {
-    font-size: 0.75rem !important;
+    font-size: 0.8rem !important;
   }
 }
 .has-text-centered {
@@ -10881,7 +10890,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 .autocomplete.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .autocomplete.is-medium {
   font-size: 1.25rem;
@@ -11090,7 +11099,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   height: 1.25em;
   flex-shrink: 0;
   border-radius: 6px;
-  border: 2px solid #7a7a7a;
+  border: 2px solid #64748b;
   transition: background 150ms ease-out;
   background: transparent;
 }
@@ -11183,7 +11192,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   border-color: #f14668;
 }
 .b-checkbox.checkbox input[type=checkbox]:focus + .check {
-  box-shadow: 0 0 0.5em rgba(122, 122, 122, 0.8);
+  box-shadow: 0 0 0.5em rgba(100, 116, 139, 0.8);
 }
 .b-checkbox.checkbox input[type=checkbox]:focus:checked + .check {
   box-shadow: 0 0 0.5em rgba(140, 103, 239, 0.8);
@@ -11262,7 +11271,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 .b-checkbox.checkbox.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .b-checkbox.checkbox.is-medium {
   font-size: 1.25rem;
@@ -11630,7 +11639,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 .b-clockpicker.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .b-clockpicker.is-medium {
   font-size: 1.25rem;
@@ -11702,7 +11711,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   display: table-header-group;
 }
 .datepicker .datepicker-table .datepicker-header .datepicker-cell {
-  color: #7a7a7a;
+  color: #64748b;
   font-weight: 600;
 }
 .datepicker .datepicker-table .datepicker-body {
@@ -11739,7 +11748,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   cursor: pointer;
 }
 .datepicker .datepicker-table .datepicker-body .datepicker-cell.is-selectable.is-within-hovered-range.is-first-hovered {
-  background-color: #7a7a7a;
+  background-color: #64748b;
   color: #dbdbdb;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -11750,7 +11759,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   border-radius: 0;
 }
 .datepicker .datepicker-table .datepicker-body .datepicker-cell.is-selectable.is-within-hovered-range.is-last-hovered {
-  background-color: #7a7a7a;
+  background-color: #64748b;
   color: #dbdbdb;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
@@ -11844,7 +11853,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 .datepicker.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .datepicker.is-medium {
   font-size: 1.25rem;
@@ -11899,7 +11908,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .dialog.is-small .input,
 .dialog.is-small .button {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .dialog.is-medium .modal-card,
 .dialog.is-medium .input,
@@ -12076,7 +12085,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   overflow: hidden;
 }
 .field.is-floating-label .label.is-small, .field.is-floating-in-label .label.is-small {
-  font-size: calc(0.75rem * 0.75);
+  font-size: calc(0.8rem * 0.75);
 }
 .field.is-floating-label .label.is-medium, .field.is-floating-in-label .label.is-medium {
   font-size: calc(1.25rem * 0.75);
@@ -12185,7 +12194,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin-left: calc(1rem * 3);
 }
 .field.is-floating-label.has-numberinput.has-numberinput-is-small .label, .field.is-floating-in-label.has-numberinput.has-numberinput-is-small .label {
-  margin-left: calc(0.75rem * 3);
+  margin-left: calc(0.8rem * 3);
 }
 .field.is-floating-label.has-numberinput.has-numberinput-is-medium .label, .field.is-floating-in-label.has-numberinput.has-numberinput-is-medium .label {
   margin-left: calc(1.25rem * 3);
@@ -12197,7 +12206,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin-left: calc(1rem * 2.25);
 }
 .field.is-floating-label.has-numberinput-compact.has-numberinput-is-small .label, .field.is-floating-in-label.has-numberinput-compact.has-numberinput-is-small .label {
-  margin-left: calc(0.75rem * 2.25);
+  margin-left: calc(0.8rem * 2.25);
 }
 .field.is-floating-label.has-numberinput-compact.has-numberinput-is-medium .label, .field.is-floating-in-label.has-numberinput-compact.has-numberinput-is-medium .label {
   margin-left: calc(1.25rem * 2.25);
@@ -12633,8 +12642,8 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin-bottom: 0;
 }
 .progress-wrapper .progress.is-small + .progress-value, .progress-wrapper .is-small.progress-wrapper.is-not-native + .progress-value, .progress-wrapper .progress.is-small .progress-value, .progress-wrapper .is-small.progress-wrapper.is-not-native .progress-value, .progress-wrapper .progress-bar.is-small + .progress-value, .progress-wrapper .progress-bar.is-small .progress-value {
-  font-size: calc(0.75rem / 1.5);
-  line-height: 0.75rem;
+  font-size: calc(0.8rem / 1.5);
+  line-height: 0.8rem;
 }
 .progress-wrapper .progress.is-medium + .progress-value, .progress-wrapper .is-medium.progress-wrapper.is-not-native + .progress-value, .progress-wrapper .progress.is-medium .progress-value, .progress-wrapper .is-medium.progress-wrapper.is-not-native .progress-value, .progress-wrapper .progress-bar.is-medium + .progress-value, .progress-wrapper .progress-bar.is-medium .progress-value {
   font-size: calc(1.25rem / 1.5);
@@ -12787,7 +12796,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   height: 1.25em;
   transition: background 150ms ease-out;
   border-radius: 50%;
-  border: 2px solid #7a7a7a;
+  border: 2px solid #64748b;
 }
 .b-radio.radio input[type=radio] + .check:before {
   content: "";
@@ -12871,7 +12880,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   transform: scale(0.5);
 }
 .b-radio.radio input[type=radio]:focus + .check {
-  box-shadow: 0 0 0.5em rgba(122, 122, 122, 0.8);
+  box-shadow: 0 0 0.5em rgba(100, 116, 139, 0.8);
 }
 .b-radio.radio input[type=radio]:focus:checked + .check {
   box-shadow: 0 0 0.5em rgba(140, 103, 239, 0.8);
@@ -12953,7 +12962,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 .b-radio.radio.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .b-radio.radio.is-medium {
   font-size: 1.25rem;
@@ -13018,7 +13027,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   margin-left: 0.35rem;
 }
 .rate .rate-text.is-small {
-  font-size: calc(0.75rem / 1.25);
+  font-size: calc(0.8rem / 1.25);
 }
 .rate .rate-text.is-medium {
   font-size: calc(1.25rem / 1.25);
@@ -13049,7 +13058,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   opacity: 1;
 }
 .select.is-empty select {
-  color: rgba(122, 122, 122, 0.7);
+  color: rgba(100, 116, 139, 0.7);
 }
 .select.is-loading::after {
   top: calc(50% - (1em * 0.5));
@@ -13093,7 +13102,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   line-height: 1rem;
 }
 .b-skeleton.is-small > .b-skeleton-item {
-  line-height: 0.75rem;
+  line-height: 0.8rem;
 }
 .b-skeleton.is-medium > .b-skeleton-item {
   line-height: 1.25rem;
@@ -13251,10 +13260,10 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .b-slider .b-slider-fill {
   position: absolute;
   height: 100%;
-  box-shadow: 0px 0px 0px #7a7a7a;
+  box-shadow: 0px 0px 0px #64748b;
   background: #dbdbdb;
   border-radius: 6px;
-  border: 0px solid #7a7a7a;
+  border: 0px solid #64748b;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -13328,19 +13337,19 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   transform: translateX(-50%);
 }
 .b-slider.is-small .b-slider-track {
-  height: 0.375rem;
+  height: 0.4rem;
 }
 .b-slider.is-small .b-slider-thumb {
-  height: 0.75rem;
-  width: 0.75rem;
+  height: 0.8rem;
+  width: 0.8rem;
 }
 .b-slider.is-small .b-slider-tick {
-  height: 0.1875rem;
+  height: 0.2rem;
 }
 .b-slider.is-small .b-slider-tick-label {
   font-size: 0.75rem;
   position: absolute;
-  top: calc(0.375rem * 0.5 + 2px);
+  top: calc(0.4rem * 0.5 + 2px);
   left: 50%;
   transform: translateX(-50%);
 }
@@ -13790,46 +13799,46 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   right: calc(1rem - 0.1em);
 }
 .b-steps.is-small .steps {
-  font-size: 0.75rem;
-  min-height: 1.5rem;
+  font-size: 0.8rem;
+  min-height: 1.6rem;
 }
 .b-steps.is-small .steps .step-items .step-item .step-marker {
-  height: 1.5rem;
-  width: 1.5rem;
+  height: 1.6rem;
+  width: 1.6rem;
 }
 .b-steps.is-small .steps .step-items .step-item .step-marker .icon *, .b-steps.is-small .steps .step-items .step-item .step-marker .icon *:before {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .b-steps.is-small .steps .step-items .step-item .step-details .step-title {
-  font-size: 0.9rem;
+  font-size: 0.96rem;
   font-weight: 600;
-  line-height: 0.75rem;
+  line-height: 0.8rem;
 }
 .b-steps.is-small .steps .step-items .step-item:not(:first-child)::before, .b-steps.is-small .steps .step-items .step-item:only-child::before {
   height: 0.2em;
-  top: 0.75rem;
+  top: 0.8rem;
 }
 .b-steps.is-small .steps .step-items .step-item:only-child::after {
-  top: 0.75rem;
+  top: 0.8rem;
 }
 @media screen and (max-width: 768px) {
   .b-steps.is-small .steps .step-items .step-item::before, .b-steps.is-small .steps .step-items .step-item::after, .b-steps.is-small .steps .step-items .step-item:not(:first-child)::before {
-    top: 0.75rem;
+    top: 0.8rem;
   }
 }
 .b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::before, .b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::after, .b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:only-child::before, .b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:only-child::after {
-  left: calc(0.75rem - 0.1em);
+  left: calc(0.8rem - 0.1em);
 }
 .b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::before, .b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::after, .b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:only-child::before, .b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:only-child::after {
   left: auto;
-  right: calc(0.75rem - 0.1em);
+  right: calc(0.8rem - 0.1em);
 }
 .b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::before, .b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::after, .b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::before, .b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::after {
-  left: calc(0.75rem - 0.1em);
+  left: calc(0.8rem - 0.1em);
 }
 .b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::before, .b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::after, .b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::before, .b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::after {
   left: auto;
-  right: calc(0.75rem - 0.1em);
+  right: calc(0.8rem - 0.1em);
 }
 .b-steps.is-medium .steps {
   font-size: 1.25rem;
@@ -14194,7 +14203,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   outline: none;
 }
 .switch input[type=checkbox]:focus + .check, .switch input[type=checkbox]:active + .check {
-  box-shadow: 0 0 0.5em rgba(122, 122, 122, 0.6);
+  box-shadow: 0 0 0.5em rgba(100, 116, 139, 0.6);
 }
 .switch input[type=checkbox]:focus + .check.is-white-passive, .switch input[type=checkbox]:active + .check.is-white-passive {
   box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.8);
@@ -14557,7 +14566,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 .switch.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .switch.is-medium {
   font-size: 1.25rem;
@@ -14568,7 +14577,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .switch[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
-  color: #7a7a7a;
+  color: #64748b;
 }
 
 .table-wrapper .table {
@@ -14634,11 +14643,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   text-align: center;
 }
 .b-table .table th.is-current-sort {
-  border-color: #7a7a7a;
+  border-color: #64748b;
   font-weight: 700;
 }
 .b-table .table th.is-sortable:hover {
-  border-color: #7a7a7a;
+  border-color: #64748b;
 }
 .b-table .table th.is-sortable, .b-table .table th.is-sortable .th-wrap {
   cursor: pointer;
@@ -15079,7 +15088,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 .taginput .taginput-container:not(.is-focusable).is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .taginput .taginput-container:not(.is-focusable).is-medium {
   font-size: 1.25rem;
@@ -15169,7 +15178,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   border: 0;
 }
 .timepicker .dropdown-content .control .select select option:disabled {
-  color: rgba(122, 122, 122, 0.7);
+  color: rgba(100, 116, 139, 0.7);
 }
 .timepicker .dropdown-content .control .select:after {
   display: none;
@@ -15183,7 +15192,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 .timepicker.is-small {
   border-radius: 2px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 .timepicker.is-medium {
   font-size: 1.25rem;

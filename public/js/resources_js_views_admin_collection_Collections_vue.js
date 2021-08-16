@@ -204,7 +204,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("section", { staticClass: "hero" }, [
+    _c("section", { staticClass: "hero manager-hero" }, [
       _c("div", { staticClass: "hero-body" }, [
         _c(
           "div",

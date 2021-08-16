@@ -1,6 +1,6 @@
 <template>
 <div>
-<section class="hero">
+<section class="hero manager-hero">
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">

@@ -1,7 +1,6 @@
 <template>
              <b-sidebar
                 position="static"
-                :mobile="mobile"
                 :expand-on-hover="expandOnHover"
                 :delay="expandWithDelay ? 500 : null"
                 open

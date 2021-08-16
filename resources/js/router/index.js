@@ -109,6 +109,11 @@ function configRoutes () {
         path: '/expenses/new',
         component: () => import( '../views/admin/expense/NewExpense.vue'),
     },
+    {
+        name: 'register',
+        path: '/register',
+        component: () => import( '../views/Register.vue'),
+    },
   ]
 }
 

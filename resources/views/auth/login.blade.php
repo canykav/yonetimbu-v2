@@ -17,13 +17,7 @@
     </head>
     <body>
         <div id="app">
-            <div v-bind:class="{ 'columns': sidebar }">
-                <sidebar v-bind:class="{ 'is-hidden': !sidebar }"></sidebar>
-                <div class="column pl-0"  v-bind:class="{ 'p-0': !sidebar }">
-                    <navbar @sidebar="sidebar = $event"></navbar>
-                    <login></login>
-                </div>
-            </div>
+            <Login></Login>
         </div>
     </body>
 </html>

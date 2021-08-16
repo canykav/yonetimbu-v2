@@ -13,13 +13,10 @@
 </section>
         </div>
         <div class="column is-4 has-background-white is-flex is-align-items-center">
-            <div name="signup-form" class="px-6">
-                <p class="is-size-4 has-text-weight-medium">Yönetici Kayıt Formu</p>
-                <p class="is-size-7 mb-6">Zaten hesabınız var mı?<a class="has-text-primary"> Giriş Yapın</a></p>
+            <div name="login-form" class="px-6">
+                <p class="is-size-4 has-text-weight-medium">Giriş</p>
+                <p class="is-size-7 mb-6">Hesabınız yok mu?<a class="has-text-primary"> Kayıt Olun</a></p>
 
-                <b-field label="Ad Soyad">
-                    <b-input v-model="name"></b-input>
-                </b-field>
                     <b-field label="Email">
                     <b-input type="email"></b-input>
                 </b-field>
@@ -29,9 +26,9 @@
                     </b-input>
                 </b-field>
                 <b-field>
-                    <b-checkbox class="is-size-7"><a class="has-text-link">KVKK Aydınlatma Metni</a>'ni okudum ve kabul ediyorum.</b-checkbox>
+                    <b-checkbox class="is-size-7">Beni Hatırla</b-checkbox>
                 </b-field>
-                <b-button type="is-primary" rounded expanded>Kayıt Ol</b-button>
+                <b-button type="is-primary" rounded expanded>Giriş Yap</b-button>
             </div>
         </div>
     </div>
@@ -48,8 +45,5 @@ export default {
 <style scoped>
 .hero {
     border-bottom: 0;
-}
-div[name="signup-form"] {
-    max-width: 347px;
 }
 </style>

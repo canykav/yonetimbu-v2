@@ -1,6 +1,13 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+
+// Color  !!!!!!!! -> If the color variable doesnt come before 'Bulma Core', it doesnt work.
+$grey: #64748b;
+
+// Font Options
+$size-7: 0.8rem;
+
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all.sass";
 
@@ -83,6 +90,9 @@ $colors: mergeColorMaps(
     $custom-colors
 );
 
+// Form Options
+$label-weight: 600;
+
 // Radiuses
 $radius-small: 6px;
 $radius: 6px;
@@ -152,6 +162,16 @@ ul.list {
         }
     }
 }
+
+// manager login
+.manager-auth-left {
+    background: #1e293b;
+    color: rgba(148,163,184,1);
+}
+.full-height-for-columns {
+    min-height: calc(100vh + 0.75rem);
+}
+
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";
 @import "~buefy/src/scss/buefy";
