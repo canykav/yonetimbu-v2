@@ -172,6 +172,26 @@ ul.list {
     min-height: calc(100vh + 0.75rem);
 }
 
+// sites list class in homepage
+
+.sites-list {
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: $radius-large;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+.sites-list:hover {
+    background: #f6f7f9;
+}
+.sites-list-icon {
+    border-radius: $radius-large;
+    padding: 1rem;
+    color: #9dabb1;
+}
+
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";
 @import "~buefy/src/scss/buefy";

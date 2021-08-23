@@ -17,7 +17,6 @@ class ManagersSubscriptions extends Migration
             $table->id();
             $table->unsignedBigInteger('managers_id');
             $table->string('description');
-            $table->enum('role', ['manager','company'])->nullable();
             $table->date('start_date');
             $table->date('expiry_date');
             $table->integer('total_property');

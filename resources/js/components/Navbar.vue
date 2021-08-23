@@ -8,6 +8,24 @@
 
         <div class="navbar-menu">
             <div class="navbar-end">
+                                <b-dropdown
+                    v-model="navigation"
+                    position="is-bottom-left"
+                    append-to-body
+                    aria-role="menu"
+                    title="Kullanıcı"
+                >
+                    <template #trigger>
+                        <a
+                            class="navbar-item"
+                            role="button">
+                        <b-icon icon="bell-outline"></b-icon>
+                        </a>
+                    </template>
+                    <b-dropdown-item value="settings">
+                        Bugün 'Aydınlatma Bakımı' adlı giderin  ödeme günü!
+                    </b-dropdown-item>
+                </b-dropdown>
                 <b-dropdown
                     v-model="navigation"
                     position="is-bottom-left"
@@ -19,7 +37,7 @@
                         <a
                             class="navbar-item"
                             role="button">
-                        <b-icon icon="account-box"></b-icon>
+                        <b-icon icon="account-circle-outline"></b-icon>
                         </a>
                     </template>
                     <b-dropdown-item value="settings">

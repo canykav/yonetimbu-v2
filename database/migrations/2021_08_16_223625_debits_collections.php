@@ -18,8 +18,8 @@ class DebitsCollections extends Migration
             $table->unsignedBigInteger('debits_id');
             $table->unsignedBigInteger('collections_id');
             $table->decimal('amount',19,2);
-            $table->foreign('debits_id')->references('id')->on('debits')->onDelete('cascade');
-            $table->foreign('collections_id')->references('id')->on('collections')->onDelete('cascade');
+            $table->foreign('debits_id')->references('id')->on('transactions')->onDelete('cascade');
+            $table->foreign('collections_id')->references('id')->on('transactions')->onDelete('cascade');
         });
     }
 

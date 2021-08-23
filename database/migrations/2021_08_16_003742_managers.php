@@ -19,9 +19,10 @@ class Managers extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone1');
-            $table->string('phone2');
-            $table->rememberToken();
+            $table->string('phone1')->nullable();
+            $table->string('phone2')->nullable();
+            $table->enum('role', ['manager','company'])->default('manager');
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
     }

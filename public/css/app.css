@@ -262,6 +262,26 @@ ul.list li:not(:last-child) {
   min-height: calc(100vh + 0.75rem);
 }
 
+.sites-list {
+  background: #fdfdfd;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.sites-list:hover {
+  background: #f6f7f9;
+}
+
+.sites-list-icon {
+  border-radius: 8px;
+  padding: 1rem;
+  color: #9dabb1;
+}
+
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,

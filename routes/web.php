@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,14 +12,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])
+                ->middleware('guest')
+                ->name('register');
+
+Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])
+                ->middleware('guest')
+                ->name('login');
+
+
 /*
-Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 */
-
-Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
-Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login');
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 Route::any('/{all}', function () {
-    return view('admin.index');
+    return view('admin.site.index');
 })->where(['all' => '.*']);

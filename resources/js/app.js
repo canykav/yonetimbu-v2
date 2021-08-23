@@ -11,6 +11,7 @@ Vue.component('VueAutonumeric', VueAutonumeric);
 //Vue.config.devtools = false
 import register from './views/Register.vue'
 import login from './views/Login.vue'
+import homepage from './views/admin/Homepage.vue'
 
 const app = new Vue({
     router,
@@ -19,7 +20,8 @@ const app = new Vue({
     },
     components: {
         register,
-        login
+        login,
+        homepage
     }
 }).$mount('#app');
 

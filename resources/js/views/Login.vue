@@ -16,7 +16,6 @@
             <div name="login-form" class="px-6">
                 <p class="is-size-4 has-text-weight-medium">Giriş</p>
                 <p class="is-size-7 mb-6">Hesabınız yok mu?<a class="has-text-primary"> Kayıt Olun</a></p>
-
                     <b-field label="Email">
                     <b-input type="email"></b-input>
                 </b-field>

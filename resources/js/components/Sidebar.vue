@@ -11,6 +11,8 @@
                         src="/img/logo-b.png"
                         alt="Yönetimbu"
                         style="max-height:28px;"
+                        @click="goLink('/')"
+                        class="is-clickable"
                     />
                     </div>
                     <b-menu class="is-custom-mobile p-3">
@@ -53,6 +55,9 @@ export default {
   methods: {
       pushRoute(route){
           this.$router.push({ name: route }).catch(()=>{});
+      },
+      goLink(link){
+          window.location.href = link;
       }
   },
 };
