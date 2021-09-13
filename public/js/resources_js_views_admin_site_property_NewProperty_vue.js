@@ -63,13 +63,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      labelPosition: 'inside'
+      labelPosition: 'inside',
+      blocks: [],
+      types: [],
+      siteID: null,
+      loadingBlocksInput: true,
+      loadingTypesInput: true
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+    this.getSiteBlocks();
+  },
+  methods: {
+    getSiteBlocks: function getSiteBlocks() {
+      var _this = this;
+
+      axios.get('/api/sites/' + this.siteID + '/blocks').then(function (response) {
+        _this.blocks = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      }).then(function () {
+        _this.loadingBlocksInput = false;
+      });
+    },
+    getSiteTypes: function getSiteTypes() {
+      var _this2 = this;
+
+      axios.get('/api/sites/' + this.siteID + '/types').then(function (response) {
+        _this2.types = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      }).then(function () {
+        _this2.loadingTypesInput = false;
+      });
+    }
   }
 });
 
@@ -182,15 +213,23 @@ var render = function() {
                         }
                       },
                       [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "1" } }, [
-                            _vm._v("Option 1")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2" } }, [
-                            _vm._v("Option 2")
-                          ])
-                        ])
+                        _c(
+                          "b-select",
+                          {
+                            attrs: {
+                              expanded: "",
+                              loading: _vm.loadingBlocksInput
+                            }
+                          },
+                          _vm._l(_vm.blocks, function(block) {
+                            return _c(
+                              "option",
+                              { key: block.id, domProps: { value: block.id } },
+                              [_vm._v(_vm._s(block.name))]
+                            )
+                          }),
+                          0
+                        )
                       ],
                       1
                     ),
@@ -216,15 +255,18 @@ var render = function() {
                         }
                       },
                       [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "1" } }, [
-                            _vm._v("Option 1")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "2" } }, [
-                            _vm._v("Option 2")
-                          ])
-                        ])
+                        _c(
+                          "b-select",
+                          { attrs: { expanded: "" } },
+                          _vm._l(_vm.types, function(type) {
+                            return _c(
+                              "option",
+                              { key: type.id, domProps: { value: type.id } },
+                              [_vm._v(_vm._s(type.name))]
+                            )
+                          }),
+                          0
+                        )
                       ],
                       1
                     ),

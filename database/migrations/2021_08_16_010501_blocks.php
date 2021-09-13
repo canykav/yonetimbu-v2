@@ -15,7 +15,7 @@ class Blocks extends Migration
     {
         Schema::create('blocks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->unsignedBigInteger('sites_id')->nullable();
             $table->timestamps();
             $table->foreign('sites_id')->references('id')->on('sites')->onDelete('cascade');

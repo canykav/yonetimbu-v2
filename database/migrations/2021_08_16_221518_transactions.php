@@ -15,9 +15,9 @@ class Transactions extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('occupants_id');
+            $table->unsignedBigInteger('occupants_id')->nullable();
+            $table->unsignedBigInteger('accounts_id')->nullable();
             $table->string('description');
-            $table->date('opening_date')->nullable();
             $table->enum('transaction_type', ['debit','expense','collection']);
             $table->date('date')->nullable();
             $table->date('due_date')->nullable();
@@ -29,6 +29,7 @@ class Transactions extends Migration
             $table->string('bill_no')->nullable();
             $table->unsignedBigInteger('sites_id');
             $table->timestamps();
+            $table->foreign('accounts_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->foreign('occupants_id')->references('id')->on('occupants')->onDelete('cascade');
             $table->foreign('vaults_id')->references('id')->on('vaults')->onDelete('cascade');
             $table->foreign('sites_id')->references('id')->on('sites')->onDelete('cascade');

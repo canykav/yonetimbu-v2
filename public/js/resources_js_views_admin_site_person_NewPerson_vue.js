@@ -121,14 +121,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      labelPosition: 'inside'
+      siteID: null,
+      newPerson: {},
+      newProperties: [],
+      labelPosition: 'inside',
+      loadingButton: false
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+  },
+  methods: {
+    createPerson: function createPerson() {
+      var _this = this;
+
+      this.loadingButton = true;
+      axios.post('/api/sites/' + this.siteID + '/persons', {
+        name: this.newPerson.name,
+        phone1: this.newPerson.phone1,
+        phone2: this.newPerson.phone2,
+        citizenship_no: this.newPerson.citizenship_no,
+        email: this.newPerson.email
+      }).then(function (response) {
+        _this.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this.newPerson = {};
+      })["catch"](function (error) {
+        _this.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this.loadingButton = false;
+      });
+    }
   }
 });
 
@@ -236,71 +268,138 @@ var render = function() {
                     _c("p", [_vm._v("Kişi Bilgisi")]),
                     _vm._v(" "),
                     [
-                      _c(
-                        "section",
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Adı Soyadı",
-                                "label-position": _vm.labelPosition
+                      _c("section", [
+                        _c(
+                          "form",
+                          {
+                            attrs: { id: "newPersonForm" },
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.createPerson()
                               }
-                            },
-                            [_c("b-input")],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Telefon 1",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [_c("b-input")],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Telefon 2",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [_c("b-input")],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "TC Kimlik",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [_c("b-input")],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "E-Mail",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [_c("b-input", { attrs: { type: "email" } })],
-                            1
-                          )
-                        ],
-                        1
-                      )
+                            }
+                          },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Adı Soyadı",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  attrs: { required: "" },
+                                  model: {
+                                    value: _vm.newPerson.name,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newPerson, "name", $$v)
+                                    },
+                                    expression: "newPerson.name"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Telefon 1",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  model: {
+                                    value: _vm.newPerson.phone1,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newPerson, "phone1", $$v)
+                                    },
+                                    expression: "newPerson.phone1"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Telefon 2",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  model: {
+                                    value: _vm.newPerson.phone2,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newPerson, "phone2", $$v)
+                                    },
+                                    expression: "newPerson.phone2"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "TC Kimlik",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  model: {
+                                    value: _vm.newPerson.citizenship_no,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.newPerson,
+                                        "citizenship_no",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "newPerson.citizenship_no"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "E-Mail",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-input", {
+                                  attrs: { type: "email" },
+                                  model: {
+                                    value: _vm.newPerson.email,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newPerson, "email", $$v)
+                                    },
+                                    expression: "newPerson.email"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
                     ]
                   ],
                   2
@@ -315,7 +414,7 @@ var render = function() {
                     _c(
                       "ul",
                       {
-                        staticClass: "new-person-property-list",
+                        staticClass: "new-person-property-list ml-0",
                         staticStyle: { "font-size": "14px" }
                       },
                       [
@@ -396,7 +495,10 @@ var render = function() {
                       attrs: {
                         expanded: "",
                         label: "Kaydet",
-                        type: "is-primary"
+                        type: "is-primary",
+                        "native-type": "submit",
+                        loading: _vm.loadingButton,
+                        form: "newPersonForm"
                       }
                     })
                   ],

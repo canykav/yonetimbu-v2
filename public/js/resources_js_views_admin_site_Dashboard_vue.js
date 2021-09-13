@@ -373,9 +373,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//import { message } from "../../../helpers";
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      siteID: null,
+      siteInfo: null,
       data: [{
         'first_name': 'Jesse',
         'last_name': 'Aydınlatmaların Yenilenmesi',
@@ -417,6 +420,21 @@ __webpack_require__.r(__webpack_exports__);
         label: 'Gender'
       }]
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+    this.getSiteDetails();
+  },
+  methods: {
+    getSiteDetails: function getSiteDetails() {
+      var _this = this;
+
+      axios.get('/api/sites/' + this.siteID).then(function (response) {
+        _this.siteInfo = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      });
+    }
   }
 });
 
@@ -895,7 +913,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v("Test Sitesi")
+                              _vm._v(_vm._s(_vm.siteInfo.name))
                             ])
                           ]),
                           _vm._v(" "),
@@ -907,7 +925,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v("Mutlu Mah. 1000.Sokak No:1")
+                              _vm._v(_vm._s(_vm.siteInfo.address))
                             ])
                           ]),
                           _vm._v(" "),
@@ -931,7 +949,11 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v("01.01.2021 - 12.12.2021")
+                              _vm._v(
+                                _vm._s(_vm.siteInfo.term_start) +
+                                  " - " +
+                                  _vm._s(_vm.siteInfo.term_end)
+                              )
                             ])
                           ]),
                           _vm._v(" "),
@@ -943,7 +965,11 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v("Mesir - 0001239123")
+                              _vm._v(
+                                _vm._s(_vm.siteInfo.tax_administration) +
+                                  " - " +
+                                  _vm._s(_vm.siteInfo.tax_no)
+                              )
                             ])
                           ])
                         ]

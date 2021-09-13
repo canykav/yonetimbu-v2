@@ -13,31 +13,34 @@
 </section>
         </div>
         <div class="column is-4 has-background-white is-flex is-align-items-center">
-            <div name="login-form" class="px-6">
+            <form name="login-form" class="px-6" method="post" action="login">
                 <p class="is-size-4 has-text-weight-medium">Giriş</p>
-                <p class="is-size-7 mb-6">Hesabınız yok mu?<a class="has-text-primary"> Kayıt Olun</a></p>
+                <p class="is-size-7 mb-6">Hesabınız yok mu?<a class="has-text-primary" href="/register"> Kayıt Olun</a></p>
+                    <input type="hidden" name="_token" :value="csrf">
                     <b-field label="Email">
-                    <b-input type="email"></b-input>
+                    <b-input type="email" name="email" required="required"></b-input>
                 </b-field>
                 <b-field label="Şifre">
-                    <b-input type="password"
+                    <b-input type="password" name="password" required="required"
                         password-reveal>
                     </b-input>
                 </b-field>
                 <b-field>
-                    <b-checkbox class="is-size-7">Beni Hatırla</b-checkbox>
+                    <b-checkbox class="is-size-7" name="remember">Beni Hatırla</b-checkbox>
                 </b-field>
-                <b-button type="is-primary" rounded expanded>Giriş Yap</b-button>
-            </div>
+                <b-button type="is-primary" native-type="submit" rounded expanded>Giriş Yap</b-button>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-
-
-
+    data() {
+        return {
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    }
 }
 </script>
 

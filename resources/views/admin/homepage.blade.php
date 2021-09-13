@@ -17,7 +17,8 @@
     </head>
     <body>
         <div id="app">
-            <Homepage></Homepage>
+            <manager-navbar :manager="{{$manager}}"></manager-navbar>
+            <Homepage :manager="{{$manager}}" :sites="{{$sites}}"></Homepage>
         </div>
     </body>
 </html>

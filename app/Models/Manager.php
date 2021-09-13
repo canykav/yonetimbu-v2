@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use App\Http\Site;
 
-class Manager extends Model
+class Manager extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = "managers";
 
@@ -41,4 +44,10 @@ class Manager extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    static function getSites($managers_id)
+    {
+        return ManagerSite::where('managers_id', $managers_id)->leftJoin('sites','managers_sites.sites_id', '=', 'sites.id')->select('sites.*','managers_sites.managers_id')->get();
+    }
+
 }

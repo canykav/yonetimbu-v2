@@ -15,12 +15,12 @@ class Occupants extends Migration
     {
         Schema::create('occupants', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->unsignedBigInteger('sites_id')->nullable();
             $table->unsignedBigInteger('accounts_id')->nullable();
             $table->unsignedBigInteger('properties_id')->nullable();
+            $table->enum('type', ['householder','tenant']);
             $table->date('entry_date');
-            $table->date('abandonment_date');
+            $table->date('abandonment_date')->nullable();
             $table->timestamps();
             $table->foreign('sites_id')->references('id')->on('sites')->onDelete('cascade');
             $table->foreign('accounts_id')->references('id')->on('accounts')->onDelete('cascade');

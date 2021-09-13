@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Manager;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,7 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin/homepage');
+        $manager = Auth::user();
+        $sites = Manager::getSites($manager->id);
+        unset($manager->password);
+        return view('admin/homepage', ['manager' => json_encode($manager), 'sites' => json_encode($sites)] );
     }
     public function register()
     {

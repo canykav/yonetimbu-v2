@@ -103,8 +103,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      labelPosition: 'inside'
+      siteID: null,
+      newEmployee: {},
+      labelPosition: 'inside',
+      loadingButton: false
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+  },
+  methods: {
+    createEmployee: function createEmployee() {
+      var _this = this;
+
+      this.loadingButton = true;
+      axios.post('/api/sites/' + this.siteID + '/companies', {
+        name: this.newCompany.name,
+        citizenship_no: this.newCompany.citizenship_no,
+        tax_administration: this.newCompany.tax_administration,
+        phone1: this.newCompany.phone1,
+        iban: this.newCompany.iban,
+        email: this.newCompany.email,
+        address: this.newCompany.address
+      }).then(function (response) {
+        _this.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this.newCompany = {};
+      })["catch"](function (error) {
+        _this.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this.loadingButton = false;
+      });
+    }
   }
 });
 
@@ -205,210 +241,284 @@ var render = function() {
             { staticClass: "content" },
             [
               [
-                _c(
-                  "section",
-                  [
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Adı",
-                          "label-position": _vm.labelPosition
+                _c("section", [
+                  _c(
+                    "form",
+                    {
+                      attrs: { id: "newEmployeeForm" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.createEmployee()
                         }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Telefon",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Cinsiyet",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "m" } }, [
-                            _vm._v("Erkek")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "f" } }, [
-                            _vm._v("Kadın")
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "TC Kimlik No.",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Görevi",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "IBAN",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Sigorta No.",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Çalışan Tipi",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "regular" } }, [
-                            _vm._v("Normal")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "retired" } }, [
-                            _vm._v("Emekli")
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Maaşı",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
+                      }
+                    },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Adı",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newEmployee.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newEmployee, "name", $$v)
+                              },
+                              expression: "newEmployee.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Telefon",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [_c("b-input")],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Cinsiyet",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
                         [
                           _c(
-                            "b-field",
+                            "b-select",
                             {
-                              attrs: {
-                                label: "Giriş Tarihi",
-                                "label-position": _vm.labelPosition
+                              attrs: { expanded: "" },
+                              model: {
+                                value: _vm.newEmployee.gender,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newEmployee, "gender", $$v)
+                                },
+                                expression: "newEmployee.gender"
                               }
                             },
                             [
-                              _c("b-datepicker", {
-                                attrs: {
-                                  icon: "calendar-today",
-                                  "trap-focus": ""
-                                }
-                              })
-                            ],
-                            1
+                              _c("option", { attrs: { value: "m" } }, [
+                                _vm._v("Erkek")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "f" } }, [
+                                _vm._v("Kadın")
+                              ])
+                            ]
                           )
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "TC Kimlik No.",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
                         [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Çıkış Tarihi",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [
-                              _c("b-datepicker", {
-                                attrs: {
-                                  icon: "calendar-today",
-                                  "trap-focus": ""
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("b-field", [
-                      _c(
-                        "p",
-                        { staticClass: "control" },
-                        [
-                          _c("b-button", {
-                            attrs: {
-                              expanded: "",
-                              label: "Kaydet",
-                              type: "is-primary"
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newEmployee.citizenship_no,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newEmployee, "citizenship_no", $$v)
+                              },
+                              expression: "newEmployee.citizenship_no"
                             }
                           })
                         ],
                         1
-                      )
-                    ])
-                  ],
-                  1
-                )
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Görevi",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newEmployee.job,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newEmployee, "job", $$v)
+                              },
+                              expression: "newEmployee.job"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "IBAN",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newEmployee.iban,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newEmployee, "iban", $$v)
+                              },
+                              expression: "newEmployee.iban"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Sigorta No.",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newEmployee.iban,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newEmployee, "iban", $$v)
+                              },
+                              expression: "newEmployee.iban"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Çalışan Tipi",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-select", { attrs: { expanded: "" } }, [
+                            _c("option", { attrs: { value: "regular" } }, [
+                              _vm._v("Normal")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "retired" } }, [
+                              _vm._v("Emekli")
+                            ])
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Maaşı",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [_c("b-input")],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns" }, [
+                        _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Giriş Tarihi",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-datepicker", {
+                                  attrs: {
+                                    icon: "calendar-today",
+                                    "trap-focus": ""
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Çıkış Tarihi",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-datepicker", {
+                                  attrs: {
+                                    icon: "calendar-today",
+                                    "trap-focus": ""
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("b-field", [
+                        _c(
+                          "p",
+                          { staticClass: "control" },
+                          [
+                            _c("b-button", {
+                              attrs: {
+                                expanded: "",
+                                label: "Kaydet",
+                                type: "is-primary"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ])
               ]
             ],
             2

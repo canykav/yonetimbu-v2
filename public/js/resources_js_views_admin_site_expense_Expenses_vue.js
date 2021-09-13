@@ -231,7 +231,7 @@ var render = function() {
                     attrs: {
                       "icon-left": "plus",
                       tag: "router-link",
-                      to: "/expenses/new"
+                      to: "expenses/new"
                     }
                   },
                   [_vm._v("\n            Gider Ekle\n        ")]
@@ -244,7 +244,7 @@ var render = function() {
                     attrs: {
                       "icon-left": "plus",
                       tag: "router-link",
-                      to: "/payments/new"
+                      to: "payments/new"
                     }
                   },
                   [_vm._v("\n            Ödeme Ekle\n        ")]

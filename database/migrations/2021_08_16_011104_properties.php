@@ -15,9 +15,8 @@ class Properties extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('blocks_id')->nullable();
             $table->string('door_no');
+            $table->unsignedBigInteger('blocks_id')->nullable();
             $table->unsignedBigInteger('types_id')->nullable();
             $table->timestamps();
             $table->foreign('blocks_id')->references('id')->on('blocks')->onDelete('cascade');

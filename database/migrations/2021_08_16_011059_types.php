@@ -21,6 +21,7 @@ class Types extends Migration
             $table->string('land_share')->nullable();
             $table->string('gross')->nullable();
             $table->string('net')->nullable();
+            $table->decimal('fee_amount',19,2)->nullable();
             $table->timestamps();
         });
     }

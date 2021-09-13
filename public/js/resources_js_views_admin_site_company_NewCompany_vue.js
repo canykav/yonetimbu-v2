@@ -69,11 +69,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      labelPosition: 'inside'
+      siteID: null,
+      newCompany: {},
+      labelPosition: 'inside',
+      loadingButton: false
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+  },
+  methods: {
+    createCompany: function createCompany() {
+      var _this = this;
+
+      this.loadingButton = true;
+      axios.post('/api/sites/' + this.siteID + '/companies', {
+        name: this.newCompany.name,
+        citizenship_no: this.newCompany.citizenship_no,
+        tax_administration: this.newCompany.tax_administration,
+        phone1: this.newCompany.phone1,
+        iban: this.newCompany.iban,
+        email: this.newCompany.email,
+        address: this.newCompany.address
+      }).then(function (response) {
+        _this.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this.newCompany = {};
+      })["catch"](function (error) {
+        _this.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this.loadingButton = false;
+      });
+    }
   }
 });
 
@@ -174,112 +211,199 @@ var render = function() {
             { staticClass: "content" },
             [
               [
-                _c(
-                  "section",
-                  [
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Adı",
-                          "label-position": _vm.labelPosition
+                _c("section", [
+                  _c(
+                    "form",
+                    {
+                      attrs: { id: "newCompanyForm" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.createCompany()
                         }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Vergi No./TC No.",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Vergi Dairesi",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Telefon",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "IBAN",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "E-Mail",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input", { attrs: { type: "email" } })],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Adres",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("b-field", [
+                      }
+                    },
+                    [
                       _c(
-                        "p",
-                        { staticClass: "control" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Adı",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
                         [
-                          _c("b-button", {
-                            attrs: {
-                              expanded: "",
-                              label: "Kaydet",
-                              type: "is-primary"
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "name", $$v)
+                              },
+                              expression: "newCompany.name"
                             }
                           })
                         ],
                         1
-                      )
-                    ])
-                  ],
-                  1
-                )
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Vergi No./TC No.",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.citizenship_no,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "citizenship_no", $$v)
+                              },
+                              expression: "newCompany.citizenship_no"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Vergi Dairesi",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.tax_administration,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.newCompany,
+                                  "tax_administration",
+                                  $$v
+                                )
+                              },
+                              expression: "newCompany.tax_administration"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Telefon",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.phone1,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "phone1", $$v)
+                              },
+                              expression: "newCompany.phone1"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "IBAN",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.iban,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "iban", $$v)
+                              },
+                              expression: "newCompany.iban"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "E-Mail",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "email" },
+                            model: {
+                              value: _vm.newCompany.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "email", $$v)
+                              },
+                              expression: "newCompany.email"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Adres",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newCompany.address,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newCompany, "address", $$v)
+                              },
+                              expression: "newCompany.address"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("b-field", [
+                        _c(
+                          "p",
+                          { staticClass: "control" },
+                          [
+                            _c("b-button", {
+                              attrs: {
+                                expanded: "",
+                                label: "Kaydet",
+                                type: "is-primary",
+                                "native-type": "submit"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ])
               ]
             ],
             2

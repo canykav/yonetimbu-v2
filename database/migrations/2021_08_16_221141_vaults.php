@@ -18,7 +18,8 @@ class Vaults extends Migration
             $table->string('name');
             $table->date('opening_date')->nullable();
             $table->set('type', ['bank','vault']);
-            $table->string('branch_name')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('branch')->nullable();
             $table->string('iban')->nullable();
             $table->unsignedBigInteger('sites_id');
             $table->timestamps();

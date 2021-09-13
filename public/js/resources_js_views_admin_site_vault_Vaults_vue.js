@@ -55,50 +55,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      data: [{
-        'id': 1,
-        'first_name': 'Jesse',
-        'last_name': 'Simmons',
-        'date': '2016-10-15 13:43:27',
-        'gender': 'Male'
-      }, {
-        'id': 2,
-        'first_name': 'John',
-        'last_name': 'Jacobs',
-        'date': '2016-12-15 06:00:53',
-        'gender': 'Male'
-      }, {
-        'id': 3,
-        'first_name': 'Tina',
-        'last_name': 'Gilbert',
-        'date': '2016-04-26 06:26:28',
-        'gender': 'Female'
-      }, {
-        'id': 4,
-        'first_name': 'Clarence',
-        'last_name': 'Flores',
-        'date': '2016-04-10 10:28:46',
-        'gender': 'Male'
-      }, {
-        'id': 5,
-        'first_name': 'Anne',
-        'last_name': 'Lee',
-        'date': '2016-12-06 14:38:38',
-        'gender': 'Female'
-      }],
+      siteID: null,
+      vaults: [],
+      loadingTable: true,
       columns: [{
         field: 'id',
         label: 'ID',
         width: '40',
         numeric: true
       }, {
-        field: 'first_name',
+        field: 'name',
         label: 'Adı'
       }, {
-        field: 'last_name',
+        field: 'type',
+        label: 'Tipi'
+      }, {
+        field: '',
         label: 'Bakiye'
       }]
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+    this.getSiteVaults();
+  },
+  methods: {
+    getSiteVaults: function getSiteVaults() {
+      var _this = this;
+
+      axios.get('/api/sites/' + this.siteID + '/vaults').then(function (response) {
+        _this.vaults = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      }).then(function () {
+        _this.loadingTable = false;
+      });
+    }
   }
 });
 
@@ -211,7 +203,7 @@ var render = function() {
                     attrs: {
                       "icon-left": "plus",
                       tag: "router-link",
-                      to: "/vaults/new"
+                      to: "vaults/new"
                     }
                   },
                   [_vm._v("\n            Kasa Ekle\n        ")]
@@ -236,7 +228,12 @@ var render = function() {
             { staticClass: "content" },
             [
               _c("b-table", {
-                attrs: { striped: true, data: _vm.data, columns: _vm.columns }
+                attrs: {
+                  loading: _vm.loadingTable,
+                  striped: true,
+                  data: _vm.vaults,
+                  columns: _vm.columns
+                }
               })
             ],
             1

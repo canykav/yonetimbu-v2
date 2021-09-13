@@ -12,21 +12,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])
-                ->middleware('guest')
-                ->name('register');
+require __DIR__.'/auth.php';
 
-Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])
-                ->middleware('guest')
-                ->name('login');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('index');
 
-
-/*
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-*/
-//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('/sites/new', [App\Http\Controllers\SiteController::class, 'create'])->middleware('auth');
 
 Route::any('/{all}', function () {
-    return view('admin.site.index');
-})->where(['all' => '.*']);
+    return view('admin.site.index', ['manager' => Auth::user()]);
+})->middleware('auth')->where(['all' => '.*']);

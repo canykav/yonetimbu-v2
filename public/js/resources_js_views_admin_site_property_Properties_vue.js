@@ -55,6 +55,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      siteID: null,
+      properties: [{
+        householder: {},
+        tenant: {},
+        type: {}
+      }],
+      loadingTable: true,
       data: [{
         'id': 1,
         'first_name': 'Jesse',
@@ -92,19 +99,36 @@ __webpack_require__.r(__webpack_exports__);
         width: '40',
         numeric: true
       }, {
-        field: 'first_name',
+        field: 'door_no',
         label: 'Kapı No'
       }, {
-        field: 'last_name',
+        field: 'type.name',
         label: 'Tipi'
       }, {
-        field: 'date',
+        field: 'householder.name',
         label: 'Kat Maliki'
       }, {
-        field: 'gender',
+        field: 'tenant.name',
         label: 'Kiracı'
       }]
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+    this.getSiteProperties();
+  },
+  methods: {
+    getSiteProperties: function getSiteProperties() {
+      var _this = this;
+
+      axios.get('/api/sites/' + this.siteID + '/properties').then(function (response) {
+        _this.properties = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      }).then(function () {
+        _this.loadingTable = false;
+      });
+    }
   }
 });
 
@@ -217,7 +241,7 @@ var render = function() {
                     attrs: {
                       "icon-left": "plus",
                       tag: "router-link",
-                      to: "/properties/new"
+                      to: "properties/new"
                     }
                   },
                   [_vm._v("\n            Bölüm Ekle\n        ")]
@@ -242,7 +266,12 @@ var render = function() {
             { staticClass: "content" },
             [
               _c("b-table", {
-                attrs: { striped: true, data: _vm.data, columns: _vm.columns }
+                attrs: {
+                  loading: _vm.loadingTable,
+                  striped: true,
+                  data: _vm.properties,
+                  columns: _vm.columns
+                }
               })
             ],
             1
