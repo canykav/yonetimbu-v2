@@ -1,3 +1,4 @@
+
 <template>
   <div>
       <section class="hero">
@@ -19,8 +20,6 @@
                     <div class="columns">
                         <div class="column">
                 <p>Kişi Bilgisi</p>
-      <template>
-    <section>
         <form id="newPersonForm" @submit.prevent="createPerson()">
         <b-field label="Adı Soyadı" :label-position="labelPosition">
             <b-input v-model="newPerson.name" required></b-input>
@@ -35,55 +34,39 @@
         </b-field>
 
         <b-field label="TC Kimlik" :label-position="labelPosition">
-            <b-input v-model="newPerson.citizenship_no"></b-input>
+            <b-input v-model="newPerson.citizenship_no" maxlength="11"></b-input>
         </b-field>
 
         <b-field label="E-Mail" :label-position="labelPosition">
             <b-input type="email" v-model="newPerson.email"></b-input>
         </b-field>
         </form>
-    </section>
-    </template>
                         </div>
                         <div class="column">
                 <p>Bölüm Bilgisi</p>
     <ul class="new-person-property-list ml-0" style="font-size:14px">
-        <li class="is-flex is-justify-content-space-between">
+        <li v-for="(item, index) in personProperties" class="is-flex is-justify-content-space-between">
             <div>
-                <div class="has-text-weight-medium mb-1">Kat Maliki: A-01</div>
+                <div class="has-text-weight-medium mb-1">
+                    <span v-if="item.type=='householder'">
+                        Kat Maliki
+                    </span>
+                    <span v-if="item.type=='tenant'">
+                        Kiracı
+                    </span>
+                    : {{ item.property.doorWithBlock }}
+                </div>
                 <span class="has-text-grey">
                     Giriş:
-                    13.01.2021
+                    {{ item.entry_date | turkishDate }}
                 </span>
-                <span class="has-text-grey">
+                <span class="has-text-grey" v-if="item.abandonment_date">
                     Çıkış:
-                    13.02.2021
+                    {{ item.abandonment_date | turkishDate }}
                 </span>
             </div>
             <div class="is-flex is-align-items-center">
-                <a href="">
-                    <b-icon
-                        icon="trash-can"
-                    >
-                    </b-icon>
-                </a>
-            </div>
-        </li>
-
-        <li class="is-flex is-justify-content-space-between">
-            <div>
-                <div class="has-text-weight-medium mb-1">Kat Maliki: A-01</div>
-                <span class="has-text-grey">
-                    Giriş:
-                    13.01.2021
-                </span>
-                <span class="has-text-grey">
-                    Çıkış:
-                    13.02.2021
-                </span>
-            </div>
-            <div class="is-flex is-align-items-center">
-                <a href="">
+                <a @click="removeProperty(index)">
                     <b-icon
                         icon="trash-can"
                     >
@@ -106,7 +89,7 @@
     </div>
 </div>
 
-  <b-modal
+        <b-modal
             v-model="isComponentModalActive"
             has-modal-card
             trap-focus
@@ -115,7 +98,7 @@
             aria-label="Example Modal"
             aria-modal>
             <template #default="props">
-                <modal-form v-bind="formProps" :properties="properties" @close="props.close"></modal-form>
+                <modal-form @newProperty="addProperty" :properties="properties" @close="props.close"></modal-form>
             </template>
         </b-modal>
 
@@ -124,9 +107,21 @@
 
 <script>
 const ModalForm = {
-        props: ['properties', 'password', 'canCancel', 'loadingBlocksInput','newProperty.date'],
+        props: ['properties', 'password', 'canCancel', 'loadingBlocksInput'],
+        data() {
+            return {
+                newProperty: {},
+                labelPosition: 'inside'
+            }
+        },
+        methods: {
+            addProperty(p) {
+                this.$emit('newProperty', p);
+                this.newProperty= {};
+            }
+        },
         template: `
-            <form action="">
+            <form @submit.prevent="addProperty(newProperty)">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Bölüm Bağla</p>
@@ -136,13 +131,13 @@ const ModalForm = {
                             @click="$emit('close')"/>
                     </header>
                     <section class="modal-card-body">
-                        <b-field label="Bölüm">
-                            <b-select expanded>
-                                <option v-for="property in properties" :key="property.id" :value="property.id">{{property.doorWithBlock}}</option>
+                        <b-field label="Bölüm" :label-position="labelPosition">
+                            <b-select v-model="newProperty.property" expanded>
+                                <option v-for="property in properties" :key="property.id" :value="property">{{property.doorWithBlock}}</option>
                             </b-select>
                         </b-field>
-                        <b-field label="Durum">
-                            <b-select expanded>
+                        <b-field label="Durum" :label-position="labelPosition">
+                            <b-select v-model="newProperty.type" expanded>
                                 <option value="householder">Kat Maliki</option>
                                 <option value="tenant">Kiracı</option>
                             </b-select>
@@ -150,12 +145,14 @@ const ModalForm = {
 
                         <b-field label="Giriş Tarihi" :label-position="labelPosition">
                             <b-datepicker
+                                v-model="newProperty.entry_date"
                                 icon="calendar-today"
                                 trap-focus>
                             </b-datepicker>
                         </b-field>
                         <b-field label="Çıkış Tarihi" :label-position="labelPosition">
                             <b-datepicker
+                                v-model="newProperty.abandonment_date"
                                 icon="calendar-today"
                                 trap-focus>
                             </b-datepicker>
@@ -165,10 +162,13 @@ const ModalForm = {
                     <footer class="modal-card-foot">
                         <b-button
                             label="Vazgeç"
-                            @click="$emit('close')" />
+                            @click="$emit('close')"
+                        />
                         <b-button
                             label="Kaydet"
-                            type="is-primary" />
+                            type="is-primary"
+                            native-type="submit"
+                        />
                     </footer>
                 </div>
             </form>
@@ -176,6 +176,7 @@ const ModalForm = {
     }
 
 export default {
+    props: ['newProperty'],
     components: {
         ModalForm
     },
@@ -183,7 +184,7 @@ export default {
         return {
             siteID: null,
             newPerson : {},
-            newProperties: [],
+            personProperties: [],
             labelPosition: 'inside',
             loadingButton: false,
             isComponentModalActive: false,
@@ -215,6 +216,7 @@ export default {
                 phone2: this.newPerson.phone2,
                 citizenship_no: this.newPerson.citizenship_no,
                 email: this.newPerson.email,
+                properties: this.personProperties
             })
             .then(response => {
                 this.$buefy.toast.open({
@@ -222,6 +224,8 @@ export default {
                     type: 'is-success'
                 });
                 this.newPerson = {};
+                this.personProperties = [];
+                this.$router.push({ name: 'persons',  params: { sites_id: this.siteID} })
             })
             .catch(error => {
                 this.$buefy.toast.open({
@@ -233,6 +237,13 @@ export default {
                 this.loadingButton = false;
             });
         },
+        addProperty(e) {
+            this.personProperties.push(Object.assign(e));
+            this.isComponentModalActive = false;
+        },
+        removeProperty(index) {
+          this.personProperties.splice(index,1);
+        }
     }
 }
 </script>

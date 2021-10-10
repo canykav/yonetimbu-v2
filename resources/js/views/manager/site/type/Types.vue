@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Bölüm Tipleri
-    </p>
-    <p class="has-text-grey is-size-7">...</p>
+            <p class="is-size-4 mb-0">
+            Bölüm Tipleri
+            </p>
         </div>
     <div class="buttons">
         <b-button
@@ -31,7 +30,39 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <b-table :loading="loadingTable" :striped=true :data="types" :columns="columns"></b-table>
+                    <b-table
+                        :loading="loadingTable"
+                        :striped=true
+                        :data="types"
+                        :hoverable=true
+                        class="is-clickable"
+                    >
+                        <b-table-column label="ID" v-slot="props" width="40">
+                            {{ props.row.id }}
+                        </b-table-column>
+
+                        <b-table-column  label="Açıklama" v-slot="props">
+                            {{  props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column label="Arsa Payı" v-slot="props">
+                            {{  props.row.land_share }}
+                        </b-table-column>
+
+                        <b-table-column label="Net m²" v-slot="props">
+                            {{  props.row.net }}
+                        </b-table-column>
+
+                        <b-table-column label="Brüt m²" v-slot="props">
+                            {{  props.row.gross }}
+                        </b-table-column>
+
+                        <b-table-column label="Aidat Tutarı" v-slot="props">
+                            {{  props.row.fee_amount | turkishMoney }}
+                        </b-table-column>
+
+
+                    </b-table>
                 </div>
             </div>
         </div>
@@ -46,35 +77,7 @@ data() {
         siteID: null,
         types: [],
         loadingTable: true,
-        isTableEmpty: false,
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'name',
-                        label: 'Açıklama',
-                    },
-                    {
-                        field: 'land_share',
-                        label: 'Arsa Payı',
-                    },
-                    {
-                        field: 'net',
-                        label: 'Net m²',
-                    },
-                    {
-                        field: 'gross',
-                        label: 'Brüt m²',
-                    },
-                    {
-                        field: 'fee_amount',
-                        label: 'Aidat Tutarı',
-                    }
-                ]
+        isTableEmpty: false
     }
 },
     mounted() {
@@ -86,9 +89,6 @@ data() {
         axios.get('/api/sites/'+this.siteID+'/types')
             .then(response => {
                 this.types = response.data.data;
-            })
-            .catch(error => {
-                console.log(error.response.data);
             })
             .then(() => {
                 this.loadingTable = false;

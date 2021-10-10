@@ -118,8 +118,8 @@ export default {
                 social_sec_no: this.newEmployee.social_sec_no,
                 employee_type: this.newEmployee.employee_type,
                 employee_salary: this.newEmployee.employee_salary,
-                employee_start_date: this.newEmployee.employee_start_date,
-                employee_leave_date: this.newEmployee.employee_leave_date,
+                employee_start_date: (this.newEmployee.employee_start_date) ? this.newEmployee.employee_start_date.toLocaleDateString('tr-TR') : null,
+                employee_leave_date: (this.newEmployee.employee_leave_date) ? this.newEmployee.employee_leave_date.toLocaleDateString('tr-TR') : null,
             })
             .then(response => {
                 this.$buefy.toast.open({

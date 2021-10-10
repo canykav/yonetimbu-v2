@@ -52,6 +52,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -88,6 +96,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToCompany: function goToCompany(company) {
+      this.$router.push({
+        name: 'company',
+        params: {
+          sites_id: this.siteID,
+          companies_id: company.id
+        }
       });
     }
   }
@@ -227,11 +244,18 @@ var render = function() {
             { staticClass: "content" },
             [
               _c("b-table", {
+                staticStyle: { cursor: "pointer" },
                 attrs: {
                   loading: _vm.loadingTable,
                   striped: true,
                   data: _vm.companies,
-                  columns: _vm.columns
+                  columns: _vm.columns,
+                  hoverable: true
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.goToCompany($event)
+                  }
                 }
               })
             ],
@@ -249,10 +273,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Firmalar\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("....")])
+        _vm._v("\n            Firmalar\n            ")
+      ])
     ])
   }
 ]

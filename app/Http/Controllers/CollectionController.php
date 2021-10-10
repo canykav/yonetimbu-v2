@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DebitCollection;
 use App\Models\Site;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -31,9 +32,17 @@ class CollectionController extends Controller
         $collection_data['date'] = date('Y-m-d', strtotime($collection_data['date']));
         $collection_data['transaction_type'] = 'collection';
         $collection_data['sites_id'] = $sites_id;
+        unset($collection_data['debits_id']);
 
         $collection = Transaction::create($collection_data);
-
+        if($req->debits_id) {
+            $debitCollection = DebitCollection::create([
+                'debits_id' => $req->debits_id,
+                'collections_id' => $collection['id'],
+                'amount' => $collection['amount']
+        ]);
+        Transaction::updateDebitStatus($req->debits_id);
+        }
         if($collection) {
             return response()->json(['message' => 'Tahsilat başarıyla kaydedildi.']);
         } else {

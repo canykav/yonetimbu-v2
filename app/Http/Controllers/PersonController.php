@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Occupant;
 use App\Models\Site;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersonController extends Controller
 {
@@ -17,6 +19,9 @@ class PersonController extends Controller
 
     public function store($sites_id, Request $req)
     {
+
+        DB::beginTransaction();
+
         $acc = Account::create([
             'type' => 'person',
             'name' => $req->name,
@@ -27,7 +32,26 @@ class PersonController extends Controller
             'citizenship_no' => $req->citizenship_no,
             'sites_id' => $req->sites_id
         ]);
+
+        if($req->properties) {
+            foreach($req->properties as $property) {
+                $propertyControl = Occupant::where('properties_id',$property['property']['id'])->where('type', $property['type'])->whereNull('abandonment_date')->exists();
+                if($propertyControl) {
+                    return response()->json(['message' => $property['property']['doorWithBlock'].' bölümü müsait değil.'],500);
+                }
+                Occupant::create([
+                    'sites_id' => $sites_id,
+                    'accounts_id' => $acc->id,
+                    'properties_id' => $property['property']['id'],
+                    'type' => $property['type'],
+                    'entry_date' =>  date('Y-m-d', strtotime($property['entry_date'])),
+                    'abandonment_date' => (!empty($property['abandonment_date'])) ? date('Y-m-d', strtotime($property['abandonment_date'])) : null
+                ]);
+            }
+        }
+
         if($acc) {
+            DB::commit();
             return response()->json(['message' => 'Kişi başarıyla kaydedildi.']);
         } else {
             return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
@@ -40,9 +64,12 @@ class PersonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $id)
     {
-        //
+        $acc = Account::find($id);
+        $acc['properties'] = $acc->getPersonProperties();
+        Occupant::translateTypesToTurkish($acc['properties']);
+        return response()->json(['data' => $acc]);
     }
 
     /**
@@ -63,9 +90,14 @@ class PersonController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $person)
     {
-        //
+        $acc = Account::find($person)->update($req->all());
+        if($acc) {
+            return response()->json(['message' => 'Kişi başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Kişiler
-    </p>
-    <p class="has-text-grey is-size-7">Sitede oturan ya da mülk sahibi olan tüm kişiler</p>
+            <p class="is-size-4 mb-0">
+            Kişiler
+            </p>
         </div>
     <div class="buttons">
         <b-button
@@ -31,7 +30,33 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <b-table :loading="loadingTable" :hoverable=true :striped=true :data="persons" :columns="columns">
+                    <b-table
+                        :loading="loadingTable"
+                        :hoverable=true
+                        :striped=true
+                        :data="persons"
+                        @click="goToPerson($event)"
+                        class="is-clickable"
+                    >
+                        <b-table-column label="ID" v-slot="props" width="40">
+                            {{ props.row.id }}
+                        </b-table-column>
+
+                        <b-table-column  label="Adı Soyadı" v-slot="props">
+                            {{  props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column label="TCKN" v-slot="props">
+                            {{  props.row.citizenship_no }}
+                        </b-table-column>
+
+                        <b-table-column label="Telefon" v-slot="props">
+                            {{  props.row.phone1 }}
+                        </b-table-column>
+
+                        <b-table-column label="Bakiye" v-slot="props">
+                            {{  props.row.balance | turkishMoney }}
+                        </b-table-column>
                     </b-table>
                 </div>
             </div>
@@ -50,30 +75,6 @@ data() {
             persons: [],
             loadingTable: true,
             isTableEmpty: false,
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'name',
-                        label: 'Adı Soyadı',
-                    },
-                    {
-                        field: 'citizenship_no',
-                        label: 'TCKN',
-                    },
-                    {
-                        field: 'phone1',
-                        label: 'Telefon',
-                    },
-                    {
-                        field: 'gender',
-                        label: 'Bakiye',
-                    }
-                ]
     }
 },
     mounted() {
@@ -93,6 +94,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToPerson(person) {
+            this.$router.push({ name: 'person',  params: { sites_id: this.siteID, persons_id: person.id } })
+        }
     }
 }
 </script>

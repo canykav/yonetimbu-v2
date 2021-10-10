@@ -52,34 +52,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       siteID: null,
       types: [],
       loadingTable: true,
-      isTableEmpty: false,
-      columns: [{
-        field: 'id',
-        label: 'ID',
-        width: '40',
-        numeric: true
-      }, {
-        field: 'name',
-        label: 'Açıklama'
-      }, {
-        field: 'land_share',
-        label: 'Arsa Payı'
-      }, {
-        field: 'net',
-        label: 'Net m²'
-      }, {
-        field: 'gross',
-        label: 'Brüt m²'
-      }, {
-        field: 'fee_amount',
-        label: 'Aidat Tutarı'
-      }]
+      isTableEmpty: false
     };
   },
   mounted: function mounted() {
@@ -92,8 +102,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/sites/' + this.siteID + '/types').then(function (response) {
         _this.types = response.data.data;
-      })["catch"](function (error) {
-        console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
       });
@@ -234,14 +242,130 @@ var render = function() {
             "div",
             { staticClass: "content" },
             [
-              _c("b-table", {
-                attrs: {
-                  loading: _vm.loadingTable,
-                  striped: true,
-                  data: _vm.types,
-                  columns: _vm.columns
-                }
-              })
+              _c(
+                "b-table",
+                {
+                  staticClass: "is-clickable",
+                  attrs: {
+                    loading: _vm.loadingTable,
+                    striped: true,
+                    data: _vm.types,
+                    hoverable: true
+                  }
+                },
+                [
+                  _c("b-table-column", {
+                    attrs: { label: "ID", width: "40" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.id) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Açıklama" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.name) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Arsa Payı" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.land_share) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Net m²" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.net) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Brüt m²" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.gross) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Aidat Tutarı" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  _vm._f("turkishMoney")(props.row.fee_amount)
+                                ) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
             ],
             1
           )
@@ -257,10 +381,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Bölüm Tipleri\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("...")])
+        _vm._v("\n            Bölüm Tipleri\n            ")
+      ])
     ])
   }
 ]

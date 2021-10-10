@@ -120,7 +120,18 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $data['archived_at'] = (!empty($data['archived_at'])) ? date("Y-m-d H:i:s") : null;
+        $data['term_start'] = date('Y-m-d', strtotime($request->term_start));
+        $data['term_end'] = date('Y-m-d', strtotime($request->term_end));
+
+        $site = Site::find($id)->update($data);
+
+        if($site) {
+            return response()->json(['message' => 'Site başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**
@@ -131,6 +142,6 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Site::find($id)->delete();
     }
 }

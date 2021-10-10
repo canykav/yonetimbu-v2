@@ -90,7 +90,8 @@ export default {
                 this.$buefy.toast.open({
                     message: response.data.message,
                     type: 'is-success'
-                })
+                });
+                this.$router.push({ name: 'types',  params: { sites_id: this.siteID} })
             })
             .catch(error => {
                 this.$buefy.toast.open({

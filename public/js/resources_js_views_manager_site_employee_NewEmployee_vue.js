@@ -133,8 +133,8 @@ __webpack_require__.r(__webpack_exports__);
         social_sec_no: this.newEmployee.social_sec_no,
         employee_type: this.newEmployee.employee_type,
         employee_salary: this.newEmployee.employee_salary,
-        employee_start_date: this.newEmployee.employee_start_date,
-        employee_leave_date: this.newEmployee.employee_leave_date
+        employee_start_date: this.newEmployee.employee_start_date ? this.newEmployee.employee_start_date.toLocaleDateString('tr-TR') : null,
+        employee_leave_date: this.newEmployee.employee_leave_date ? this.newEmployee.employee_leave_date.toLocaleDateString('tr-TR') : null
       }).then(function (response) {
         _this.$buefy.toast.open({
           message: response.data.message,

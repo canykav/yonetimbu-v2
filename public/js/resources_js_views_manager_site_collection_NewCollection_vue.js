@@ -90,13 +90,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -119,6 +112,12 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/sites/' + this.siteID + '/persons').then(function (response) {
         _this.persons = response.data.data;
+
+        if (_this.$route.params.persons_id) {
+          _this.newCollection.selectedPerson = _this.$route.params.persons_id;
+
+          _this.getPersonProperties(_this.newCollection.selectedPerson);
+        }
       })["catch"](function (error) {
         console.log(error.response.data);
       }).then(function () {
@@ -160,8 +159,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/sites/' + this.siteID + '/collections', {
         occupants_id: this.newCollection.occupants_id,
         description: this.newCollection.description,
-        debit_type: this.newCollection.debit_type,
-        date: this.newCollection.date,
+        date: this.newCollection.date.toLocaleDateString('tr-TR'),
         amount: this.newCollection.amount,
         vaults_id: this.newCollection.vaults_id
       }).then(function (response) {
@@ -446,41 +444,6 @@ var render = function() {
                         "b-field",
                         {
                           attrs: {
-                            label: "Türü",
-                            "label-position": _vm.labelPosition
-                          }
-                        },
-                        [
-                          _c(
-                            "b-select",
-                            {
-                              attrs: { expanded: "" },
-                              model: {
-                                value: _vm.newCollection.debit_type,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.newCollection, "debit_type", $$v)
-                                },
-                                expression: "newCollection.debit_type"
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "Aidat" } }, [
-                                _vm._v("Aidat")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "Demirbaş" } }, [
-                                _vm._v("Demirbaş")
-                              ])
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "b-field",
-                        {
-                          attrs: {
                             label: "Tarih",
                             "label-position": _vm.labelPosition
                           }
@@ -638,7 +601,7 @@ var staticRenderFns = [
             _c("div", { attrs: { name: "hero-left-side" } }, [
               _c("p", { staticClass: "is-size-4 mb-0" }, [
                 _vm._v(
-                  "\n                        Yeni Borçlandırma\n                    "
+                  "\n                        Yeni Tahsilat\n                    "
                 )
               ]),
               _vm._v(" "),

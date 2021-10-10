@@ -12,4 +12,7 @@ class Payment extends Model
     protected $table = "payments";
 
     protected $guarded = [];
+
+    public $timestamps = false;
+
 }

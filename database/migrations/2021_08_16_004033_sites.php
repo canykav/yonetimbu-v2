@@ -24,7 +24,9 @@ class Sites extends Migration
             $table->date('term_start');
             $table->date('term_end');
             $table->boolean('debit')->default(0);
-            $table->boolean('archive')->default(0);
+            $table->dateTime('archived_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -90,12 +90,12 @@ export default {
             this.loadingButton = true;
             axios.post('/api/sites/'+this.siteID+'/vaults', {
                 name: this.newVault.name,
-                opening_date: this.newVault.opening_date,
+                opening_date: this.newVault.opening_date.toLocaleDateString('tr-TR'),
                 type: this.newVault.type,
                 bank: this.newVault.bank,
                 branch: this.newVault.branch,
                 iban: this.newVault.iban,
-                sites_id: this.siteID,
+                sites_id: this.siteID
             })
             .then(response => {
                 this.$buefy.toast.open({

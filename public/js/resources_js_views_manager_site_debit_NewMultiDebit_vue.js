@@ -84,11 +84,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      labelPosition: 'inside'
+      labelPosition: 'inside',
+      newDebit: {}
     };
+  },
+  mounted: function mounted() {
+    this.siteID = this.$route.params.sites_id;
+  },
+  methods: {
+    createMultipleDebit: function createMultipleDebit() {
+      var _this = this;
+
+      this.loadingButton = true;
+      axios.post('/api/sites/' + this.siteID + '/debits', {
+        debit_type: this.newDebit.debit_type,
+        description: this.newDebit.description,
+        persons: this.newDebit.persons,
+        date: this.newDebit.date ? this.newDebit.date.toLocaleDateString('tr-TR') : null,
+        due_date: this.newDebit.due_date ? this.newDebit.due_date.toLocaleDateString('tr-TR') : null,
+        amount: this.newDebit.amount
+      }).then(function (response) {
+        _this.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this.newDebit = {};
+
+        _this.$router.push({
+          name: 'debits',
+          params: {
+            sites_id: _this.siteID
+          }
+        });
+      })["catch"](function (error) {
+        _this.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this.loadingButton = false;
+      });
+    }
   }
 });
 
@@ -189,156 +233,230 @@ var render = function() {
             { staticClass: "content" },
             [
               [
-                _c(
-                  "section",
-                  [
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Borçlandırma Şekli",
-                          "label-position": _vm.labelPosition
+                _c("section", [
+                  _c(
+                    "form",
+                    {
+                      attrs: { id: "newMultiDebitForm" },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.createMultipleDebit()
                         }
-                      },
-                      [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "Aidat" } }, [
-                            _vm._v("Toplu Aidat Borçlandırması")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "Demirbaş" } }, [
-                            _vm._v("Toplu Demirbaş Borçlandırması")
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "option",
-                            { attrs: { value: "Sayaç", disabled: "" } },
-                            [_vm._v("Sayaç Endeksi Borçlandırması")]
-                          )
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Açıklama",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Kişiler",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [
-                        _c("b-select", { attrs: { expanded: "" } }, [
-                          _c("option", { attrs: { value: "Kiracilar" } }, [
-                            _vm._v("Kiracilar, Yoksa Kat Malikleri")
-                          ]),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "Kiracilar" } }, [
-                            _vm._v("Kat Malikleri")
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns mb-0" }, [
+                      }
+                    },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Borçlandırma Şekli",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
                         [
                           _c(
-                            "b-field",
+                            "b-select",
                             {
-                              attrs: {
-                                label: "Tarih",
-                                "label-position": _vm.labelPosition
+                              attrs: { expanded: "" },
+                              model: {
+                                value: _vm.newDebit.debit_type,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newDebit, "debit_type", $$v)
+                                },
+                                expression: "newDebit.debit_type"
                               }
                             },
                             [
-                              _c("b-datepicker", {
-                                attrs: {
-                                  icon: "calendar-today",
-                                  "trap-focus": ""
-                                }
-                              })
-                            ],
-                            1
+                              _c("option", { attrs: { value: "Aidat" } }, [
+                                _vm._v("Toplu Aidat Borçlandırması")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "Demirbaş" } }, [
+                                _vm._v("Toplu Demirbaş Borçlandırması")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "Sayaç", disabled: "" } },
+                                [_vm._v("Sayaç Endeksi Borçlandırması")]
+                              )
+                            ]
                           )
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Açıklama",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
                         [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Vade Tarihi",
-                                "label-position": _vm.labelPosition
-                              }
-                            },
-                            [
-                              _c("b-datepicker", {
-                                attrs: {
-                                  icon: "calendar-today",
-                                  "trap-focus": ""
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        attrs: {
-                          label: "Tutar",
-                          "label-position": _vm.labelPosition
-                        }
-                      },
-                      [_c("b-input")],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("b-field", [
-                      _c(
-                        "p",
-                        { staticClass: "control" },
-                        [
-                          _c("b-button", {
-                            attrs: {
-                              expanded: "",
-                              label: "Kaydet",
-                              type: "is-primary"
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newDebit.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newDebit, "description", $$v)
+                              },
+                              expression: "newDebit.description"
                             }
                           })
                         ],
                         1
-                      )
-                    ])
-                  ],
-                  1
-                )
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Kişiler",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: { expanded: "" },
+                              model: {
+                                value: _vm.newDebit.persons,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newDebit, "persons", $$v)
+                                },
+                                expression: "newDebit.persons"
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "tenants" } }, [
+                                _vm._v("Kiracilar, Yoksa Kat Malikleri")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "householders" } },
+                                [_vm._v("Kat Malikleri")]
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns mb-0" }, [
+                        _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Tarih",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-datepicker", {
+                                  attrs: {
+                                    icon: "calendar-today",
+                                    "trap-focus": ""
+                                  },
+                                  model: {
+                                    value: _vm.newDebit.date,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newDebit, "date", $$v)
+                                    },
+                                    expression: "newDebit.date"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "b-field",
+                              {
+                                attrs: {
+                                  label: "Vade Tarihi",
+                                  "label-position": _vm.labelPosition
+                                }
+                              },
+                              [
+                                _c("b-datepicker", {
+                                  attrs: {
+                                    icon: "calendar-today",
+                                    "trap-focus": ""
+                                  },
+                                  model: {
+                                    value: _vm.newDebit.due_date,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.newDebit, "due_date", $$v)
+                                    },
+                                    expression: "newDebit.due_date"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Tutar",
+                            "label-position": _vm.labelPosition
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            model: {
+                              value: _vm.newDebit.amount,
+                              callback: function($$v) {
+                                _vm.$set(_vm.newDebit, "amount", $$v)
+                              },
+                              expression: "newDebit.amount"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("b-field", [
+                        _c(
+                          "p",
+                          { staticClass: "control" },
+                          [
+                            _c("b-button", {
+                              attrs: {
+                                expanded: "",
+                                label: "Kaydet",
+                                type: "is-primary",
+                                "native-type": "submit"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ])
               ]
             ],
             2

@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Personeller
-    </p>
-    <p class="has-text-grey is-size-7">....</p>
+            <p class="is-size-4 mb-0">
+            Personeller
+            </p>
         </div>
     <div class="buttons">
         <b-button
@@ -35,6 +34,8 @@
                     :striped=true
                     :data="employees"
                     :loading="loadingTable"
+                    @click="goToEmployee($event)"
+                    style="cursor:pointer"
                     >
 
                     <b-table-column label="ID" v-slot="props">
@@ -56,6 +57,9 @@
                     <b-table-column label="Bakiye" v-slot="props">
                         {{  props.row.id }}
                     </b-table-column>
+                    <template #empty>
+                        <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                    </template>
                 </b-table>
                 </div>
             </div>
@@ -89,6 +93,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToEmployee(employee) {
+            this.$router.push({ name: 'employee',  params: { sites_id: this.siteID, employees_id: employee.id } })
+        }
     }
 }
 </script>

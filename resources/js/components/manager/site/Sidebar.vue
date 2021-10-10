@@ -7,35 +7,36 @@
             >
                 <div>
                     <div class="logo p-3">
-                    <img
-                        src="/img/logo-b.png"
-                        alt="Yönetimbu"
-                        style="max-height:28px;"
-                        @click="goLink('/')"
-                        class="is-clickable"
-                    />
+                    <a href="/">
+                        <img
+                            src="/img/logo-b.png"
+                            alt="Yönetimbu"
+                            style="max-height:28px;"
+                            class="is-clickable"
+                        />
+                    </a>
                     </div>
                     <b-menu class="is-custom-mobile p-3">
                         <b-menu-list>
                             <b class="menu-label">Navigasyon</b>
-                            <b-menu-item icon="monitor-dashboard" label="Genel Bakış" @click="pushRoute('dashboard')"></b-menu-item>
-                            <b-menu-item icon="account-supervisor" label="Kişiler" @click="pushRoute('persons')"></b-menu-item>
-                            <b-menu-item icon="home-city" label="Bölümler" @click="pushRoute('properties')"></b-menu-item>
-                            <b-menu-item icon="briefcase-variant" label="Kasalar" @click="pushRoute('vaults')"></b-menu-item>
-                            <b-menu-item icon="account-tie" label="Firmalar" @click="pushRoute('companies')"></b-menu-item>
-                            <b-menu-item icon="account-hard-hat" label="Personeller" @click="pushRoute('employees')"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="monitor-dashboard" :to="{ name: 'dashboard' }" label="Genel Bakış"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="account-supervisor" :to="{ name: 'persons' }" label="Kişiler"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="home-city" :to="{ name: 'properties' }" label="Bölümler"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="briefcase-variant" :to="{ name: 'vaults' }" label="Kasalar"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="account-tie" :to="{ name: 'companies' }" label="Firmalar"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="account-hard-hat" :to="{ name: 'employees' }" label="Personeller"></b-menu-item>
                         </b-menu-list>
                         <b-menu-list>
                             <b class="menu-label">Finansal İşlemler</b>
-                            <b-menu-item icon="currency-usd" label="Borçlandırmalar" @click="pushRoute('debits')"></b-menu-item>
-                            <b-menu-item icon="cash" label="Tahsilatlar" @click="pushRoute('collections')"></b-menu-item>
-                            <b-menu-item icon="tools" label="Giderler" @click="pushRoute('expenses')"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="currency-usd" :to="{ name: 'debits' }" label="Borçlandırmalar"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="cash" :to="{ name: 'collections' }" label="Tahsilatlar"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="tools" :to="{ name: 'expenses' }" label="Giderler"></b-menu-item>
                         </b-menu-list>
                         <b-menu-list>
                             <b class="menu-label">Diğer</b>
-                            <b-menu-item icon="door-closed" label="Bölüm Tipleri" @click="pushRoute('types')"></b-menu-item>
-                            <b-menu-item icon="table-furniture" label="Demirbaşlar"></b-menu-item>
-                            <b-menu-item icon="bullhorn" label="Duyurular"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="door-closed" :to="{ name: 'types' }" label="Bölüm Tipleri"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="table-furniture" :to="{ name: 'fixtures' }" label="Demirbaşlar"></b-menu-item>
+                            <b-menu-item tag="router-link" icon="bullhorn" :to="{ name: 'fixtures' }" label="Duyurular"></b-menu-item>
                         </b-menu-list>
                     </b-menu>
                 </div>
@@ -51,14 +52,6 @@ export default {
       mobile: "reduce",
       reduce: false,
     };
-  },
-  methods: {
-      pushRoute(route){
-          this.$router.push({ name: route }).catch(()=>{});
-      },
-      goLink(link){
-          window.location.href = link;
-      }
   },
 };
 </script>

@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('sites', App\Http\Controllers\SiteController::class);
 
+Route::get('sites/{sites_id}/dashboard',  [App\Http\Controllers\DashboardController::class, 'index']);
+
 Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () { // api routes must have api middleware but my application use this routes on just web pages.
     Route::resource('persons', App\Http\Controllers\PersonController::class);
     Route::resource('properties', App\Http\Controllers\PropertyController::class);
@@ -32,7 +34,10 @@ Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () { 
     Route::resource('collections', App\Http\Controllers\CollectionController::class);
     Route::resource('expenses', App\Http\Controllers\ExpenseController::class);
     Route::resource('occupants', App\Http\Controllers\OccupantController::class);
-
+    Route::resource('accounts', App\Http\Controllers\AccountController::class);
+    Route::resource('transactions', App\Http\Controllers\TransactionController::class);
+    Route::resource('inventory', App\Http\Controllers\InventoryController::class);
+    Route::resource('fixtures', App\Http\Controllers\FixtureController::class);
 });
 
 

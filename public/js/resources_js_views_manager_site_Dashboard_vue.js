@@ -368,64 +368,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//import { message } from "../../../helpers";
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       siteID: null,
-      siteInfo: null,
-      data: [{
-        'first_name': 'Jesse',
-        'last_name': 'Aydınlatmaların Yenilenmesi',
-        'date': '2016-10-15',
-        'gender': 'Male'
-      }, {
-        'first_name': 'John',
-        'last_name': 'Jacobs',
-        'date': '2016-12-15',
-        'gender': 'Male'
-      }, {
-        'first_name': 'Tina',
-        'last_name': 'Gilbert',
-        'date': '2016-04-26',
-        'gender': 'Female'
-      }, {
-        'first_name': 'Clarence',
-        'last_name': 'Flores',
-        'date': '2016-04-10',
-        'gender': 'Male'
-      }, {
-        'first_name': 'Anne',
-        'last_name': 'Lee',
-        'date': '2016-12-06',
-        'gender': 'Female'
-      }],
-      columns: [{
-        field: 'first_name',
-        label: 'Hesap'
-      }, {
-        field: 'last_name',
-        label: 'Açıklama'
-      }, {
-        field: 'date',
-        label: 'Vade Tarihi',
-        centered: true
-      }, {
-        field: 'gender',
-        label: 'Gender'
-      }]
+      siteDetails: {
+        info: {},
+        stats: {}
+      }
     };
   },
   mounted: function mounted() {
     this.siteID = this.$route.params.sites_id;
-    this.getSiteDetails();
+    this.getSiteDashboard();
   },
   methods: {
-    getSiteDetails: function getSiteDetails() {
+    getSiteDashboard: function getSiteDashboard() {
       var _this = this;
 
-      axios.get('/api/sites/' + this.siteID).then(function (response) {
-        _this.siteInfo = response.data.data;
+      axios.get('/api/sites/' + this.siteID + '/dashboard').then(function (response) {
+        _this.siteDetails = response.data;
       })["catch"](function (error) {
         console.log(error.response.data);
       });
@@ -537,7 +501,14 @@ var render = function() {
               [
                 _c(
                   "b-button",
-                  { staticClass: "is-primary", attrs: { "icon-left": "cog" } },
+                  {
+                    staticClass: "is-primary",
+                    attrs: {
+                      "icon-left": "cog",
+                      tag: "router-link",
+                      to: { name: "settings" }
+                    }
+                  },
                   [_vm._v("\n            Site Ayarları\n        ")]
                 )
               ],
@@ -604,9 +575,15 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content has-text-centered" }, [
-                      _c("div", { staticClass: "is-size-3 mb-0" }, [
+                      _c("div", { staticClass: "is-size-4 mb-0" }, [
                         _c("div", { staticClass: "has-text-weight-medium" }, [
-                          _vm._v("0")
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("turkishMoney")(
+                                _vm.siteDetails.stats.total_debited_monthly
+                              )
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "is-size-7" }, [
@@ -674,9 +651,15 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content has-text-centered" }, [
-                      _c("div", { staticClass: "is-size-3 mb-0" }, [
+                      _c("div", { staticClass: "is-size-4 mb-0" }, [
                         _c("div", { staticClass: "has-text-weight-medium" }, [
-                          _vm._v("0")
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("turkishMoney")(
+                                _vm.siteDetails.stats.total_collected_monthly
+                              )
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "is-size-7" }, [
@@ -744,9 +727,15 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content has-text-centered" }, [
-                      _c("div", { staticClass: "is-size-3 mb-0" }, [
+                      _c("div", { staticClass: "is-size-4 mb-0" }, [
                         _c("div", { staticClass: "has-text-weight-medium" }, [
-                          _vm._v("0")
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("turkishMoney")(
+                                _vm.siteDetails.stats.total_cost
+                              )
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "is-size-7" }, [
@@ -814,9 +803,15 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "card-content" }, [
                     _c("div", { staticClass: "content has-text-centered" }, [
-                      _c("div", { staticClass: "is-size-3 mb-0" }, [
+                      _c("div", { staticClass: "is-size-4 mb-0" }, [
                         _c("div", { staticClass: "has-text-weight-medium" }, [
-                          _vm._v("0")
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("turkishMoney")(
+                                _vm.siteDetails.stats.total_receivables
+                              )
+                            )
+                          )
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "is-size-7" }, [
@@ -901,7 +896,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v(_vm._s(_vm.siteInfo.name))
+                              _vm._v(_vm._s(_vm.siteDetails.info.name))
                             ])
                           ]),
                           _vm._v(" "),
@@ -913,7 +908,7 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v(_vm._s(_vm.siteInfo.address))
+                              _vm._v(_vm._s(_vm.siteDetails.info.address))
                             ])
                           ]),
                           _vm._v(" "),
@@ -925,7 +920,14 @@ var render = function() {
                             ),
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v("1 Blok - 12 Bölüm")
+                              _vm._v(
+                                _vm._s(_vm.siteDetails.info.blocks_count) +
+                                  " Blok - " +
+                                  _vm._s(
+                                    _vm.siteDetails.info.properties_count
+                                  ) +
+                                  " Bölüm"
+                              )
                             ])
                           ]),
                           _vm._v(" "),
@@ -938,9 +940,17 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
                               _vm._v(
-                                _vm._s(_vm.siteInfo.term_start) +
+                                _vm._s(
+                                  _vm._f("turkishDate")(
+                                    _vm.siteDetails.info.term_start
+                                  )
+                                ) +
                                   " - " +
-                                  _vm._s(_vm.siteInfo.term_end)
+                                  _vm._s(
+                                    _vm._f("turkishDate")(
+                                      _vm.siteDetails.info.term_end
+                                    )
+                                  )
                               )
                             ])
                           ]),
@@ -954,9 +964,11 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "has-text-grey" }, [
                               _vm._v(
-                                _vm._s(_vm.siteInfo.tax_administration) +
+                                _vm._s(
+                                  _vm.siteDetails.info.tax_administration
+                                ) +
                                   " - " +
-                                  _vm._s(_vm.siteInfo.tax_no)
+                                  _vm._s(_vm.siteDetails.info.tax_no)
                               )
                             ])
                           ])
@@ -1404,7 +1416,7 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("p", { staticClass: "has-text-grey is-size-7" }, [
-        _vm._v("5 adet bekleyen ödemen ve 2 yeni bildirimin var.")
+        _vm._v("5 adet bekleyen ödeme ve 2 yeni bildirim var.")
       ])
     ])
   }

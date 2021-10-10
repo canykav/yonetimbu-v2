@@ -92,6 +92,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -109,6 +111,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/sites/' + this.siteID + '/expenses').then(function (response) {
         _this.expenses = response.data.data;
+
+        _this.expenses.forEach(function (expense) {
+          expense.remaining_amount = expense.amount - expense.debit_collections_sum_amount;
+        });
       })["catch"](function (error) {
         console.log(error.response.data);
       }).then(function () {
@@ -230,7 +236,7 @@ var render = function() {
                       to: "expenses/new"
                     }
                   },
-                  [_vm._v("\n            Gider Ekle\n        ")]
+                  [_vm._v("\n                    Gider Ekle\n                ")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -243,11 +249,11 @@ var render = function() {
                       to: "payments/new"
                     }
                   },
-                  [_vm._v("\n            Ödeme Ekle\n        ")]
+                  [_vm._v("\n                    Ödeme Ekle\n                ")]
                 ),
                 _vm._v(" "),
                 _c("b-button", { attrs: { "icon-left": "printer" } }, [
-                  _vm._v("\n            Yazdır\n        ")
+                  _vm._v("\n                    Yazdır\n                ")
                 ])
               ],
               1
@@ -271,7 +277,22 @@ var render = function() {
                     striped: true,
                     data: _vm.expenses,
                     loading: _vm.loadingTable
-                  }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {
@@ -282,9 +303,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(props.row.description) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -300,9 +321,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(props.row.expense_type) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -318,9 +339,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(props.row.account.name) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -336,9 +357,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(_vm._f("turkishDate")(props.row.date)) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -354,9 +375,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(props.row.status) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -372,11 +393,11 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(
                                   _vm._f("turkishMoney")(props.row.amount)
                                 ) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -392,13 +413,13 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                            " +
+                              "\n                                " +
                                 _vm._s(
                                   _vm._f("turkishMoney")(
                                     props.row.remaining_amount
                                   )
                                 ) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         }
@@ -423,10 +444,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Giderler\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("....")])
+        _vm._v("\n                Giderler\n                ")
+      ])
     ])
   }
 ]

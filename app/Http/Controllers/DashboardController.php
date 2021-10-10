@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,9 +13,12 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($sites_id, request $req)
     {
-        //
+        return array(
+            'info' => Site::where('id', $sites_id)->withCount('properties','blocks')->first(),
+            'stats' =>  Site::find($sites_id)->stats(),
+        );
     }
 
     /**

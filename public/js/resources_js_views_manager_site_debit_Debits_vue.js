@@ -87,6 +87,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -109,6 +115,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToDebit: function goToDebit(debit) {
+      this.$router.push({
+        name: 'debit',
+        params: {
+          sites_id: this.siteID,
+          debits_id: debit.id
+        }
       });
     }
   }
@@ -292,11 +307,33 @@ var render = function() {
               _c(
                 "b-table",
                 {
+                  staticClass: "is-clickable",
                   attrs: {
                     striped: true,
                     data: _vm.debits,
-                    loading: _vm.loadingTable
-                  }
+                    loading: _vm.loadingTable,
+                    hoverable: true
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToDebit($event)
+                    }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {
@@ -307,9 +344,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(props.row.description) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -325,9 +362,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(props.row.account.name) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -343,9 +380,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(props.row.property.block.name) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -361,9 +398,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(props.row.property.door_no) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -379,9 +416,9 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(_vm._f("turkishDate")(props.row.date)) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -397,11 +434,11 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(
                                   _vm._f("turkishDate")(props.row.due_date)
                                 ) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -417,11 +454,11 @@ var render = function() {
                         fn: function(props) {
                           return [
                             _vm._v(
-                              "\n                " +
+                              "\n                            " +
                                 _vm._s(
                                   _vm._f("turkishMoney")(props.row.amount)
                                 ) +
-                                "\n            "
+                                "\n                        "
                             )
                           ]
                         }
@@ -446,10 +483,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Borçlandırmalar\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("....")])
+        _vm._v("\n            Borçlandırmalar\n            ")
+      ])
     ])
   }
 ]

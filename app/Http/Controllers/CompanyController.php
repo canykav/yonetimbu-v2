@@ -54,9 +54,10 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $companies_id)
     {
-        //
+        $company = Company::find($companies_id);
+        return response()->json(['data' => $company]);
     }
 
     /**
@@ -77,9 +78,14 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $companies_id)
     {
-        //
+        $company = Company::find($companies_id)->update($req->all());
+        if($company) {
+            return response()->json(['message' => 'Firma başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

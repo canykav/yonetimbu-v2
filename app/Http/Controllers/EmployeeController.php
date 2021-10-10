@@ -18,8 +18,8 @@ class EmployeeController extends Controller
     {
         $employee_data = $req->all();
 
-        $employee_data['employee_start_date'] = date('Y-m-d', strtotime($employee_data['employee_start_date']));
-        $employee_data['employee_leave_date'] = date('Y-m-d', strtotime($employee_data['employee_leave_date']));
+        $employee_data['employee_start_date'] = (!empty($req['employee_start_date'])) ? date('Y-m-d', strtotime($req['employee_start_date'])) : null;
+        $employee_data['employee_leave_date'] = (!empty($req['employee_leave_date'])) ? date('Y-m-d', strtotime($req['employee_leave_date'])) : null;
         $employee_data['type'] = 'employee';
         $employee_data['sites_id'] = $sites_id;
 
@@ -38,9 +38,10 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $employees_id)
     {
-        //
+        $employee = Account::find($employees_id);
+        return response()->json(['data' => $employee]);
     }
 
     /**

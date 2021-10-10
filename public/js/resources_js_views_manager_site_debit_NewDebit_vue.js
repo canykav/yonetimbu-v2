@@ -122,6 +122,12 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/sites/' + this.siteID + '/persons').then(function (response) {
         _this.persons = response.data.data;
+
+        if (_this.$route.params.persons_id) {
+          _this.newDebit.selectedPerson = _this.$route.params.persons_id;
+
+          _this.getPersonProperties(_this.newDebit.selectedPerson);
+        }
       })["catch"](function (error) {
         console.log(error.response.data);
       }).then(function () {
@@ -155,8 +161,8 @@ __webpack_require__.r(__webpack_exports__);
         occupants_id: this.newDebit.occupants_id,
         description: this.newDebit.description,
         debit_type: this.newDebit.debit_type,
-        date: this.newDebit.date,
-        due_date: this.newDebit.due_date,
+        date: this.newDebit.date ? this.newDebit.date.toLocaleDateString('tr-TR') : null,
+        due_date: this.newDebit.due_date ? this.newDebit.due_date.toLocaleDateString('tr-TR') : null,
         amount: this.newDebit.amount
       }).then(function (response) {
         _this3.$buefy.toast.open({
@@ -165,6 +171,13 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         _this3.newDebit = {};
+
+        _this3.$router.push({
+          name: 'debits',
+          params: {
+            sites_id: _this3.siteID
+          }
+        });
       })["catch"](function (error) {
         _this3.$buefy.toast.open({
           message: error.response.data.message,

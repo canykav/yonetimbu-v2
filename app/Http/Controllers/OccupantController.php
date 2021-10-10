@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Occupant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OccupantController extends Controller
 {
@@ -22,9 +24,31 @@ class OccupantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req, $sites_id)
     {
-        //
+        if($req->name) {
+            DB::beginTransaction();
+
+            $acc = Account::create([
+                'name' => $req->name,
+                'sites_id' => $sites_id,
+            ]);
+            $occ = Occupant::create([
+                'sites_id' => $sites_id,
+                'accounts_id' => $acc->id,
+                'properties_id' => $req->properties_id,
+                'type' => $req->type,
+                'entry_date' => (!empty($req['entry_date'])) ? date('Y-m-d', strtotime($req['entry_date'])) : null
+            ]);
+
+            DB::commit();
+
+            if($occ) {
+                return response()->json(['message' => 'Oturan başarıyla kaydedildi.']);
+            } else {
+                return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+            }
+        }
     }
 
     /**
@@ -56,9 +80,16 @@ class OccupantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $occupants_id)
     {
-        //
+        $req['abandonment_date'] = (!empty($req['abandonment_date'])) ? date('Y-m-d', strtotime($req['abandonment_date'])) : null;
+        $occ = Occupant::find($occupants_id)->update($req->all());
+
+        if($occ) {
+            return response()->json(['message' => 'Oturan başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

@@ -192,6 +192,26 @@ ul.list {
     color: #9dabb1;
 }
 
+// buefy tabs
+
+.b-tabs ul {
+    margin: 0!important;
+}
+
+.custom-table-cell {
+    height: 49px;
+    vertical-align: middle!important;
+}
+
+//
+.light-blue-cell {
+    background-color: #f6faff;
+}
+
+.light-yellow-cell {
+    background-color: #fffaeb;
+}
+
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";
 @import "~buefy/src/scss/buefy";

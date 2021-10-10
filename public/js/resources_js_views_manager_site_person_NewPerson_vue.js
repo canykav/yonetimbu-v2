@@ -118,28 +118,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var ModalForm = {
-  props: ['properties', 'password', 'canCancel', 'loadingBlocksInput', 'newProperty.date'],
-  template: "\n            <form action=\"\">\n                <div class=\"modal-card\" style=\"width: auto\">\n                    <header class=\"modal-card-head\">\n                        <p class=\"modal-card-title\">B\xF6l\xFCm Ba\u011Fla</p>\n                        <button\n                            type=\"button\"\n                            class=\"delete\"\n                            @click=\"$emit('close')\"/>\n                    </header>\n                    <section class=\"modal-card-body\">\n                        <b-field label=\"B\xF6l\xFCm\">\n                            <b-select expanded>\n                                <option v-for=\"property in properties\" :key=\"property.id\" :value=\"property.id\">{{property.doorWithBlock}}</option>\n                            </b-select>\n                        </b-field>\n                        <b-field label=\"Durum\">\n                            <b-select expanded>\n                                <option value=\"householder\">Kat Maliki</option>\n                                <option value=\"tenant\">Kirac\u0131</option>\n                            </b-select>\n                        </b-field>\n\n                        <b-field label=\"Giri\u015F Tarihi\" :label-position=\"labelPosition\">\n                            <b-datepicker\n                                icon=\"calendar-today\"\n                                trap-focus>\n                            </b-datepicker>\n                        </b-field>\n                        <b-field label=\"\xC7\u0131k\u0131\u015F Tarihi\" :label-position=\"labelPosition\">\n                            <b-datepicker\n                                icon=\"calendar-today\"\n                                trap-focus>\n                            </b-datepicker>\n                        </b-field>\n\n                    </section>\n                    <footer class=\"modal-card-foot\">\n                        <b-button\n                            label=\"Vazge\xE7\"\n                            @click=\"$emit('close')\" />\n                        <b-button\n                            label=\"Kaydet\"\n                            type=\"is-primary\" />\n                    </footer>\n                </div>\n            </form>\n        "
+  props: ['properties', 'password', 'canCancel', 'loadingBlocksInput'],
+  data: function data() {
+    return {
+      newProperty: {},
+      labelPosition: 'inside'
+    };
+  },
+  methods: {
+    addProperty: function addProperty(p) {
+      this.$emit('newProperty', p);
+      this.newProperty = {};
+    }
+  },
+  template: "\n            <form @submit.prevent=\"addProperty(newProperty)\">\n                <div class=\"modal-card\" style=\"width: auto\">\n                    <header class=\"modal-card-head\">\n                        <p class=\"modal-card-title\">B\xF6l\xFCm Ba\u011Fla</p>\n                        <button\n                            type=\"button\"\n                            class=\"delete\"\n                            @click=\"$emit('close')\"/>\n                    </header>\n                    <section class=\"modal-card-body\">\n                        <b-field label=\"B\xF6l\xFCm\" :label-position=\"labelPosition\">\n                            <b-select v-model=\"newProperty.property\" expanded>\n                                <option v-for=\"property in properties\" :key=\"property.id\" :value=\"property\">{{property.doorWithBlock}}</option>\n                            </b-select>\n                        </b-field>\n                        <b-field label=\"Durum\" :label-position=\"labelPosition\">\n                            <b-select v-model=\"newProperty.type\" expanded>\n                                <option value=\"householder\">Kat Maliki</option>\n                                <option value=\"tenant\">Kirac\u0131</option>\n                            </b-select>\n                        </b-field>\n\n                        <b-field label=\"Giri\u015F Tarihi\" :label-position=\"labelPosition\">\n                            <b-datepicker\n                                v-model=\"newProperty.entry_date\"\n                                icon=\"calendar-today\"\n                                trap-focus>\n                            </b-datepicker>\n                        </b-field>\n                        <b-field label=\"\xC7\u0131k\u0131\u015F Tarihi\" :label-position=\"labelPosition\">\n                            <b-datepicker\n                                v-model=\"newProperty.abandonment_date\"\n                                icon=\"calendar-today\"\n                                trap-focus>\n                            </b-datepicker>\n                        </b-field>\n\n                    </section>\n                    <footer class=\"modal-card-foot\">\n                        <b-button\n                            label=\"Vazge\xE7\"\n                            @click=\"$emit('close')\"\n                        />\n                        <b-button\n                            label=\"Kaydet\"\n                            type=\"is-primary\"\n                            native-type=\"submit\"\n                        />\n                    </footer>\n                </div>\n            </form>\n        "
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['newProperty'],
   components: {
     ModalForm: ModalForm
   },
@@ -147,7 +143,7 @@ var ModalForm = {
     return {
       siteID: null,
       newPerson: {},
-      newProperties: [],
+      personProperties: [],
       labelPosition: 'inside',
       loadingButton: false,
       isComponentModalActive: false,
@@ -181,7 +177,8 @@ var ModalForm = {
         phone1: this.newPerson.phone1,
         phone2: this.newPerson.phone2,
         citizenship_no: this.newPerson.citizenship_no,
-        email: this.newPerson.email
+        email: this.newPerson.email,
+        properties: this.personProperties
       }).then(function (response) {
         _this2.$buefy.toast.open({
           message: response.data.message,
@@ -189,6 +186,14 @@ var ModalForm = {
         });
 
         _this2.newPerson = {};
+        _this2.personProperties = [];
+
+        _this2.$router.push({
+          name: 'persons',
+          params: {
+            sites_id: _this2.siteID
+          }
+        });
       })["catch"](function (error) {
         _this2.$buefy.toast.open({
           message: error.response.data.message,
@@ -197,6 +202,13 @@ var ModalForm = {
       }).then(function () {
         _this2.loadingButton = false;
       });
+    },
+    addProperty: function addProperty(e) {
+      this.personProperties.push(Object.assign(e));
+      this.isComponentModalActive = false;
+    },
+    removeProperty: function removeProperty(index) {
+      this.personProperties.splice(index, 1);
     }
   }
 });
@@ -300,149 +312,137 @@ var render = function() {
               { staticClass: "content" },
               [
                 _c("div", { staticClass: "columns" }, [
-                  _c(
-                    "div",
-                    { staticClass: "column" },
-                    [
-                      _c("p", [_vm._v("Kişi Bilgisi")]),
-                      _vm._v(" "),
+                  _c("div", { staticClass: "column" }, [
+                    _c("p", [_vm._v("Kişi Bilgisi")]),
+                    _vm._v(" "),
+                    _c(
+                      "form",
+                      {
+                        attrs: { id: "newPersonForm" },
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                            return _vm.createPerson()
+                          }
+                        }
+                      },
                       [
-                        _c("section", [
-                          _c(
-                            "form",
-                            {
-                              attrs: { id: "newPersonForm" },
-                              on: {
-                                submit: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.createPerson()
-                                }
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Adı Soyadı",
+                              "label-position": _vm.labelPosition
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: { required: "" },
+                              model: {
+                                value: _vm.newPerson.name,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newPerson, "name", $$v)
+                                },
+                                expression: "newPerson.name"
                               }
-                            },
-                            [
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Adı Soyadı",
-                                    "label-position": _vm.labelPosition
-                                  }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Telefon 1",
+                              "label-position": _vm.labelPosition
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              model: {
+                                value: _vm.newPerson.phone1,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newPerson, "phone1", $$v)
                                 },
-                                [
-                                  _c("b-input", {
-                                    attrs: { required: "" },
-                                    model: {
-                                      value: _vm.newPerson.name,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.newPerson, "name", $$v)
-                                      },
-                                      expression: "newPerson.name"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Telefon 1",
-                                    "label-position": _vm.labelPosition
-                                  }
+                                expression: "newPerson.phone1"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Telefon 2",
+                              "label-position": _vm.labelPosition
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              model: {
+                                value: _vm.newPerson.phone2,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newPerson, "phone2", $$v)
                                 },
-                                [
-                                  _c("b-input", {
-                                    model: {
-                                      value: _vm.newPerson.phone1,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.newPerson, "phone1", $$v)
-                                      },
-                                      expression: "newPerson.phone1"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "Telefon 2",
-                                    "label-position": _vm.labelPosition
-                                  }
+                                expression: "newPerson.phone2"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "TC Kimlik",
+                              "label-position": _vm.labelPosition
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: { maxlength: "11" },
+                              model: {
+                                value: _vm.newPerson.citizenship_no,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newPerson, "citizenship_no", $$v)
                                 },
-                                [
-                                  _c("b-input", {
-                                    model: {
-                                      value: _vm.newPerson.phone2,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.newPerson, "phone2", $$v)
-                                      },
-                                      expression: "newPerson.phone2"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "TC Kimlik",
-                                    "label-position": _vm.labelPosition
-                                  }
+                                expression: "newPerson.citizenship_no"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "E-Mail",
+                              "label-position": _vm.labelPosition
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: { type: "email" },
+                              model: {
+                                value: _vm.newPerson.email,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.newPerson, "email", $$v)
                                 },
-                                [
-                                  _c("b-input", {
-                                    model: {
-                                      value: _vm.newPerson.citizenship_no,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.newPerson,
-                                          "citizenship_no",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "newPerson.citizenship_no"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "b-field",
-                                {
-                                  attrs: {
-                                    label: "E-Mail",
-                                    "label-position": _vm.labelPosition
-                                  }
-                                },
-                                [
-                                  _c("b-input", {
-                                    attrs: { type: "email" },
-                                    model: {
-                                      value: _vm.newPerson.email,
-                                      callback: function($$v) {
-                                        _vm.$set(_vm.newPerson, "email", $$v)
-                                      },
-                                      expression: "newPerson.email"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ])
-                      ]
-                    ],
-                    2
-                  ),
+                                expression: "newPerson.email"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -456,45 +456,72 @@ var render = function() {
                           staticClass: "new-person-property-list ml-0",
                           staticStyle: { "font-size": "14px" }
                         },
-                        [
-                          _c(
+                        _vm._l(_vm.personProperties, function(item, index) {
+                          return _c(
                             "li",
                             {
                               staticClass:
                                 "is-flex is-justify-content-space-between"
                             },
                             [
-                              _vm._m(1),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "is-flex is-align-items-center"
-                                },
-                                [
-                                  _c(
-                                    "a",
-                                    { attrs: { href: "" } },
-                                    [
-                                      _c("b-icon", {
-                                        attrs: { icon: "trash-can" }
-                                      })
-                                    ],
-                                    1
+                              _c("div", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "has-text-weight-medium mb-1"
+                                  },
+                                  [
+                                    item.type == "householder"
+                                      ? _c("span", [
+                                          _vm._v(
+                                            "\n                        Kat Maliki\n                    "
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    item.type == "tenant"
+                                      ? _c("span", [
+                                          _vm._v(
+                                            "\n                        Kiracı\n                    "
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(
+                                      "\n                    : " +
+                                        _vm._s(item.property.doorWithBlock) +
+                                        "\n                "
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "has-text-grey" }, [
+                                  _vm._v(
+                                    "\n                    Giriş:\n                    " +
+                                      _vm._s(
+                                        _vm._f("turkishDate")(item.entry_date)
+                                      ) +
+                                      "\n                "
                                   )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "is-flex is-justify-content-space-between"
-                            },
-                            [
-                              _vm._m(2),
+                                ]),
+                                _vm._v(" "),
+                                item.abandonment_date
+                                  ? _c(
+                                      "span",
+                                      { staticClass: "has-text-grey" },
+                                      [
+                                        _vm._v(
+                                          "\n                    Çıkış:\n                    " +
+                                            _vm._s(
+                                              _vm._f("turkishDate")(
+                                                item.abandonment_date
+                                              )
+                                            ) +
+                                            "\n                "
+                                        )
+                                      ]
+                                    )
+                                  : _vm._e()
+                              ]),
                               _vm._v(" "),
                               _c(
                                 "div",
@@ -504,7 +531,13 @@ var render = function() {
                                 [
                                   _c(
                                     "a",
-                                    { attrs: { href: "" } },
+                                    {
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.removeProperty(index)
+                                        }
+                                      }
+                                    },
                                     [
                                       _c("b-icon", {
                                         attrs: { icon: "trash-can" }
@@ -516,7 +549,8 @@ var render = function() {
                               )
                             ]
                           )
-                        ]
+                        }),
+                        0
                       ),
                       _vm._v(" "),
                       _c(
@@ -576,18 +610,10 @@ var render = function() {
             key: "default",
             fn: function(props) {
               return [
-                _c(
-                  "modal-form",
-                  _vm._b(
-                    {
-                      attrs: { properties: _vm.properties },
-                      on: { close: props.close }
-                    },
-                    "modal-form",
-                    _vm.formProps,
-                    false
-                  )
-                )
+                _c("modal-form", {
+                  attrs: { properties: _vm.properties },
+                  on: { newProperty: _vm.addProperty, close: props.close }
+                })
               ]
             }
           }
@@ -630,50 +656,6 @@ var staticRenderFns = [
               ])
             ])
           ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "has-text-weight-medium mb-1" }, [
-        _vm._v("Kat Maliki: A-01")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "has-text-grey" }, [
-        _vm._v(
-          "\n                    Giriş:\n                    13.01.2021\n                "
-        )
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "has-text-grey" }, [
-        _vm._v(
-          "\n                    Çıkış:\n                    13.02.2021\n                "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "has-text-weight-medium mb-1" }, [
-        _vm._v("Kat Maliki: A-01")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "has-text-grey" }, [
-        _vm._v(
-          "\n                    Giriş:\n                    13.01.2021\n                "
-        )
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "has-text-grey" }, [
-        _vm._v(
-          "\n                    Çıkış:\n                    13.02.2021\n                "
         )
       ])
     ])

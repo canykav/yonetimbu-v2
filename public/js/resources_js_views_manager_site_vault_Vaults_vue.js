@@ -52,27 +52,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       siteID: null,
       vaults: [],
-      loadingTable: true,
-      columns: [{
-        field: 'id',
-        label: 'ID',
-        width: '40',
-        numeric: true
-      }, {
-        field: 'name',
-        label: 'Adı'
-      }, {
-        field: 'type',
-        label: 'Tipi'
-      }, {
-        field: '',
-        label: 'Bakiye'
-      }]
+      loadingTable: true
     };
   },
   mounted: function mounted() {
@@ -89,6 +97,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToVault: function goToVault(vault) {
+      this.$router.push({
+        name: 'vault',
+        params: {
+          sites_id: this.siteID,
+          vaults_id: vault.id
+        }
       });
     }
   }
@@ -227,14 +244,99 @@ var render = function() {
             "div",
             { staticClass: "content" },
             [
-              _c("b-table", {
-                attrs: {
-                  loading: _vm.loadingTable,
-                  striped: true,
-                  data: _vm.vaults,
-                  columns: _vm.columns
-                }
-              })
+              _c(
+                "b-table",
+                {
+                  staticClass: "is-clickable",
+                  attrs: {
+                    loading: _vm.loadingTable,
+                    striped: true,
+                    data: _vm.vaults,
+                    hoverable: true
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToVault($event)
+                    }
+                  }
+                },
+                [
+                  _c("b-table-column", {
+                    attrs: { label: "ID", width: "40" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.id) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Adı" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.name) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Tipi" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.type) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Bakiye" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  _vm._f("turkishMoney")(props.row.balance)
+                                ) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
             ],
             1
           )
@@ -250,10 +352,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Kasalar\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v(".......")])
+        _vm._v("\n            Kasalar\n            ")
+      ])
     ])
   }
 ]

@@ -23,8 +23,46 @@ class Account extends Model
         ->get();
     }
 
+    public function getPersonBalance(){
+        $totalCollection = Transaction::where('transaction_type','collection')->where('accounts_id', $this->id)->sum('amount');
+        $totalDebit = Transaction::where('transaction_type','debit')->where('accounts_id', $this->id)->sum('amount');
+        return $totalCollection - $totalDebit;
+    }
+
     public function hidePassword() {
-        unset($this->password);
-        return $this;
+        if(!empty($this->password)) {
+            unset($this->password);
+        }
+            return $this;
+    }
+    public function getUnpaidDebits() {
+        $debits = Transaction::where('transaction_type','debit')->where('status','<>','paid')
+        ->leftjoin('occupants','transactions.occupants_id','occupants.id')
+        ->where('occupants.accounts_id', $this->id)
+        ->with('occupant')
+        ->withSum('payments','amount')
+        ->orderBy('date','desc')
+        ->get();
+
+        Transaction::translateStatusToTurkish($debits);
+        return $debits;
+    }
+
+    public function getCompanyReceivables() {
+        $transactions = Transaction::where('transaction_type', 'expense')
+            ->where('accounts_id', $this->id)
+            ->where('status', '<>', 'paid')
+            ->withSum('payments','amount')
+            ->get();
+        return $transactions;
+    }
+
+    public function getEmployeeReceivables() {
+        $transactions = Transaction::where('transaction_type', 'expense')
+            ->where('accounts_id', $this->id)
+            ->where('status', '<>', 'paid')
+            ->withSum('payments','amount')
+            ->get();
+        return $transactions;
     }
 }

@@ -77,6 +77,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -98,6 +102,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToEmployee: function goToEmployee(employee) {
+      this.$router.push({
+        name: 'employee',
+        params: {
+          sites_id: this.siteID,
+          employees_id: employee.id
+        }
       });
     }
   }
@@ -239,11 +252,32 @@ var render = function() {
               _c(
                 "b-table",
                 {
+                  staticStyle: { cursor: "pointer" },
                   attrs: {
                     striped: true,
                     data: _vm.employees,
                     loading: _vm.loadingTable
-                  }
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToEmployee($event)
+                    }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {
@@ -353,10 +387,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Personeller\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("....")])
+        _vm._v("\n            Personeller\n            ")
+      ])
     ])
   }
 ]

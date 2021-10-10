@@ -17,9 +17,12 @@ class Payments extends Migration
             $table->id();
             $table->string('description');
             $table->enum('type', ['expense_payment','employee_advance'])->nullable();
+            $table->dateTime('date')->nullable();
             $table->unsignedBigInteger('transactions_id');
             $table->decimal('amount',19,2);
+            $table->unsignedBigInteger('vaults_id');
             $table->foreign('transactions_id')->references('id')->on('transactions')->onDelete('cascade');
+            $table->foreign('vaults_id')->references('id')->on('vaults')->onDelete('cascade');
         });
     }
 

@@ -109,6 +109,10 @@ export default {
             axios.get('/api/sites/'+this.siteID+'/persons')
                 .then(response => {
                     this.persons = response.data.data;
+                    if(this.$route.params.persons_id) {
+                        this.newDebit.selectedPerson = this.$route.params.persons_id;
+                        this.getPersonProperties(this.newDebit.selectedPerson);
+                    }
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -142,8 +146,8 @@ export default {
                 occupants_id: this.newDebit.occupants_id,
                 description: this.newDebit.description,
                 debit_type: this.newDebit.debit_type,
-                date: this.newDebit.date,
-                due_date: this.newDebit.due_date,
+                date: (this.newDebit.date) ? this.newDebit.date.toLocaleDateString('tr-TR') : null,
+                due_date: (this.newDebit.due_date) ? this.newDebit.due_date.toLocaleDateString('tr-TR') : null,
                 amount: this.newDebit.amount
             })
             .then(response => {
@@ -152,6 +156,7 @@ export default {
                     type: 'is-success'
                 });
                 this.newDebit = {};
+                this.$router.push({ name: 'debits',  params: { sites_id: this.siteID} })
             })
             .catch(error => {
                 this.$buefy.toast.open({

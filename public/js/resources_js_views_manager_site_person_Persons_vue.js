@@ -55,31 +55,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       siteID: null,
       persons: [],
       loadingTable: true,
-      isTableEmpty: false,
-      columns: [{
-        field: 'id',
-        label: 'ID',
-        width: '40',
-        numeric: true
-      }, {
-        field: 'name',
-        label: 'Adı Soyadı'
-      }, {
-        field: 'citizenship_no',
-        label: 'TCKN'
-      }, {
-        field: 'phone1',
-        label: 'Telefon'
-      }, {
-        field: 'gender',
-        label: 'Bakiye'
-      }]
+      isTableEmpty: false
     };
   },
   mounted: function mounted() {
@@ -96,6 +103,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToPerson: function goToPerson(person) {
+      this.$router.push({
+        name: 'person',
+        params: {
+          sites_id: this.siteID,
+          persons_id: person.id
+        }
       });
     }
   }
@@ -234,15 +250,117 @@ var render = function() {
             "div",
             { staticClass: "content" },
             [
-              _c("b-table", {
-                attrs: {
-                  loading: _vm.loadingTable,
-                  hoverable: true,
-                  striped: true,
-                  data: _vm.persons,
-                  columns: _vm.columns
-                }
-              })
+              _c(
+                "b-table",
+                {
+                  staticClass: "is-clickable",
+                  attrs: {
+                    loading: _vm.loadingTable,
+                    hoverable: true,
+                    striped: true,
+                    data: _vm.persons
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToPerson($event)
+                    }
+                  }
+                },
+                [
+                  _c("b-table-column", {
+                    attrs: { label: "ID", width: "40" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.id) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Adı Soyadı" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.name) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "TCKN" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.citizenship_no) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Telefon" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.phone1) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Bakiye" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  _vm._f("turkishMoney")(props.row.balance)
+                                ) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
             ],
             1
           )
@@ -258,11 +376,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Kişiler\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [
-        _vm._v("Sitede oturan ya da mülk sahibi olan tüm kişiler")
+        _vm._v("\n            Kişiler\n            ")
       ])
     ])
   }

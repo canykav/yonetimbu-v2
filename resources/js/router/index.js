@@ -20,6 +20,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/Dashboard.vue'),
     },
     {
+        name: 'settings',
+        path: '/:sites_id/settings',
+        component: () => import( '../views/manager/site/settings.vue'),
+    },
+    {
         name: 'persons',
         path: '/:sites_id/persons',
         component: () => import( '../views/manager/site/person/Persons.vue'),
@@ -28,6 +33,11 @@ function configRoutes () {
         name: 'newPerson',
         path: '/:sites_id/persons/new',
         component: () => import( '../views/manager/site/person/NewPerson.vue'),
+    },
+    {
+        name: 'person',
+        path: '/:sites_id/persons/:persons_id',
+        component: () => import( '../views/manager/site/person/Person.vue'),
     },
     {
         name: 'properties',
@@ -50,6 +60,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/vault/NewVault.vue'),
     },
     {
+        name: 'vault',
+        path: '/:sites_id/vaults/:vaults_id',
+        component: () => import( '../views/manager/site/vault/Vault.vue'),
+    },
+    {
         name: 'companies',
         path: '/:sites_id/companies',
         component: () => import( '../views/manager/site/company/Companies.vue'),
@@ -60,6 +75,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/company/NewCompany.vue'),
     },
     {
+        name: 'company',
+        path: '/:sites_id/companies/:companies_id',
+        component: () => import( '../views/manager/site/company/Company.vue'),
+    },
+    {
         name: 'employees',
         path: '/:sites_id/employees',
         component: () => import( '../views/manager/site/employee/Employees.vue'),
@@ -68,6 +88,11 @@ function configRoutes () {
         name: 'newEmployee',
         path: '/:sites_id/employees/new',
         component: () => import( '../views/manager/site/employee/NewEmployee.vue'),
+    },
+    {
+        name: 'employee',
+        path: '/:sites_id/employees/:employees_id',
+        component: () => import( '../views/manager/site/employee/Employee.vue'),
     },
     {
         name: 'debits',
@@ -83,6 +108,11 @@ function configRoutes () {
         name: 'newMultiDebit',
         path: '/:sites_id/debits/new-multi',
         component: () => import( '../views/manager/site/debit/NewMultiDebit.vue'),
+    },
+    {
+        name: 'debit',
+        path: '/:sites_id/debits/:debits_id',
+        component: () => import( '../views/manager/site/debit/Debit.vue'),
     },
     {
         name: 'collections',
@@ -118,6 +148,16 @@ function configRoutes () {
         name: 'newType',
         path: '/:sites_id/types/new',
         component: () => import( '../views/manager/site/type/NewType.vue'),
+    },
+    {
+        name: 'fixtures',
+        path: '/:sites_id/fixtures',
+        component: () => import( '../views/manager/site/fixture/Fixtures.vue'),
+    },
+    {
+        name: 'newFixture',
+        path: '/:sites_id/fixtures/new',
+        component: () => import( '../views/manager/site/fixture/NewFixture.vue'),
     },
   ]
 }

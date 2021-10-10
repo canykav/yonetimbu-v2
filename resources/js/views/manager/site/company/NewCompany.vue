@@ -23,7 +23,7 @@
             <b-input v-model="newCompany.name"></b-input>
         </b-field>
         <b-field label="Vergi No./TC No." :label-position="labelPosition">
-            <b-input v-model="newCompany.citizenship_no"></b-input>
+            <b-input v-model="newCompany.citizenship_no" maxlength="11"></b-input>
         </b-field>
         <b-field label="Vergi Dairesi" :label-position="labelPosition">
             <b-input v-model="newCompany.tax_administration"></b-input>
@@ -103,7 +103,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\Payment;
 use App\Models\Site;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -12,9 +15,17 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($sites_id)
+    public function index(request $req, $sites_id)
     {
-        $expenses = Site::find($sites_id)->expenses();
+        if($req->companies_id && $req->transaction_type == 'expense') {
+            $expenses = Account::find($req->companies_id)->getCompanyReceivables();
+            Transaction::translateStatusToTurkish($expenses);
+        } elseif($req->employees_id && $req->transaction_type == 'expense') {
+            $expenses = Account::find($req->employees_id)->getEmployeeReceivables();
+            Transaction::translateStatusToTurkish($expenses);
+        }  else {
+            $expenses = Site::find($sites_id)->expenses();
+        }
         return response()->json(['data' => $expenses]);
     }
 
@@ -34,9 +45,32 @@ class ExpenseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($sites_id, Request $req)
     {
-        //
+        $expense_data = $req->all();
+
+        $expense_data['date'] = ($expense_data['date']) ? date('Y-m-d', strtotime($expense_data['date'])) : null;
+        $expense_data['due_date'] = ($expense_data['due_date']) ? date('Y-m-d', strtotime($expense_data['due_date'])) : null;
+        $expense_data['transaction_type'] = 'expense';
+        $expense_data['sites_id'] = $sites_id;
+
+        $expense = Transaction::create($expense_data);
+
+        if($expense['status'] == 'paid') {
+            Payment::create([
+                'description' => $expense['description'],
+                'type' => 'expense_payment',
+                'transactions_id' => $expense['id'],
+                'amount' => $expense['amount'],
+                'vaults_id' => $expense['vaults_id']
+            ]);
+        }
+
+        if($expense) {
+            return response()->json(['message' => 'Gider başarıyla kaydedildi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

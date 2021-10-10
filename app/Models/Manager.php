@@ -47,7 +47,11 @@ class Manager extends Authenticatable
 
     static function getSites($managers_id)
     {
-        return ManagerSite::where('managers_id', $managers_id)->leftJoin('sites','managers_sites.sites_id', '=', 'sites.id')->select('sites.*','managers_sites.managers_id')->get();
+        return ManagerSite::where('managers_id', $managers_id)
+            ->leftJoin('sites','managers_sites.sites_id', '=', 'sites.id')
+            ->whereNull('sites.deleted_at')
+            ->select('sites.*','managers_sites.managers_id')
+            ->get();
     }
 
 }

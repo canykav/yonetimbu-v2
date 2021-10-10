@@ -263,6 +263,7 @@ var render = function() {
                         },
                         [
                           _c("b-input", {
+                            attrs: { maxlength: "11" },
                             model: {
                               value: _vm.newCompany.citizenship_no,
                               callback: function($$v) {

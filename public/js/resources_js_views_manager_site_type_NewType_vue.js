@@ -104,6 +104,13 @@ __webpack_require__.r(__webpack_exports__);
           message: response.data.message,
           type: 'is-success'
         });
+
+        _this.$router.push({
+          name: 'types',
+          params: {
+            sites_id: _this.siteID
+          }
+        });
       })["catch"](function (error) {
         _this.$buefy.toast.open({
           message: error.response.data.message,

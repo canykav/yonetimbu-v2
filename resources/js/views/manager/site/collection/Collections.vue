@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Tahsilatlar
-    </p>
-    <p class="has-text-grey is-size-7">....</p>
+            <p class="is-size-4 mb-0">
+            Tahsilatlar
+            </p>
         </div>
     <div class="buttons">
         <b-dropdown aria-role="list" class="mr-2">
@@ -38,6 +37,8 @@
                     :striped=true
                     :data="collections"
                     :loading="loadingTable"
+                    class="is-clickable"
+                    :hoverable=true
                     >
 
                         <b-table-column label="Tarih" v-slot="props">
@@ -45,7 +46,7 @@
                         </b-table-column>
 
                         <b-table-column  label="Kişi" v-slot="props">
-                            {{  props.row.account.name }}
+                            {{  props.row.account.name || " " }}
                         </b-table-column>
 
                         <b-table-column label="Blok" v-slot="props">
@@ -63,6 +64,9 @@
                         <b-table-column label="Tutar" v-slot="props">
                             {{  props.row.amount | turkishMoney }}
                         </b-table-column>
+                        <template #empty>
+                            <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                        </template>
                     </b-table>
                 </div>
             </div>

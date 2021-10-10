@@ -7,12 +7,14 @@
     <p class="is-size-4 mb-0">
       Hoşgeldin, Can Yiğit Kav.
     </p>
-    <p class="has-text-grey is-size-7">5 adet bekleyen ödemen ve 2 yeni bildirimin var.</p>
+    <p class="has-text-grey is-size-7">5 adet bekleyen ödeme ve 2 yeni bildirim var.</p>
         </div>
     <div class="buttons">
         <b-button
             class="is-primary"
             icon-left="cog"
+            tag="router-link"
+            :to="{ name: 'settings' }"
         >
             Site Ayarları
         </b-button>
@@ -46,8 +48,8 @@
 
             <div class="card-content">
                 <div class="content has-text-centered">
-                    <div class="is-size-3 mb-0">
-                        <div class="has-text-weight-medium">0</div>
+                    <div class="is-size-4 mb-0">
+                        <div class="has-text-weight-medium">{{siteDetails.stats.total_debited_monthly | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>                </div>
             </div>
@@ -73,8 +75,8 @@
 
             <div class="card-content">
                 <div class="content has-text-centered">
-                    <div class="is-size-3 mb-0">
-                        <div class="has-text-weight-medium">0</div>
+                    <div class="is-size-4 mb-0">
+                        <div class="has-text-weight-medium">{{siteDetails.stats.total_collected_monthly | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -101,8 +103,8 @@
 
             <div class="card-content">
                 <div class="content has-text-centered">
-                    <div class="is-size-3 mb-0">
-                        <div class="has-text-weight-medium">0</div>
+                    <div class="is-size-4 mb-0">
+                        <div class="has-text-weight-medium">{{siteDetails.stats.total_cost | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -129,8 +131,8 @@
 
             <div class="card-content">
                 <div class="content has-text-centered">
-                    <div class="is-size-3 mb-0">
-                        <div class="has-text-weight-medium">0</div>
+                    <div class="is-size-4 mb-0">
+                        <div class="has-text-weight-medium">{{siteDetails.stats.total_receivables | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -163,23 +165,23 @@
     <ul class="list" style="font-size:14px">
         <li>
             <div class="has-text-weight-medium mb-1">Adı</div>
-            <div class="has-text-grey">{{siteInfo.name}}</div>
+            <div class="has-text-grey">{{siteDetails.info.name}}</div>
         </li>
         <li>
             <div class="has-text-weight-medium mb-1">Adresi</div>
-            <div class="has-text-grey">{{siteInfo.address}}</div>
+            <div class="has-text-grey">{{siteDetails.info.address}}</div>
         </li>
         <li>
             <div class="has-text-weight-medium mb-1">Toplam Blok - Toplam Bölüm</div>
-            <div class="has-text-grey">1 Blok - 12 Bölüm</div>
+            <div class="has-text-grey">{{siteDetails.info.blocks_count}} Blok - {{siteDetails.info.properties_count}} Bölüm</div>
         </li>
         <li>
             <div class="has-text-weight-medium mb-1">Yönetim Dönemi</div>
-            <div class="has-text-grey">{{siteInfo.term_start}} - {{siteInfo.term_end}}</div>
+            <div class="has-text-grey">{{siteDetails.info.term_start | turkishDate }} - {{siteDetails.info.term_end | turkishDate}}</div>
         </li>
         <li>
             <div class="has-text-weight-medium mb-1">Vergi Dairesi ve Numarası</div>
-            <div class="has-text-grey">{{siteInfo.tax_administration}} - {{siteInfo.tax_no}}</div>
+            <div class="has-text-grey">{{siteDetails.info.tax_administration}} - {{siteDetails.info.tax_no}}</div>
         </li>
     </ul>
                 </div>
@@ -356,49 +358,25 @@
 </template>
 
 <script>
-//import { message } from "../../../helpers";
 export default {
     data() {
         return {
             siteID: null,
-            siteInfo: null,
-            data: [
-                        { 'first_name': 'Jesse', 'last_name': 'Aydınlatmaların Yenilenmesi', 'date': '2016-10-15', 'gender': 'Male' },
-                        { 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15', 'gender': 'Male' },
-                        { 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26', 'gender': 'Female' },
-                        { 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10', 'gender': 'Male' },
-                        { 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06', 'gender': 'Female' }
-                    ],
-                    columns: [
-                        {
-                            field: 'first_name',
-                            label: 'Hesap',
-                        },
-                        {
-                            field: 'last_name',
-                            label: 'Açıklama',
-                        },
-                        {
-                            field: 'date',
-                            label: 'Vade Tarihi',
-                            centered: true
-                        },
-                        {
-                            field: 'gender',
-                            label: 'Gender',
-                        }
-                    ]
+            siteDetails: {
+                info: {},
+                stats: {},
+            },
         }
     },
     mounted() {
         this.siteID = this.$route.params.sites_id;
-        this.getSiteDetails();
+        this.getSiteDashboard();
     },
     methods: {
-        getSiteDetails() {
-        axios.get('/api/sites/'+this.siteID)
+        getSiteDashboard() {
+        axios.get('/api/sites/'+this.siteID+'/dashboard')
             .then(response => {
-                this.siteInfo = response.data.data;
+                this.siteDetails = response.data;
             })
             .catch(error => {
                 console.log(error.response.data);

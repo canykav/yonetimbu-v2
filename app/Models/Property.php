@@ -24,4 +24,5 @@ class Property extends Model
     public function getBlockName() {
         return $this->hasOne(Block::class, 'id', 'blocks_id')->name;
     }
+
 }

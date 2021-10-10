@@ -2044,6 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2052,16 +2053,6 @@ __webpack_require__.r(__webpack_exports__);
       mobile: "reduce",
       reduce: false
     };
-  },
-  methods: {
-    pushRoute: function pushRoute(route) {
-      this.$router.push({
-        name: route
-      })["catch"](function () {});
-    },
-    goLink: function goLink(link) {
-      window.location.href = link;
-    }
   }
 });
 
@@ -2430,8 +2421,8 @@ __webpack_require__.r(__webpack_exports__);
         name: this.newSite.name,
         blocks: this.newSite.blocks,
         address: this.newSite.address,
-        term_start: this.newSite.term_start,
-        term_end: this.newSite.term_end
+        term_start: this.newSite.term_start.toLocaleDateString('tr-TR'),
+        term_end: this.newSite.term_end.toLocaleDateString('tr-TR')
       }).then(function (response) {
         _this.$buefy.toast.open({
           message: response.data.message,
@@ -2532,6 +2523,12 @@ function configRoutes() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_Dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/Dashboard.vue */ "./resources/js/views/manager/site/Dashboard.vue"));
     }
   }, {
+    name: 'settings',
+    path: '/:sites_id/settings',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_settings_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/settings.vue */ "./resources/js/views/manager/site/settings.vue"));
+    }
+  }, {
     name: 'persons',
     path: '/:sites_id/persons',
     component: function component() {
@@ -2542,6 +2539,12 @@ function configRoutes() {
     path: '/:sites_id/persons/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_person_NewPerson_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/person/NewPerson.vue */ "./resources/js/views/manager/site/person/NewPerson.vue"));
+    }
+  }, {
+    name: 'person',
+    path: '/:sites_id/persons/:persons_id',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_person_Person_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/person/Person.vue */ "./resources/js/views/manager/site/person/Person.vue"));
     }
   }, {
     name: 'properties',
@@ -2568,6 +2571,12 @@ function configRoutes() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_vault_NewVault_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/vault/NewVault.vue */ "./resources/js/views/manager/site/vault/NewVault.vue"));
     }
   }, {
+    name: 'vault',
+    path: '/:sites_id/vaults/:vaults_id',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_vault_Vault_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/vault/Vault.vue */ "./resources/js/views/manager/site/vault/Vault.vue"));
+    }
+  }, {
     name: 'companies',
     path: '/:sites_id/companies',
     component: function component() {
@@ -2580,6 +2589,12 @@ function configRoutes() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_company_NewCompany_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/company/NewCompany.vue */ "./resources/js/views/manager/site/company/NewCompany.vue"));
     }
   }, {
+    name: 'company',
+    path: '/:sites_id/companies/:companies_id',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_company_Company_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/company/Company.vue */ "./resources/js/views/manager/site/company/Company.vue"));
+    }
+  }, {
     name: 'employees',
     path: '/:sites_id/employees',
     component: function component() {
@@ -2590,6 +2605,12 @@ function configRoutes() {
     path: '/:sites_id/employees/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_employee_NewEmployee_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/employee/NewEmployee.vue */ "./resources/js/views/manager/site/employee/NewEmployee.vue"));
+    }
+  }, {
+    name: 'employee',
+    path: '/:sites_id/employees/:employees_id',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_employee_Employee_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/employee/Employee.vue */ "./resources/js/views/manager/site/employee/Employee.vue"));
     }
   }, {
     name: 'debits',
@@ -2608,6 +2629,12 @@ function configRoutes() {
     path: '/:sites_id/debits/new-multi',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_debit_NewMultiDebit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/debit/NewMultiDebit.vue */ "./resources/js/views/manager/site/debit/NewMultiDebit.vue"));
+    }
+  }, {
+    name: 'debit',
+    path: '/:sites_id/debits/:debits_id',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_debit_Debit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/debit/Debit.vue */ "./resources/js/views/manager/site/debit/Debit.vue"));
     }
   }, {
     name: 'collections',
@@ -2650,6 +2677,18 @@ function configRoutes() {
     path: '/:sites_id/types/new',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_type_NewType_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/type/NewType.vue */ "./resources/js/views/manager/site/type/NewType.vue"));
+    }
+  }, {
+    name: 'fixtures',
+    path: '/:sites_id/fixtures',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_fixture_Fixtures_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/fixture/Fixtures.vue */ "./resources/js/views/manager/site/fixture/Fixtures.vue"));
+    }
+  }, {
+    name: 'newFixture',
+    path: '/:sites_id/fixtures/new',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_manager_site_fixture_NewFixture_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/manager/site/fixture/NewFixture.vue */ "./resources/js/views/manager/site/fixture/NewFixture.vue"));
     }
   }];
 }
@@ -57039,16 +57078,13 @@ var render = function() {
         "div",
         [
           _c("div", { staticClass: "logo p-3" }, [
-            _c("img", {
-              staticClass: "is-clickable",
-              staticStyle: { "max-height": "28px" },
-              attrs: { src: "/img/logo-b.png", alt: "Yönetimbu" },
-              on: {
-                click: function($event) {
-                  return _vm.goLink("/")
-                }
-              }
-            })
+            _c("a", { attrs: { href: "/" } }, [
+              _c("img", {
+                staticClass: "is-clickable",
+                staticStyle: { "max-height": "28px" },
+                attrs: { src: "/img/logo-b.png", alt: "Yönetimbu" }
+              })
+            ])
           ]),
           _vm._v(" "),
           _c(
@@ -57063,56 +57099,56 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "monitor-dashboard", label: "Genel Bakış" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("dashboard")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "monitor-dashboard",
+                      to: { name: "dashboard" },
+                      label: "Genel Bakış"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "account-supervisor", label: "Kişiler" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("persons")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "account-supervisor",
+                      to: { name: "persons" },
+                      label: "Kişiler"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "home-city", label: "Bölümler" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("properties")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "home-city",
+                      to: { name: "properties" },
+                      label: "Bölümler"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "briefcase-variant", label: "Kasalar" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("vaults")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "briefcase-variant",
+                      to: { name: "vaults" },
+                      label: "Kasalar"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "account-tie", label: "Firmalar" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("companies")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "account-tie",
+                      to: { name: "companies" },
+                      label: "Firmalar"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "account-hard-hat", label: "Personeller" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("employees")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "account-hard-hat",
+                      to: { name: "employees" },
+                      label: "Personeller"
                     }
                   })
                 ],
@@ -57127,29 +57163,29 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "currency-usd", label: "Borçlandırmalar" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("debits")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "currency-usd",
+                      to: { name: "debits" },
+                      label: "Borçlandırmalar"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "cash", label: "Tahsilatlar" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("collections")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "cash",
+                      to: { name: "collections" },
+                      label: "Tahsilatlar"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "tools", label: "Giderler" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("expenses")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "tools",
+                      to: { name: "expenses" },
+                      label: "Giderler"
                     }
                   })
                 ],
@@ -57162,20 +57198,30 @@ var render = function() {
                   _c("b", { staticClass: "menu-label" }, [_vm._v("Diğer")]),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "door-closed", label: "Bölüm Tipleri" },
-                    on: {
-                      click: function($event) {
-                        return _vm.pushRoute("types")
-                      }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "door-closed",
+                      to: { name: "types" },
+                      label: "Bölüm Tipleri"
                     }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "table-furniture", label: "Demirbaşlar" }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "table-furniture",
+                      to: { name: "fixtures" },
+                      label: "Demirbaşlar"
+                    }
                   }),
                   _vm._v(" "),
                   _c("b-menu-item", {
-                    attrs: { icon: "bullhorn", label: "Duyurular" }
+                    attrs: {
+                      tag: "router-link",
+                      icon: "bullhorn",
+                      to: { name: "fixtures" },
+                      label: "Duyurular"
+                    }
                   })
                 ],
                 1
@@ -73359,7 +73405,7 @@ Vue.compile = compileToFunctions;
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_manager_site_Dashboard_vue":1,"resources_js_views_manager_site_person_Persons_vue":1,"resources_js_views_manager_site_person_NewPerson_vue":1,"resources_js_views_manager_site_property_Properties_vue":1,"resources_js_views_manager_site_property_NewProperty_vue":1,"resources_js_views_manager_site_vault_Vaults_vue":1,"resources_js_views_manager_site_vault_NewVault_vue":1,"resources_js_views_manager_site_company_Companies_vue":1,"resources_js_views_manager_site_company_NewCompany_vue":1,"resources_js_views_manager_site_employee_Employees_vue":1,"resources_js_views_manager_site_employee_NewEmployee_vue":1,"resources_js_views_manager_site_debit_Debits_vue":1,"resources_js_views_manager_site_debit_NewDebit_vue":1,"resources_js_views_manager_site_debit_NewMultiDebit_vue":1,"resources_js_views_manager_site_collection_Collections_vue":1,"resources_js_views_manager_site_collection_NewCollection_vue":1,"resources_js_views_manager_site_collection_NewDebitCollection_vue":1,"resources_js_views_manager_site_expense_Expenses_vue":1,"resources_js_views_manager_site_expense_NewExpense_vue":1,"resources_js_views_manager_site_type_Types_vue":1,"resources_js_views_manager_site_type_NewType_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_manager_site_Dashboard_vue":1,"resources_js_views_manager_site_settings_vue":1,"resources_js_views_manager_site_person_Persons_vue":1,"resources_js_views_manager_site_person_NewPerson_vue":1,"resources_js_views_manager_site_person_Person_vue":1,"resources_js_views_manager_site_property_Properties_vue":1,"resources_js_views_manager_site_property_NewProperty_vue":1,"resources_js_views_manager_site_vault_Vaults_vue":1,"resources_js_views_manager_site_vault_NewVault_vue":1,"resources_js_views_manager_site_vault_Vault_vue":1,"resources_js_views_manager_site_company_Companies_vue":1,"resources_js_views_manager_site_company_NewCompany_vue":1,"resources_js_views_manager_site_company_Company_vue":1,"resources_js_views_manager_site_employee_Employees_vue":1,"resources_js_views_manager_site_employee_NewEmployee_vue":1,"resources_js_views_manager_site_employee_Employee_vue":1,"resources_js_views_manager_site_debit_Debits_vue":1,"resources_js_views_manager_site_debit_NewDebit_vue":1,"resources_js_views_manager_site_debit_NewMultiDebit_vue":1,"resources_js_views_manager_site_debit_Debit_vue":1,"resources_js_views_manager_site_collection_Collections_vue":1,"resources_js_views_manager_site_collection_NewCollection_vue":1,"resources_js_views_manager_site_collection_NewDebitCollection_vue":1,"resources_js_views_manager_site_expense_Expenses_vue":1,"resources_js_views_manager_site_expense_NewExpense_vue":1,"resources_js_views_manager_site_type_Types_vue":1,"resources_js_views_manager_site_type_NewType_vue":1,"resources_js_views_manager_site_fixture_Fixtures_vue":1,"resources_js_views_manager_site_fixture_NewFixture_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

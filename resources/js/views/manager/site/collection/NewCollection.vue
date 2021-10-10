@@ -5,7 +5,7 @@
                 <div class="container is-flex is-justify-content-space-between is-align-items-center">
                     <div name="hero-left-side">
                         <p class="is-size-4 mb-0">
-                            Yeni Borçlandırma
+                            Yeni Tahsilat
                         </p>
                         <p class="has-text-grey is-size-7">......</p>
                     </div>
@@ -37,13 +37,6 @@
                                 </b-field>
                                 <b-field label="Açıklama" :label-position="labelPosition">
                                     <b-input v-model="newCollection.description"></b-input>
-                                </b-field>
-                                <b-field label="Türü"
-                                    :label-position="labelPosition">
-                                    <b-select  v-model="newCollection.debit_type" expanded>
-                                        <option value="Aidat">Aidat</option>
-                                        <option value="Demirbaş">Demirbaş</option>
-                                    </b-select>
                                 </b-field>
                                 <b-field label="Tarih" :label-position="labelPosition">
                                     <b-datepicker
@@ -106,6 +99,10 @@ export default {
             axios.get('/api/sites/'+this.siteID+'/persons')
                 .then(response => {
                     this.persons = response.data.data;
+                    if(this.$route.params.persons_id) {
+                        this.newCollection.selectedPerson = this.$route.params.persons_id;
+                        this.getPersonProperties(this.newCollection.selectedPerson);
+                    }
                 })
                 .catch(error => {
                     console.log(error.response.data);
@@ -147,8 +144,7 @@ export default {
             axios.post('/api/sites/'+this.siteID+'/collections', {
                 occupants_id: this.newCollection.occupants_id,
                 description: this.newCollection.description,
-                debit_type: this.newCollection.debit_type,
-                date: this.newCollection.date,
+                date: this.newCollection.date.toLocaleDateString('tr-TR'),
                 amount: this.newCollection.amount,
                 vaults_id: this.newCollection.vaults_id
             })
@@ -172,7 +168,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

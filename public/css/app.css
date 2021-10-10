@@ -282,6 +282,23 @@ ul.list li:not(:last-child) {
   color: #9dabb1;
 }
 
+.b-tabs ul {
+  margin: 0 !important;
+}
+
+.custom-table-cell {
+  height: 49px;
+  vertical-align: middle !important;
+}
+
+.light-blue-cell {
+  background-color: #f6faff;
+}
+
+.light-yellow-cell {
+  background-color: #fffaeb;
+}
+
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,

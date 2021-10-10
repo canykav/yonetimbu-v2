@@ -84,6 +84,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -290,11 +294,28 @@ var render = function() {
               _c(
                 "b-table",
                 {
+                  staticClass: "is-clickable",
                   attrs: {
                     striped: true,
                     data: _vm.collections,
-                    loading: _vm.loadingTable
-                  }
+                    loading: _vm.loadingTable,
+                    hoverable: true
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {
@@ -324,7 +345,7 @@ var render = function() {
                           return [
                             _vm._v(
                               "\n                            " +
-                                _vm._s(props.row.account.name) +
+                                _vm._s(props.row.account.name || " ") +
                                 "\n                        "
                             )
                           ]
@@ -424,10 +445,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { name: "hero-left-side" } }, [
       _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Tahsilatlar\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [_vm._v("....")])
+        _vm._v("\n            Tahsilatlar\n            ")
+      ])
     ])
   }
 ]

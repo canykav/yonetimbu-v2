@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Firmalar
-    </p>
-    <p class="has-text-grey is-size-7">....</p>
+            <p class="is-size-4 mb-0">
+            Firmalar
+            </p>
         </div>
     <div class="buttons">
         <b-button
@@ -31,7 +30,16 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <b-table :loading="loadingTable" :striped=true :data="companies" :columns="columns"></b-table>
+                    <b-table
+                        :loading="loadingTable"
+                        :striped=true
+                        :data="companies"
+                        :columns="columns"
+                        :hoverable=true
+                        @click="goToCompany($event)"
+                        style="cursor:pointer"
+                    >
+                    </b-table>
                 </div>
             </div>
         </div>
@@ -84,10 +92,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToCompany(company) {
+            this.$router.push({ name: 'company',  params: { sites_id: this.siteID, companies_id: company.id } })
+        }
     }
 }
 </script>
-
-<style>
-
-</style>

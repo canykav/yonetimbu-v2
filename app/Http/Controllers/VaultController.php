@@ -16,6 +16,7 @@ class VaultController extends Controller
     public function index($sites_id)
     {
         $vaults = Site::find($sites_id)->vaults();
+        Vault::translateTypesToTurkish($vaults);
         return response()->json(['data' => $vaults]);
     }
 
@@ -38,9 +39,22 @@ class VaultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $vault)
     {
-        //
+        $vault = Vault::find($vault);
+        switch ($vault['type']) {
+            case Vault::BANK:
+            $vault['type'] = Vault::BANK_TR;
+            break;
+
+            case Vault::VAULT:
+            $vault['type'] = Vault::VAULT_TR;
+            break;
+
+            default:
+            $vault['type'];
+        }
+        return response()->json(['data' => $vault]);
     }
 
     /**
@@ -61,9 +75,15 @@ class VaultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $id)
     {
-        //
+        $req['opening_date'] = (!empty($req['opening_date'])) ? date('Y-m-d', strtotime($req['opening_date'])) : null;
+        $vault = Vault::find($id)->update($req->all());
+        if($vault) {
+            return response()->json(['message' => 'Kasa/banka başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

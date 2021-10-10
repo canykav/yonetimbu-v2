@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Kasalar
-    </p>
-    <p class="has-text-grey is-size-7">.......</p>
+            <p class="is-size-4 mb-0">
+            Kasalar
+            </p>
         </div>
     <div class="buttons">
         <b-button
@@ -31,7 +30,31 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <b-table :loading="loadingTable" :striped=true :data="vaults" :columns="columns"></b-table>
+                     <b-table
+                        :loading="loadingTable"
+                        :striped=true
+                        :data="vaults"
+                        @click="goToVault($event)"
+                        class="is-clickable"
+                        :hoverable=true
+                    >
+                        <b-table-column label="ID" v-slot="props" width="40">
+                            {{  props.row.id }}
+                        </b-table-column>
+
+                        <b-table-column  label="Adı" v-slot="props">
+                            {{  props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column label="Tipi" v-slot="props">
+                            {{  props.row.type }}
+                        </b-table-column>
+
+                        <b-table-column label="Bakiye" v-slot="props">
+                            {{  props.row.balance | turkishMoney }}
+                        </b-table-column>
+                    </b-table>
+
                 </div>
             </div>
         </div>
@@ -46,26 +69,6 @@ data() {
         siteID: null,
         vaults: [],
         loadingTable: true,
-        columns: [
-            {
-                field: 'id',
-                label: 'ID',
-                width: '40',
-                numeric: true
-            },
-            {
-                field: 'name',
-                label: 'Adı',
-            },
-            {
-                field: 'type',
-                label: 'Tipi',
-            },
-                        {
-                field: '',
-                label: 'Bakiye',
-            },
-        ]
     }
 },
     mounted() {
@@ -85,6 +88,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToVault(vault) {
+            this.$router.push({ name: 'vault',  params: { sites_id: this.siteID, vaults_id: vault.id } })
+        }
     }
 }
 </script>
