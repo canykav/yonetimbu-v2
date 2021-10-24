@@ -199,6 +199,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -239,7 +243,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.loadingUpdateButton = true;
-      axios.put('/api/sites/' + this.siteID + '/companies/' + this.debitID, {
+      axios.put('/api/sites/' + this.siteID + '/debits/' + this.debitID, {
         description: this.editedDebitData.description,
         debit_type: this.editedDebitData.debit_type,
         occupants_id: this.editedDebitData.occupants_id,
@@ -459,52 +463,36 @@ var render = function() {
       _c("div", { staticClass: "columns" }, [
         _c("div", { staticClass: "column is-9" }, [
           _c("div", { staticClass: "card block" }, [
-            _c("header", { staticClass: "card-header" }, [
-              _c("p", { staticClass: "card-header-title" }, [
-                _vm._v(
-                  "\n                        Borçlandırma Bilgisi\n                        "
+            _c(
+              "header",
+              { staticClass: "card-header" },
+              [
+                _c("p", { staticClass: "card-header-title" }, [
+                  _vm._v(
+                    "\n                        Borçlandırma Bilgisi\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    staticClass: "mr-3 mt-3",
+                    attrs: { tag: "a", size: "is-small is-link is-light" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleEdit()
+                      }
+                    }
+                  },
+                  [
+                    _vm.edit == 0 ? _c("span", [_vm._v("Düzenle")]) : _vm._e(),
+                    _vm._v(" "),
+                    _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
+                  ]
                 )
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "card-header-icon",
-                  attrs: { "aria-label": "more options" }
-                },
-                [
-                  _vm.edit == 0
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "has-text-link is-size-7",
-                          on: {
-                            click: function($event) {
-                              return _vm.toggleEdit()
-                            }
-                          }
-                        },
-                        [_vm._v("Düzenle")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.edit == 1
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "has-text-link is-size-7",
-                          on: {
-                            click: function($event) {
-                              return _vm.toggleEdit()
-                            }
-                          }
-                        },
-                        [_vm._v("Vazgeç")]
-                      )
-                    : _vm._e()
-                ]
-              )
-            ]),
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c(
@@ -679,8 +667,11 @@ var render = function() {
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
+                              ? _c("vue-autonumeric", {
+                                  staticClass: "input is-small",
+                                  attrs: {
+                                    options: "commaDecimalCharDotSeparator"
+                                  },
                                   model: {
                                     value: _vm.editedDebitData.amount,
                                     callback: function($$v) {
@@ -891,7 +882,7 @@ var render = function() {
                             loading: _vm.loadingUpdateButton,
                             expanded: ""
                           },
-                          on: { click: _vm.updatedebit }
+                          on: { click: _vm.updateDebit }
                         },
                         [_vm._v("Kaydet")]
                       )
@@ -902,122 +893,157 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card block" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c(
-                "div",
-                { staticClass: "content" },
-                [
+          _vm.debit.status != "Ödenmedi"
+            ? _c("div", { staticClass: "card block" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-content" }, [
                   _c(
-                    "b-table",
-                    {
-                      attrs: {
-                        striped: true,
-                        data: _vm.debit.debit_collections,
-                        loading: _vm.loadingTable
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "empty",
-                          fn: function() {
-                            return [
-                              _c("div", { staticClass: "has-text-centered" }, [
-                                _vm._v("Kayıt yok")
-                              ])
-                            ]
-                          },
-                          proxy: true
-                        }
-                      ])
-                    },
+                    "div",
+                    { staticClass: "content" },
                     [
-                      _c("b-table-column", {
-                        attrs: { label: "Tarih" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm._f("turkishDate")(
-                                        props.row.collection.date
+                      _c(
+                        "b-table",
+                        {
+                          attrs: {
+                            striped: true,
+                            data: _vm.debit.debit_collections,
+                            loading: _vm.loadingTable
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "empty",
+                                fn: function() {
+                                  return [
+                                    _c(
+                                      "div",
+                                      { staticClass: "has-text-centered" },
+                                      [_vm._v("Kayıt yok")]
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            ],
+                            null,
+                            false,
+                            3343670916
+                          )
+                        },
+                        [
+                          _c("b-table-column", {
+                            attrs: { label: "Tarih" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm._f("turkishDate")(
+                                              props.row.collection.date
+                                            )
+                                          ) +
+                                          "\n                            "
                                       )
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Açıklama" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(props.row.collection.description) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Kasa" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(props.row.collection.vault.name) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Tutar" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(props.row.amount)
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      })
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              3798325878
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { label: "Açıklama" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            props.row.collection.description
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              578335619
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { label: "Kasa" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            props.row.collection.vault.name
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              3875384438
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { label: "Tutar" },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "default",
+                                  fn: function(props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm._f("turkishMoney")(
+                                              props.row.amount
+                                            )
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              4277973362
+                            )
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
-            ])
-          ])
+                ])
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _vm._m(1)

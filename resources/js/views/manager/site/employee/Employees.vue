@@ -37,11 +37,6 @@
                     @click="goToEmployee($event)"
                     style="cursor:pointer"
                     >
-
-                    <b-table-column label="ID" v-slot="props">
-                        {{ props.row.id }}
-                    </b-table-column>
-
                     <b-table-column  label="Adı" v-slot="props">
                         {{  props.row.name }}
                     </b-table-column>

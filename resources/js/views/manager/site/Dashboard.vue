@@ -5,9 +5,9 @@
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
     <p class="is-size-4 mb-0">
-      Hoşgeldin, Can Yiğit Kav.
+      {{ site.info.name }}
     </p>
-    <p class="has-text-grey is-size-7">5 adet bekleyen ödeme ve 2 yeni bildirim var.</p>
+    <p class="has-text-grey is-size-7" v-if="site.unpaidExpenses.length>0">{{ site.unpaidExpenses.length }} bekleyen ödeme var.</p>
         </div>
     <div class="buttons">
         <b-button
@@ -49,7 +49,7 @@
             <div class="card-content">
                 <div class="content has-text-centered">
                     <div class="is-size-4 mb-0">
-                        <div class="has-text-weight-medium">{{siteDetails.stats.total_debited_monthly | turkishMoney}}</div>
+                        <div class="has-text-weight-medium">{{site.stats.total_debited_monthly | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>                </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="card-content">
                 <div class="content has-text-centered">
                     <div class="is-size-4 mb-0">
-                        <div class="has-text-weight-medium">{{siteDetails.stats.total_collected_monthly | turkishMoney}}</div>
+                        <div class="has-text-weight-medium">{{site.stats.total_collected_monthly | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             <div class="card-content">
                 <div class="content has-text-centered">
                     <div class="is-size-4 mb-0">
-                        <div class="has-text-weight-medium">{{siteDetails.stats.total_cost | turkishMoney}}</div>
+                        <div class="has-text-weight-medium">{{site.stats.total_cost | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
             <div class="card-content">
                 <div class="content has-text-centered">
                     <div class="is-size-4 mb-0">
-                        <div class="has-text-weight-medium">{{siteDetails.stats.total_receivables | turkishMoney}}</div>
+                        <div class="has-text-weight-medium">{{site.stats.total_receivables | turkishMoney}}</div>
                         <div class="is-size-7">Türk Lirası</div>
                     </div>
                 </div>
@@ -164,31 +164,31 @@
 
     <ul class="list" style="font-size:14px">
         <li>
-            <div class="has-text-weight-medium mb-1">Adı</div>
-            <div class="has-text-grey">{{siteDetails.info.name}}</div>
+            <div class="has-text-grey mb-1">Adı</div>
+            <div>{{site.info.name}}</div>
+        </li>
+        <li v-if="site.info.address">
+            <div class="has-text-grey mb-1">Adresi</div>
+            <div>{{site.info.address}}</div>
         </li>
         <li>
-            <div class="has-text-weight-medium mb-1">Adresi</div>
-            <div class="has-text-grey">{{siteDetails.info.address}}</div>
+            <div class="has-text-grey mb-1">Toplam Blok - Toplam Bölüm</div>
+            <div>{{site.info.blocks_count}} Blok - {{site.info.properties_count}} Bölüm</div>
         </li>
         <li>
-            <div class="has-text-weight-medium mb-1">Toplam Blok - Toplam Bölüm</div>
-            <div class="has-text-grey">{{siteDetails.info.blocks_count}} Blok - {{siteDetails.info.properties_count}} Bölüm</div>
+            <div class="has-text-grey mb-1">Yönetim Dönemi</div>
+            <div>{{site.info.term_start | turkishDate }} - {{site.info.term_end | turkishDate}}</div>
         </li>
-        <li>
-            <div class="has-text-weight-medium mb-1">Yönetim Dönemi</div>
-            <div class="has-text-grey">{{siteDetails.info.term_start | turkishDate }} - {{siteDetails.info.term_end | turkishDate}}</div>
-        </li>
-        <li>
-            <div class="has-text-weight-medium mb-1">Vergi Dairesi ve Numarası</div>
-            <div class="has-text-grey">{{siteDetails.info.tax_administration}} - {{siteDetails.info.tax_no}}</div>
+        <li v-if="site.info.tax_administration || site.info.tax_no">
+            <div class="has-text-grey mb-1">Vergi Dairesi ve Numarası</div>
+            <div>{{site.info.tax_administration}} - {{site.info.tax_no}}</div>
         </li>
     </ul>
                 </div>
             </div>
         </b-collapse>
     </div>
- <div class="column">
+ <div class="column is-9">
  <b-collapse class="card" animation="slide" aria-id="contentIdForA11y3">
             <template #trigger="props">
                 <div
@@ -209,139 +209,25 @@
             <div class="card-content">
                 <div class="content">
 
-    <ul class="list" style="font-size:14px">
-        <li class="is-flex is-justify-content-space-between">
+    <ul class="list unpaid-expenses-list">
+        <li v-for="expense in site.unpaidExpenses.slice(0, parseInt(expenseLimit))" @click="goToExpense(expense)">
             <div>
-            <div class="has-text-weight-medium mb-1">Aydınlatma Değişimi</div>
-            <span class="has-text-grey">
-                <b-icon
-                icon="calendar-month"
-                size="is-small">
-                </b-icon>
-                13.01.2021
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="account-tie"
-                size="is-small">
-                </b-icon>
-                Gediz Elektrik
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="cash-multiple"
-                size="is-small">
-                </b-icon>
-                3500,00 TL
-            </span>
+                    <b-icon class="has-text-grey" icon="bell"></b-icon>
             </div>
-            <div class="is-flex is-align-items-center">
-                <a href="">
-                <b-icon
-                    icon="chevron-right"
-                >
-                </b-icon>
-                </a>
-            </div>
-        </li>
-           <li class="is-flex is-justify-content-space-between">
             <div>
-            <div class="has-text-weight-medium mb-1">2021 Ocak Elektrik Faturası</div>
             <span class="has-text-grey">
-                <b-icon
-                icon="calendar-month"
-                size="is-small">
-                </b-icon>
-                13.01.2021
+                {{ expense.due_date | turkishDate }}
             </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="account-tie"
-                size="is-small">
-                </b-icon>
-                Gediz Elektrik
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="cash-multiple"
-                size="is-small">
-                </b-icon>
-                3500,00 TL
-            </span>
-            </div>
-            <div class="is-flex is-align-items-center">
-                <b-icon
-                    icon="chevron-right"
-                >
-                </b-icon>
-            </div>
-        </li>
-              <li class="is-flex is-justify-content-space-between">
-            <div>
-            <div class="has-text-weight-medium mb-1">Aydınlatma Değişimi</div>
-            <span class="has-text-grey">
-                <b-icon
-                icon="calendar-month"
-                size="is-small">
-                </b-icon>
-                13.01.2021
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="account-tie"
-                size="is-small">
-                </b-icon>
-                Gediz Elektrik
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="cash-multiple"
-                size="is-small">
-                </b-icon>
-                3500,00 TL
-            </span>
-            </div>
-            <div class="is-flex is-align-items-center">
-                <b-icon
-                    icon="chevron-right"
-                >
-                </b-icon>
-            </div>
-        </li>
-             <li class="is-flex is-justify-content-space-between">
-            <div>
-            <div class="has-text-weight-medium mb-1">Aydınlatma Değişimi</div>
-            <span class="has-text-grey">
-                <b-icon
-                icon="calendar-month"
-                size="is-small">
-                </b-icon>
-                13.01.2021
-            </span>
-            <span style="color:rgb(100,116,139)">
-                <b-icon
-                icon="account-tie"
-                size="is-small">
-                </b-icon>
-                Gediz Elektrik
-            </span>
-            <span class="has-text-grey">
-                <b-icon
-                icon="cash-multiple"
-                size="is-small">
-                </b-icon>
-                3500,00 TL
-            </span>
-            </div>
-            <div class="is-flex is-align-items-center">
-                <b-icon
-                    icon="chevron-right"
-                >
-                </b-icon>
+            <div>{{ expense.description }} ({{ expense.amount-expense.payments_sum_amount | turkishMoney }})</div>
             </div>
         </li>
     </ul>
-    <a href="" class="is-flex is-justify-content-flex-end is-size-7 has-text-info">Devamını Göster</a>
+    <a
+    v-if="site.unpaidExpenses.length>1 && expenseLimit!=site.unpaidExpenses.length && expenseLimit<site.unpaidExpenses.length" @click="expenseLimit=site.unpaidExpenses.length"
+    class="is-flex is-justify-content-flex-end is-size-7 has-text-info"
+    >
+        Devamını Göster
+    </a>
 
                 </div>
             </div>
@@ -362,10 +248,12 @@ export default {
     data() {
         return {
             siteID: null,
-            siteDetails: {
+            site: {
                 info: {},
                 stats: {},
+                unpaidExpenses: [],
             },
+            expenseLimit: 5,
         }
     },
     mounted() {
@@ -376,12 +264,15 @@ export default {
         getSiteDashboard() {
         axios.get('/api/sites/'+this.siteID+'/dashboard')
             .then(response => {
-                this.siteDetails = response.data;
+                this.site = response.data;
             })
             .catch(error => {
                 console.log(error.response.data);
             });
         },
+        goToExpense(expense) {
+            this.$router.push({ name: 'expense',  params: { sites_id: this.siteID, expenses_id: expense.id } })
+        }
     }
 
 }

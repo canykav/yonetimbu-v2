@@ -94,6 +94,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -113,12 +116,21 @@ __webpack_require__.r(__webpack_exports__);
         _this.expenses = response.data.data;
 
         _this.expenses.forEach(function (expense) {
-          expense.remaining_amount = expense.amount - expense.debit_collections_sum_amount;
+          expense.remaining_amount = expense.amount - expense.payments_sum_amount;
         });
       })["catch"](function (error) {
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToExpense: function goToExpense(expense) {
+      this.$router.push({
+        name: 'expense',
+        params: {
+          sites_id: this.siteID,
+          expenses_id: expense.id
+        }
       });
     }
   }
@@ -273,10 +285,17 @@ var render = function() {
               _c(
                 "b-table",
                 {
+                  staticClass: "is-clickable",
                   attrs: {
                     striped: true,
                     data: _vm.expenses,
-                    loading: _vm.loadingTable
+                    loading: _vm.loadingTable,
+                    hoverable: true
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToExpense($event)
+                    }
                   },
                   scopedSlots: _vm._u([
                     {
@@ -296,7 +315,7 @@ var render = function() {
                 },
                 [
                   _c("b-table-column", {
-                    attrs: { label: "Açıklama" },
+                    attrs: { field: "description", label: "Açıklama" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -314,7 +333,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Türü" },
+                    attrs: { field: "expense_type", label: "Türü" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -332,17 +351,17 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Hesap" },
+                    attrs: { field: "account.name", label: "Hesap" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
                         fn: function(props) {
                           return [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(props.row.account.name) +
-                                "\n                            "
-                            )
+                            props.row.account
+                              ? _c("span", [
+                                  _vm._v(_vm._s(props.row.account.name))
+                                ])
+                              : _vm._e()
                           ]
                         }
                       }
@@ -350,7 +369,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Tarih" },
+                    attrs: { field: "date", label: "Tarih" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -368,7 +387,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Durumu" },
+                    attrs: { field: "status", label: "Durumu" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -386,7 +405,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Toplam" },
+                    attrs: { field: "amount", label: "Toplam" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -406,7 +425,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Kalan" },
+                    attrs: { field: "remaining_amount", label: "Kalan" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",

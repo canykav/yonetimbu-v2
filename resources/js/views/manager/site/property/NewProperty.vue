@@ -7,7 +7,6 @@
     <p class="is-size-4 mb-0">
       Yeni Bölüm
     </p>
-    <p class="has-text-grey is-size-7">Sitede bulunan veya siteye bağlı yeni bir daire veya dükkan.</p>
         </div>
   </div>
   </div>

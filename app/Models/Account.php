@@ -24,8 +24,8 @@ class Account extends Model
     }
 
     public function getPersonBalance(){
-        $totalCollection = Transaction::where('transaction_type','collection')->where('accounts_id', $this->id)->sum('amount');
-        $totalDebit = Transaction::where('transaction_type','debit')->where('accounts_id', $this->id)->sum('amount');
+        $totalCollection = Transaction::leftjoin('occupants','transactions.occupants_id','occupants.id')->where('transactions.transaction_type','collection')->where('occupants.accounts_id', $this->id)->sum('transactions.amount');
+        $totalDebit = Transaction::leftjoin('occupants','transactions.occupants_id','occupants.id')->where('transactions.transaction_type','debit')->where('occupants.accounts_id', $this->id)->sum('transactions.amount');
         return $totalCollection - $totalDebit;
     }
 
@@ -64,5 +64,19 @@ class Account extends Model
             ->withSum('payments','amount')
             ->get();
         return $transactions;
+    }
+
+    public function getCompanyExpenses() {
+        return $this->hasMany(Transaction::class, 'accounts_id', 'id')->where('transaction_type','expense');
+    }
+    public function getCompanyPayments() {
+        return $this->hasManyThrough(
+            Payment::class,
+            Transaction::class,
+            'accounts_id',
+            'transactions_id',
+            'id',
+            'id'
+        );
     }
 }

@@ -2,15 +2,16 @@
 <div>
 <div class="container">
     <div class="columns">
-        <div class="column is-8">
+        <div class="column is-9">
 <div class="card">
   <header class="card-header">
     <p class="card-header-title">
       Siteleriniz
     </p>
-  <a href="sites/new" class="card-header-icon has-text-link is-size-7">
-      Yeni Site
-</a>
+
+    <b-button tag="a" href="sites/new" size="is-small is-link is-light" class="mr-3 mt-3">
+        Yeni Site Oluştur
+    </b-button>
   </header>
 
   <div class="card-content">
@@ -22,23 +23,23 @@
                     size="is-medium">
                 </b-icon>
             </div>
-            <div class="is-uppercase ml-4">
-                {{site.name}}
+            <div class="is-uppercase ml-4" v-bind:class="{ 'has-text-grey': site.archived_at }">
+                {{site.name}} <span class="is-capitalized is-size-7 is-italic" v-if="site.archived_at">(Arşivde)</span>
             </div>
         </div>
     </div>
   </div>
 </div>
         </div>
-        <div class="column is-4">
+        <div class="column is-3">
             <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
                 Hesap Bilgileriniz
                 </p>
-                <button class="card-header-icon" aria-label="more options">
-                <a class="has-text-link is-size-7">Düzenle</a>
-                </button>
+                <b-button tag="a" href="sites/new" size="is-small is-link is-light" class="mr-3 mt-3">
+                    Düzenle
+                </b-button>
             </header>
             <div class="card-content">
                 <div class="content">

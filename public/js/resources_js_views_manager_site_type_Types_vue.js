@@ -83,6 +83,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -104,6 +106,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.types = response.data.data;
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToType: function goToType(type) {
+      this.$router.push({
+        name: 'type',
+        params: {
+          sites_id: this.siteID,
+          types_id: type.id
+        }
       });
     }
   }
@@ -251,7 +262,27 @@ var render = function() {
                     striped: true,
                     data: _vm.types,
                     hoverable: true
-                  }
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToType($event)
+                    }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {

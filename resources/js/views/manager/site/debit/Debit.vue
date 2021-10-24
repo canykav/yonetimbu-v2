@@ -32,11 +32,10 @@
                         <p class="card-header-title">
                         Borçlandırma Bilgisi
                         </p>
-                        <button class="card-header-icon" aria-label="more options">
-                        <a class="has-text-link is-size-7" v-if="edit==0" @click="toggleEdit()">Düzenle</a>
-                        <a class="has-text-link is-size-7" v-if="edit==1" @click="toggleEdit()">Vazgeç</a>
-
-                        </button>
+                        <b-button tag="a" @click="toggleEdit()" size="is-small is-link is-light" class="mr-3 mt-3">
+                            <span v-if="edit==0">Düzenle</span>
+                            <span v-if="edit==1">Vazgeç</span>
+                        </b-button>
                     </header>
                     <div class="card-content">
                         <div class="content">
@@ -70,7 +69,12 @@
                                         <td width="30%">Tutar</td>
                                         <td>
                                             <span v-if="edit==0">{{debit.amount | turkishMoney}}</span>
-                                            <b-input custom-class="is-small" v-if="edit==1" v-model="editedDebitData.amount"></b-input>
+                                            <vue-autonumeric
+                                                v-if="edit==1"
+                                                class="input is-small"
+                                                v-model="editedDebitData.amount"
+                                                :options="'commaDecimalCharDotSeparator'"
+                                            ></vue-autonumeric>
                                         </td>
                                     </tr>
                                     <tr>
@@ -120,12 +124,12 @@
                                     </tr>
                                 </tbody>
                             </table>
-                                <b-button v-if="edit==1" class="is-small" @click="updatedebit" type="is-primary" :loading="loadingUpdateButton" expanded>Kaydet</b-button>
+                                <b-button v-if="edit==1" class="is-small" @click="updateDebit" type="is-primary" :loading="loadingUpdateButton" expanded>Kaydet</b-button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card block">
+                <div class="card block" v-if="debit.status!='Ödenmedi'">
                     <header class="card-header">
                         <p class="card-header-title">
                         Geçmiş Ödemeler
@@ -166,7 +170,7 @@
                 </div>
             </div>
             <div class="column is-3">
-<div class="card">
+                <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">
                         Notlar
@@ -225,7 +229,7 @@ data() {
         },
         updateDebit(){
             this.loadingUpdateButton = true;
-            axios.put('/api/sites/'+this.siteID+'/companies/'+this.debitID, {
+            axios.put('/api/sites/'+this.siteID+'/debits/'+this.debitID, {
                 description: this.editedDebitData.description,
                 debit_type: this.editedDebitData.debit_type,
                 occupants_id: this.editedDebitData.occupants_id,

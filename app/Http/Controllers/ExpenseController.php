@@ -23,8 +23,8 @@ class ExpenseController extends Controller
         } elseif($req->employees_id && $req->transaction_type == 'expense') {
             $expenses = Account::find($req->employees_id)->getEmployeeReceivables();
             Transaction::translateStatusToTurkish($expenses);
-        }  else {
-            $expenses = Site::find($sites_id)->expenses();
+        } else {
+            $expenses = Site::find($sites_id)->expenses($req);
         }
         return response()->json(['data' => $expenses]);
     }
@@ -60,6 +60,7 @@ class ExpenseController extends Controller
             Payment::create([
                 'description' => $expense['description'],
                 'type' => 'expense_payment',
+                'date' =>  $expense['date'],
                 'transactions_id' => $expense['id'],
                 'amount' => $expense['amount'],
                 'vaults_id' => $expense['vaults_id']
@@ -79,21 +80,16 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $expense = Transaction::where('id', $id)
+            ->withSum('payments','amount')
+            ->with('account')
+            ->with('payments')
+            ->first();
+        $expense['status'] = Transaction::translateStatusToTurkish($expense['status']);
+        return response()->json(['data' => $expense]);
+      }
 
     /**
      * Update the specified resource in storage.
@@ -102,9 +98,15 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $id)
     {
-        //
+        $req['date'] = (!empty($req['date'])) ? date('Y-m-d', strtotime($req['date'])) : null;
+        $expense = Transaction::find($id)->update($req->all());
+        if($expense) {
+            return response()->json(['message' => 'Gider başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**
@@ -115,6 +117,12 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transaction = Transaction::find($id)->delete();
+
+        if($transaction) {
+            return response()->json(['message' => 'Gider başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.'],500);
+        }
     }
 }

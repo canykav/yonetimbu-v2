@@ -146,8 +146,8 @@ export default {
                 name: this.newSite.name,
                 blocks: this.newSite.blocks,
                 address: this.newSite.address,
-                term_start: this.newSite.term_start.toLocaleDateString('tr-TR'),
-                term_end: this.newSite.term_end.toLocaleDateString('tr-TR'),
+                term_start: (this.newSite.term_start) ? this.newSite.term_start.toLocaleDateString('tr-TR') : null,
+                term_end: (this.newSite.term_end) ? this.newSite.term_end.toLocaleDateString('tr-TR') : null,
             })
             .then(response => {
                 this.$buefy.toast.open({

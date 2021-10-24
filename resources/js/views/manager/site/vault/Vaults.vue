@@ -38,10 +38,6 @@
                         class="is-clickable"
                         :hoverable=true
                     >
-                        <b-table-column label="ID" v-slot="props" width="40">
-                            {{  props.row.id }}
-                        </b-table-column>
-
                         <b-table-column  label="Adı" v-slot="props">
                             {{  props.row.name }}
                         </b-table-column>

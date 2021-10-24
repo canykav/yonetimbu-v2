@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Occupant;
 use App\Models\Block;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Site extends Model
 {
@@ -17,7 +16,7 @@ class Site extends Model
 
     protected $guarded = [];
 
-    public function stats() {
+    public function getStats() {
         $totalDebitedMonthly =  Transaction::where('sites_id',$this->id)
             ->where('transaction_type','debit')
             ->whereBetween('date', [date("Y-m-1"), date("Y-m-t")])
@@ -75,7 +74,12 @@ class Site extends Model
 
     public function getCompanies()
     {
-        return $this->accounts()->where('type','company')->get();
+        $companies = $this->accounts()->where('type','company')->withSum('getCompanyPayments','amount')->withSum('getCompanyExpenses','amount')->get();
+
+        foreach($companies as $company) {
+            $company['balance'] = $company['get_company_expenses_sum_amount'] - $company['get_company_payments_sum_amount'];
+        }
+        return $companies;
     }
 
     public function getEmployees()
@@ -88,6 +92,9 @@ class Site extends Model
         return $this->hasMany(Block::class, 'sites_id', 'id');
     }
 
+    public function occupants() {
+        return $this->hasMany(Occupant::class, 'sites_id', 'id')->with('property','account');
+    }
     public function properties()
     {
         return $this->hasManyThrough(
@@ -166,20 +173,31 @@ class Site extends Model
         return $this->hasMany(Fixture::class, 'sites_id', 'id');
     }
 
-    public function debits()
+    public function debits($status=null)
     {
+        $where = array(['transaction_type' , 'debit']);
+        if ($status!=null) {
+            array_push($where, ['status' , $status]);
+        }
+
         $debits = $this->hasMany(Transaction::class, 'sites_id', 'id')
-            ->where('transaction_type', 'debit')
+            ->where($where)
             ->with('occupant')
             ->orderBy('date','desc')
-            ->get();
+            ->paginate(20);
+
         foreach($debits as $debit)  { // TODO: fix n+1
             $debit['account'] = ($debit['occupant']['accounts_id']) ? Account::find($debit['occupant']['accounts_id'])->hidePassword() : null;
             $debit['property'] = Property::find($debit['occupant']['properties_id']);
             $debit['property']->block;
-
         }
         return $debits;
+    }
+
+    public function getCountOfDebits() {
+        return $this->hasMany(Transaction::class, 'sites_id', 'id')
+            ->where('transaction_type', 'debit')
+            ->count();
     }
 
     public function collections()
@@ -196,13 +214,32 @@ class Site extends Model
         }
         return $collections;
     }
-    public function expenses()
+    public function expenses($req)
     {
+        $where = array(['transaction_type' , 'expense']);
+
+        if($req->except == 'paid') {
+            array_push($where, ['status' , '<>', 'paid']);
+        }
+
         $expenses = $this->hasMany(Transaction::class, 'sites_id', 'id')
-            ->where('transaction_type', 'expense')
+            ->where($where)
             ->orderBy('date','desc')
             ->with('account')
-            ->withSum('debitCollections','amount')
+            ->withSum('payments','amount')
+            ->get();
+
+        Transaction::translateStatusToTurkish($expenses);
+        return $expenses;
+    }
+
+    public function getUnpaidExpenses() {
+        $expenses = $this->hasMany(Transaction::class, 'sites_id', 'id')
+            ->where('transaction_type', 'expense')
+            ->where('status','<>','paid')
+            ->orderBy('date','asc')
+            ->with('account')
+            ->withSum('payments','amount')
             ->get();
 
         Transaction::translateStatusToTurkish($expenses);

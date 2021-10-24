@@ -23,7 +23,7 @@ class Occupant extends Model
     }
 
     public function account() {
-        return $this->hasMany(Account::class, 'id', 'accounts_id');
+        return $this->hasOne(Account::class, 'id', 'accounts_id');
     }
 
     public function getUnpaidDebits() {
@@ -39,8 +39,18 @@ class Occupant extends Model
         return $debits;
     }
 
-    static function payDebitWithBalance($occupants_id, $debits_id) {
+    public function getBalance(){
+        $totalCollection = Transaction::where('transaction_type','collection')->where('occupants_id', $this->id)->sum('amount');
+        $totalDebit = Transaction::where('transaction_type','debit')->where('occupants_id', $this->id)->sum('amount');
+        return $totalCollection - $totalDebit;
+    }
 
+    public function collections() {
+        return $this->hasMany(Transaction::class,  'occupants_id', 'id')->where('transaction_type','collection');
+    }
+
+    public function debits() {
+        return $this->hasMany(Transaction::class,  'occupants_id', 'id')->where('transaction_type','debit');
     }
 
     public static function translateTypesToTurkish($properties) {

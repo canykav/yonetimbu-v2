@@ -93,13 +93,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['current'],
   data: function data() {
     return {
       siteID: null,
       debits: [],
-      loadingTable: true
+      loadingTable: true,
+      status: null,
+      statuses: [{
+        'string': 'Tümü',
+        'value': undefined
+      }, {
+        'string': 'Ödenmeyen',
+        'value': 'pending'
+      }, {
+        'string': 'Ödendi',
+        'value': 'paid'
+      }, {
+        'string': 'Kısmi Ödeme',
+        'value': 'partial'
+      }]
     };
+  },
+  watch: {
+    current: function current() {
+      this.getSiteDebits();
+    },
+    status: function status() {
+      this.getSiteDebits();
+    }
   },
   mounted: function mounted() {
     this.siteID = this.$route.params.sites_id;
@@ -109,7 +149,13 @@ __webpack_require__.r(__webpack_exports__);
     getSiteDebits: function getSiteDebits() {
       var _this = this;
 
-      axios.get('/api/sites/' + this.siteID + '/debits').then(function (response) {
+      this.loadingTable = true;
+      axios.get('/api/sites/' + this.siteID + '/debits', {
+        params: {
+          page: this.current,
+          status: this.status
+        }
+      }).then(function (response) {
         _this.debits = response.data.data;
       })["catch"](function (error) {
         console.log(error.response.data);
@@ -305,12 +351,41 @@ var render = function() {
             { staticClass: "content" },
             [
               _c(
+                "b-select",
+                {
+                  staticClass: "block",
+                  attrs: { placeholder: "Filtreleme" },
+                  model: {
+                    value: _vm.status,
+                    callback: function($$v) {
+                      _vm.status = $$v
+                    },
+                    expression: "status"
+                  }
+                },
+                _vm._l(_vm.statuses, function(option) {
+                  return _c(
+                    "option",
+                    { key: option.id, domProps: { value: option.value } },
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(option.string) +
+                          "\n                        "
+                      )
+                    ]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
                 "b-table",
                 {
                   staticClass: "is-clickable",
                   attrs: {
                     striped: true,
-                    data: _vm.debits,
+                    data: _vm.debits.data,
                     loading: _vm.loadingTable,
                     hoverable: true
                   },
@@ -337,7 +412,7 @@ var render = function() {
                 },
                 [
                   _c("b-table-column", {
-                    attrs: { label: "Açıklama" },
+                    attrs: { field: "description", label: "Açıklama" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -355,7 +430,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Kişi" },
+                    attrs: { field: "account.name", label: "Kişi" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -373,7 +448,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Blok" },
+                    attrs: { field: "property.block.name", label: "Blok" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -391,7 +466,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Kapı No" },
+                    attrs: { field: "property.door_no", label: "Kapı No" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -409,7 +484,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Tarih" },
+                    attrs: { field: "date", label: "Tarih" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -427,7 +502,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Vade Tarihi" },
+                    attrs: { field: "due_date", label: "Vade Tarihi" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -447,7 +522,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("b-table-column", {
-                    attrs: { label: "Tutar" },
+                    attrs: { field: "amount", label: "Tutar" },
                     scopedSlots: _vm._u([
                       {
                         key: "default",
@@ -467,7 +542,23 @@ var render = function() {
                   })
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _c("b-pagination", {
+                attrs: {
+                  total: _vm.debits.total,
+                  "range-before": 1,
+                  "range-after": 1,
+                  "per-page": _vm.debits.per_page
+                },
+                model: {
+                  value: _vm.current,
+                  callback: function($$v) {
+                    _vm.current = $$v
+                  },
+                  expression: "current"
+                }
+              })
             ],
             1
           )

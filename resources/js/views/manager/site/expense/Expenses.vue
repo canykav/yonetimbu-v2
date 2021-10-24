@@ -42,32 +42,35 @@
                             :striped=true
                             :data="expenses"
                             :loading="loadingTable"
+                            @click="goToExpense($event)"
+                            class="is-clickable"
+                            :hoverable=true
                             >
-                                <b-table-column label="Açıklama" v-slot="props">
+                                <b-table-column field="description" label="Açıklama" v-slot="props">
                                     {{  props.row.description }}
                                 </b-table-column>
 
-                                <b-table-column  label="Türü" v-slot="props">
+                                <b-table-column field="expense_type"  label="Türü" v-slot="props">
                                     {{  props.row.expense_type }}
                                 </b-table-column>
 
-                                <b-table-column label="Hesap" v-slot="props">
-                                    {{  props.row.account.name }}
+                                <b-table-column field="account.name" label="Hesap" v-slot="props">
+                                    <span v-if="props.row.account">{{  props.row.account.name }}</span>
                                 </b-table-column>
 
-                                <b-table-column label="Tarih" v-slot="props">
+                                <b-table-column field="date" label="Tarih" v-slot="props">
                                     {{  props.row.date | turkishDate }}
                                 </b-table-column>
 
-                                <b-table-column label="Durumu" v-slot="props">
+                                <b-table-column field="status" label="Durumu" v-slot="props">
                                     {{  props.row.status }}
                                 </b-table-column>
 
-                                <b-table-column label="Toplam" v-slot="props">
+                                <b-table-column field="amount" label="Toplam" v-slot="props">
                                     {{  props.row.amount | turkishMoney }}
                                 </b-table-column>
 
-                                <b-table-column label="Kalan" v-slot="props">
+                                <b-table-column field="remaining_amount" label="Kalan" v-slot="props">
                                     {{  props.row.remaining_amount | turkishMoney }}
                                 </b-table-column>
                                 <template #empty>
@@ -99,7 +102,7 @@ data() {
             .then(response => {
                 this.expenses = response.data.data;
                 this.expenses.forEach(expense => {
-                    expense.remaining_amount = expense.amount - expense.debit_collections_sum_amount;
+                    expense.remaining_amount = expense.amount - expense.payments_sum_amount;
                 });
             })
             .catch(error => {
@@ -109,6 +112,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToExpense(expense) {
+            this.$router.push({ name: 'expense',  params: { sites_id: this.siteID, expenses_id: expense.id } })
+        }
     }
 }
 </script>

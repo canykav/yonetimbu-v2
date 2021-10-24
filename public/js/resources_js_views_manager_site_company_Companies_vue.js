@@ -60,26 +60,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       companies: [],
-      loadingTable: true,
-      columns: [{
-        field: 'id',
-        label: 'ID',
-        width: '40',
-        numeric: true
-      }, {
-        field: 'name',
-        label: 'Adı'
-      }, {
-        field: 'phone1',
-        label: 'Telefon'
-      }, {
-        field: '',
-        label: 'Bakiye'
-      }]
+      loadingTable: true
     };
   },
   mounted: function mounted() {
@@ -243,21 +241,96 @@ var render = function() {
             "div",
             { staticClass: "content" },
             [
-              _c("b-table", {
-                staticStyle: { cursor: "pointer" },
-                attrs: {
-                  loading: _vm.loadingTable,
-                  striped: true,
-                  data: _vm.companies,
-                  columns: _vm.columns,
-                  hoverable: true
+              _c(
+                "b-table",
+                {
+                  staticClass: "is-clickable",
+                  attrs: {
+                    loading: _vm.loadingTable,
+                    striped: true,
+                    data: _vm.companies,
+                    hoverable: true
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToCompany($event)
+                    }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
-                on: {
-                  click: function($event) {
-                    return _vm.goToCompany($event)
-                  }
-                }
-              })
+                [
+                  _c("b-table-column", {
+                    attrs: { label: "Adı" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.name) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Telefon" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.phone1) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { label: "Bakiye" },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  _vm._f("turkishMoney")(props.row.balance)
+                                ) +
+                                "\n                        "
+                            )
+                          ]
+                        }
+                      }
+                    ])
+                  })
+                ],
+                1
+              )
             ],
             1
           )

@@ -40,9 +40,10 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $id)
     {
-        //
+        $property  = Property::where('id',$id)->with('block','type')->first();
+        return response()->json(['data' => $property]);
     }
 
     /**
@@ -63,9 +64,15 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $sites_id, $id)
     {
-        //
+        $updateProperty = Property::findorFail($id)->update($req->all());
+
+        if($updateProperty) {
+            return response()->json(['message' => 'Bölüm başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**

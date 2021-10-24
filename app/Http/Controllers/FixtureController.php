@@ -54,9 +54,10 @@ class FixtureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($sites_id, $id)
     {
-        //
+        $fixture  = Fixture::find($id);
+        return response()->json(['data' => $fixture]);
     }
 
     /**
@@ -77,9 +78,16 @@ class FixtureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req,  $sites_id, $id)
     {
-        //
+        $req['bought_date'] = (!empty($req['bought_date'])) ? date('Y-m-d', strtotime($req['bought_date'])) : null;
+        $updateFixture = Fixture::findorFail($id)->update($req->all());
+
+        if($updateFixture) {
+            return response()->json(['message' => 'Demirbaş başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
     /**
@@ -88,8 +96,13 @@ class FixtureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($sites_id, $id)
     {
-        //
+        $deleteFixture = Fixture::find($id)->delete();
+        if($deleteFixture) {
+            return response()->json(['message' => 'Demirbaş başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.'],500);
+        }
     }
 }

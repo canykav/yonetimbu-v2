@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Occupant;
+use App\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,8 +15,32 @@ class OccupantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(request $req)
+    public function index($sites_id, request $req)
     {
+        if($req->accounts_id && $req->properties_id) {
+            $occupants = Occupant::where('accounts_id', $req->accounts_id)->where('properties_id', $req->properties_id)
+                ->with('property','account')
+                ->orderBy('entry_date','desc')
+                ->get();
+        } else if($req->accounts_id) {
+            $occupants = Occupant::where('accounts_id', $req->accounts_id)
+                ->with('property','account')
+                ->orderBy('entry_date','desc')
+                ->get();
+        } else if($req->properties_id) {
+            $occupants = Occupant::where('properties_id', $req->properties_id)
+                ->with('property','account')
+                ->orderBy('entry_date','desc')
+                ->get();
+        } else {
+            $occupants = Site::find($sites_id)->occupants;
+        }
+        foreach($occupants as $occupant) {
+            $occupant['balance'] = Occupant::find($occupant['id'])->getBalance();
+        }
+        Occupant::translateTypesToTurkish($occupants);
+
+        return response()->json(['data' => $occupants]);
     }
 
     /**

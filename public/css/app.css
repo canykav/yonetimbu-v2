@@ -215,6 +215,9 @@ fieldset[disabled] .file-name, fieldset[disabled] .select select, .select fields
   padding: 0;
 }
 
+/*
+$danger: #db2626;
+$success: #16a34a;*/
 .menu .menu-list li a:hover {
   text-decoration: none;
 }
@@ -282,6 +285,25 @@ ul.list li:not(:last-child) {
   color: #9dabb1;
 }
 
+.unpaid-expenses-list {
+  font-size: 14px;
+}
+.unpaid-expenses-list li {
+  margin-top: 0 !important;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.unpaid-expenses-list li div:first-child {
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.unpaid-expenses-list li:hover {
+  background-color: #f6f7f9;
+}
+
 .b-tabs ul {
   margin: 0 !important;
 }
@@ -292,11 +314,15 @@ ul.list li:not(:last-child) {
 }
 
 .light-blue-cell {
-  background-color: #f6faff;
+  background-color: rgba(175, 211, 255, 0.16);
 }
 
 .light-yellow-cell {
-  background-color: #fffaeb;
+  background-color: rgba(255, 241, 198, 0.33);
+}
+
+ul.pagination-list li:first-child {
+  margin-top: 0.25em;
 }
 
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */

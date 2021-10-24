@@ -39,6 +39,7 @@
                     :loading="loadingTable"
                     class="is-clickable"
                     :hoverable=true
+                    @click="goToCollection($event)"
                     >
 
                         <b-table-column label="Tarih" v-slot="props">
@@ -100,6 +101,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToCollection(collection) {
+            this.$router.push({ name: 'collection',  params: { sites_id: this.siteID, collections_id: collection.id } })
+        }
     }
 }
 </script>

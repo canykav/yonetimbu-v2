@@ -50,6 +50,8 @@ class Manager extends Authenticatable
         return ManagerSite::where('managers_id', $managers_id)
             ->leftJoin('sites','managers_sites.sites_id', '=', 'sites.id')
             ->whereNull('sites.deleted_at')
+            ->orderBy('sites.archived_at')
+            ->orderBy('sites.id')
             ->select('sites.*','managers_sites.managers_id')
             ->get();
     }

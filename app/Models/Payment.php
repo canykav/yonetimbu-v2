@@ -15,4 +15,7 @@ class Payment extends Model
 
     public $timestamps = false;
 
+    public function vault() {
+        return $this->hasOne(Vault::class,  'id', 'vaults_id');
+    }
 }

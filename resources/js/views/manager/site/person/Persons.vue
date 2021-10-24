@@ -55,8 +55,13 @@
                         </b-table-column>
 
                         <b-table-column label="Bakiye" v-slot="props">
-                            {{  props.row.balance | turkishMoney }}
+                            <span :class="{'has-text-danger' : props.row.balance<0, 'has-text-success' : props.row.balance>0  }">
+                                {{  props.row.balance | turkishMoney }}
+                            </span>
                         </b-table-column>
+                        <template #empty>
+                            <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                        </template>
                     </b-table>
                 </div>
             </div>

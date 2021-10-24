@@ -14,22 +14,6 @@ class TypeController extends Controller
         return response()->json(['data' => $types]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store($sites_id, Request $req)
     {
         $data = $req->all();
@@ -42,48 +26,32 @@ class TypeController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($sites_id, $id)
     {
-        //
+        $type  = Type::find($id);
+        return response()->json(['data' => $type]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $req, $sites_id, $id)
     {
-        //
+        $updateType = Type::findorFail($id)->update($req->all());
+
+        if($updateType) {
+            return response()->json(['message' => 'Bölüm Tipi başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy($sites_id, $id)
     {
-        //
-    }
+        $deleteSite = Type::find($id)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if($deleteSite) {
+            return response()->json(['message' => 'Bölüm tipi başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.'],500);
+        }
     }
 }

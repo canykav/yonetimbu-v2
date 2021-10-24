@@ -88,6 +88,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -109,6 +110,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error.response.data);
       }).then(function () {
         _this.loadingTable = false;
+      });
+    },
+    goToCollection: function goToCollection(collection) {
+      this.$router.push({
+        name: 'collection',
+        params: {
+          sites_id: this.siteID,
+          collections_id: collection.id
+        }
       });
     }
   }
@@ -300,6 +310,11 @@ var render = function() {
                     data: _vm.collections,
                     loading: _vm.loadingTable,
                     hoverable: true
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.goToCollection($event)
+                    }
                   },
                   scopedSlots: _vm._u([
                     {

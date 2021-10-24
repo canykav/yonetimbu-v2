@@ -210,7 +210,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -476,52 +475,36 @@ var render = function() {
       _c("div", { staticClass: "columns" }, [
         _c("div", { staticClass: "column is-9" }, [
           _c("div", { staticClass: "card block" }, [
-            _c("header", { staticClass: "card-header" }, [
-              _c("p", { staticClass: "card-header-title" }, [
-                _vm._v(
-                  "\n                        Firma Bilgisi\n                        "
+            _c(
+              "header",
+              { staticClass: "card-header" },
+              [
+                _c("p", { staticClass: "card-header-title" }, [
+                  _vm._v(
+                    "\n                        Firma Bilgisi\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    staticClass: "mr-3 mt-3",
+                    attrs: { tag: "a", size: "is-small is-link is-light" },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleEdit()
+                      }
+                    }
+                  },
+                  [
+                    _vm.edit == 0 ? _c("span", [_vm._v("Düzenle")]) : _vm._e(),
+                    _vm._v(" "),
+                    _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
+                  ]
                 )
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "card-header-icon",
-                  attrs: { "aria-label": "more options" }
-                },
-                [
-                  _vm.edit == 0
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "has-text-link is-size-7",
-                          on: {
-                            click: function($event) {
-                              return _vm.toggleEdit()
-                            }
-                          }
-                        },
-                        [_vm._v("Düzenle")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.edit == 1
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "has-text-link is-size-7",
-                          on: {
-                            click: function($event) {
-                              return _vm.toggleEdit()
-                            }
-                          }
-                        },
-                        [_vm._v("Vazgeç")]
-                      )
-                    : _vm._e()
-                ]
-              )
-            ]),
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c(

@@ -31,11 +31,10 @@
                         <p class="card-header-title">
                         Firma Bilgisi
                         </p>
-                        <button class="card-header-icon" aria-label="more options">
-                        <a class="has-text-link is-size-7" v-if="edit==0" @click="toggleEdit()">Düzenle</a>
-                        <a class="has-text-link is-size-7" v-if="edit==1" @click="toggleEdit()">Vazgeç</a>
-
-                        </button>
+                        <b-button tag="a" @click="toggleEdit()" size="is-small is-link is-light" class="mr-3 mt-3">
+                            <span v-if="edit==0">Düzenle</span>
+                            <span v-if="edit==1">Vazgeç</span>
+                        </b-button>
                     </header>
                     <div class="card-content">
                         <div class="content">

@@ -101,9 +101,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 var OccupantForm = {
   props: ['canCancel'],
   data: function data() {
@@ -190,6 +187,17 @@ var OccupantForm = {
           persons_id: person.accounts_id
         }
       });
+    },
+    goToProperty: function goToProperty(property) {
+      if (this.addOccupantModal == false) {
+        this.$router.push({
+          name: 'property',
+          params: {
+            sites_id: this.siteID,
+            properties_id: property.id
+          }
+        });
+      }
     }
   }
 });
@@ -338,29 +346,16 @@ var render = function() {
                       striped: true,
                       data: _vm.properties,
                       hoverable: true
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.goToProperty($event)
+                      }
                     }
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { label: "ID", width: "40" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function(props) {
-                            return [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(props.row.id) +
-                                  "\n                        "
-                              )
-                            ]
-                          }
-                        }
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("b-table-column", {
-                      attrs: { label: "Kapı No" },
+                      attrs: { label: "Bölüm" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",

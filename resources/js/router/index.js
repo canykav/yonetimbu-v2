@@ -50,6 +50,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/property/NewProperty.vue'),
     },
     {
+        name: 'property',
+        path: '/:sites_id/properties/:properties_id',
+        component: () => import( '../views/manager/site/property/Property.vue'),
+    },
+    {
         name: 'vaults',
         path: '/:sites_id/vaults',
         component: () => import( '../views/manager/site/vault/Vaults.vue'),
@@ -115,6 +120,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/debit/Debit.vue'),
     },
     {
+        name: 'newPayment',
+        path: '/:sites_id/payments/new',
+        component: () => import( '../views/manager/site/payment/NewPayment.vue'),
+    },
+    {
         name: 'collections',
         path: '/:sites_id/collections',
         component: () => import( '../views/manager/site/collection/Collections.vue'),
@@ -123,6 +133,11 @@ function configRoutes () {
         name: 'newCollection',
         path: '/:sites_id/collections/new',
         component: () => import( '../views/manager/site/collection/NewCollection.vue'),
+    },
+    {
+        name: 'collection',
+        path: '/:sites_id/collections/:collections_id',
+        component: () => import( '../views/manager/site/collection/Collection.vue'),
     },
     {
         name: 'newDebitCollection',
@@ -140,6 +155,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/expense/NewExpense.vue'),
     },
     {
+        name: 'expense',
+        path: '/:sites_id/expenses/:expenses_id',
+        component: () => import( '../views/manager/site/expense/Expense.vue'),
+    },
+    {
         name: 'types',
         path: '/:sites_id/types',
         component: () => import( '../views/manager/site/type/Types.vue'),
@@ -150,6 +170,11 @@ function configRoutes () {
         component: () => import( '../views/manager/site/type/NewType.vue'),
     },
     {
+        name: 'type',
+        path: '/:sites_id/types/:types_id',
+        component: () => import( '../views/manager/site/type/Type.vue'),
+    },
+    {
         name: 'fixtures',
         path: '/:sites_id/fixtures',
         component: () => import( '../views/manager/site/fixture/Fixtures.vue'),
@@ -158,6 +183,11 @@ function configRoutes () {
         name: 'newFixture',
         path: '/:sites_id/fixtures/new',
         component: () => import( '../views/manager/site/fixture/NewFixture.vue'),
+    },
+    {
+        name: 'fixture',
+        path: '/:sites_id/fixtures/:fixtures_id',
+        component: () => import( '../views/manager/site/fixture/Fixture.vue'),
     },
   ]
 }

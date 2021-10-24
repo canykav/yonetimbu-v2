@@ -94,6 +94,6 @@ class VaultController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Vault::find($id)->delete();
     }
 }

@@ -36,12 +36,9 @@
                         :data="properties"
                         :hoverable=true
                         class="is-clickable"
+                        @click="goToProperty($event)"
                     >
-                        <b-table-column label="ID" v-slot="props" width="40">
-                            {{ props.row.id }}
-                        </b-table-column>
-
-                        <b-table-column  label="Kapı No" v-slot="props">
+                        <b-table-column  label="Bölüm" v-slot="props">
                             {{  props.row.doorWithBlock }}
                         </b-table-column>
 
@@ -206,6 +203,11 @@ export default {
         },
         goToPerson(person) {
             this.$router.push({ name: 'person',  params: { sites_id: this.siteID, persons_id: person.accounts_id } })
+        },
+        goToProperty(property) {
+            if(this.addOccupantModal == false) {
+                this.$router.push({ name: 'property',  params: { sites_id: this.siteID, properties_id: property.id } })
+            }
         }
     }
 }

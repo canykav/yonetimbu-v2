@@ -26,7 +26,9 @@ $primary-dark: findDarkColor($primary);
 $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
-
+/*
+$danger: #db2626;
+$success: #16a34a;*/
 // Lists and maps
 $custom-colors: null !default;
 $custom-shades: null !default;
@@ -172,7 +174,7 @@ ul.list {
     min-height: calc(100vh + 0.75rem);
 }
 
-// sites list class in homepage
+// sites list class in dashboard
 
 .sites-list {
     background: #fdfdfd;
@@ -192,6 +194,26 @@ ul.list {
     color: #9dabb1;
 }
 
+// unpaid expenses list in dashboard
+
+.unpaid-expenses-list {
+    font-size: 14px;
+    li {
+        margin-top: 0!important;
+        div:first-child {
+            width: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+            background-color: #f6f7f9;
+        }
+    }
+}
 // buefy tabs
 
 .b-tabs ul {
@@ -205,12 +227,22 @@ ul.list {
 
 //
 .light-blue-cell {
-    background-color: #f6faff;
+    background-color: rgba(175,211,255,0.16);
+
 }
 
 .light-yellow-cell {
-    background-color: #fffaeb;
+    background-color: rgba(255,241,198,0.33);
+
 }
+
+// paginations first list item margin bug fixed
+ul.pagination-list {
+    li:first-child {
+        margin-top: 0.25em;
+    }
+}
+
 
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";

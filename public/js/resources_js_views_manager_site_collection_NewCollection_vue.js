@@ -169,6 +169,13 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         _this4.newCollection = {};
+
+        _this4.$router.push({
+          name: 'collections',
+          params: {
+            sites_id: _this4.siteID
+          }
+        });
       })["catch"](function (error) {
         _this4.$buefy.toast.open({
           message: error.response.data.message,

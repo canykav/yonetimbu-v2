@@ -80,6 +80,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -264,7 +269,22 @@ var render = function() {
                     click: function($event) {
                       return _vm.goToPerson($event)
                     }
-                  }
+                  },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "empty",
+                      fn: function() {
+                        return [
+                          !_vm.loadingTable
+                            ? _c("div", { staticClass: "has-text-centered" }, [
+                                _vm._v("Kayıt yok")
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ])
                 },
                 [
                   _c("b-table-column", {
@@ -346,12 +366,23 @@ var render = function() {
                         key: "default",
                         fn: function(props) {
                           return [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(
-                                  _vm._f("turkishMoney")(props.row.balance)
-                                ) +
-                                "\n                        "
+                            _c(
+                              "span",
+                              {
+                                class: {
+                                  "has-text-danger": props.row.balance < 0,
+                                  "has-text-success": props.row.balance > 0
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      _vm._f("turkishMoney")(props.row.balance)
+                                    ) +
+                                    "\n                            "
+                                )
+                              ]
                             )
                           ]
                         }

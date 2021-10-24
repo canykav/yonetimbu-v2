@@ -30,7 +30,7 @@ class Transaction extends Model
     const COLLECTION_TR = 'Tahsilat';
 
     public function occupant() {
-        return $this->belongsTo(Occupant::class,'occupants_id', 'id')->with('property');
+        return $this->belongsTo(Occupant::class,'occupants_id', 'id')->with('property','account');
     }
 
     public function account() {
@@ -38,7 +38,7 @@ class Transaction extends Model
     }
 
     public function payments() {
-        return $this->hasMany(Payment::class, 'transactions_id', 'id');
+        return $this->hasMany(Payment::class, 'transactions_id', 'id')->with('vault');
     }
 
     public function debitCollections() {

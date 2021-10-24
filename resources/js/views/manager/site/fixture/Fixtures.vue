@@ -36,6 +36,7 @@
                         :data="fixtures"
                         :hoverable=true
                         class="is-clickable"
+                        @click="goToFixture($event)"
                     >
                         <b-table-column  label="Demirbaş Adı" v-slot="props">
                             {{  props.row.name }}
@@ -56,7 +57,9 @@
                         <b-table-column label="Adet Fiyatı" v-slot="props">
                             {{  props.row.unit_price | turkishMoney }}
                         </b-table-column>
-
+                        <template #empty>
+                            <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                        </template>
                     </b-table>
                 </div>
             </div>
@@ -89,6 +92,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToFixture(fixture) {
+            this.$router.push({ name: 'fixture',  params: { sites_id: this.siteID, fixtures_id: fixture.id } })
+        }
     }
 }
 </script>

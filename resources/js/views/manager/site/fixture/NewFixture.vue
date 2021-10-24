@@ -4,10 +4,9 @@
   <div class="hero-body">
     <div class="container is-flex is-justify-content-space-between is-align-items-center">
         <div name="hero-left-side">
-    <p class="is-size-4 mb-0">
-      Yeni Bölüm Tipi
-    </p>
-    <p class="has-text-grey is-size-7">..</p>
+            <p class="is-size-4 mb-0">
+            Yeni Demirbaş
+            </p>
         </div>
   </div>
   </div>

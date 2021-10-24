@@ -34,11 +34,10 @@
                         <p class="card-header-title">
                         Kişi Bilgisi
                         </p>
-                        <button class="card-header-icon" aria-label="more options">
-                        <a class="has-text-link is-size-7" v-if="edit==0" @click="toggleEdit()">Düzenle</a>
-                        <a class="has-text-link is-size-7" v-if="edit==1" @click="toggleEdit()">Vazgeç</a>
-
-                        </button>
+                        <b-button tag="a" @click="toggleEdit()" size="is-small is-link is-light" class="mr-3 mt-3">
+                            <span v-if="edit==0">Düzenle</span>
+                            <span v-if="edit==1">Vazgeç</span>
+                        </b-button>
                     </header>
                     <div class="card-content">
                         <div class="content">
@@ -304,7 +303,7 @@ export default {
                 loadingUnpaidDebitsTable: true,
                 isTableEmpty: false,
                 edit: 0,
-                unpaidDebits: null,
+                unpaidDebits: [],
                 transactions: [],
                 isComponentModalActive: false,
                 selectedOccupant: null,
@@ -348,6 +347,9 @@ export default {
             })
             .catch(error => {
                 console.log(error.response.data);
+            })
+            .then(() => {
+                 this.loadingUnpaidDebitsTable = false;
             });
         },
         getPersonTransactions() {
@@ -358,6 +360,9 @@ export default {
         })
             .then(response => {
                 this.transactions = response.data.data;
+                this.transactions.forEach(debit => {
+                    debit.occupant.property.doorWithBlock = (debit.occupant.property.block.name) ? debit.occupant.property.block.name + '-'+ debit.occupant.property.door_no : debit.occupant.property.door_no;
+                });
             })
             .catch(error => {
                 console.log(error.response.data);

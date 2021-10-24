@@ -64,7 +64,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -392,12 +391,6 @@ var staticRenderFns = [
             _c("div", { attrs: { name: "hero-left-side" } }, [
               _c("p", { staticClass: "is-size-4 mb-0" }, [
                 _vm._v("\n      Yeni Bölüm\n    ")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "has-text-grey is-size-7" }, [
-                _vm._v(
-                  "Sitede bulunan veya siteye bağlı yeni bir daire veya dükkan."
-                )
               ])
             ])
           ]

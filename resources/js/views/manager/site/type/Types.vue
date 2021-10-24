@@ -36,6 +36,7 @@
                         :data="types"
                         :hoverable=true
                         class="is-clickable"
+                        @click="goToType($event)"
                     >
                         <b-table-column label="ID" v-slot="props" width="40">
                             {{ props.row.id }}
@@ -60,8 +61,9 @@
                         <b-table-column label="Aidat Tutarı" v-slot="props">
                             {{  props.row.fee_amount | turkishMoney }}
                         </b-table-column>
-
-
+                        <template #empty>
+                            <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                        </template>
                     </b-table>
                 </div>
             </div>
@@ -94,6 +96,9 @@ data() {
                 this.loadingTable = false;
             });
         },
+        goToType(type) {
+            this.$router.push({ name: 'type',  params: { sites_id: this.siteID, types_id: type.id } })
+        }
     }
 }
 </script>

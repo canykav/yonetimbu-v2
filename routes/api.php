@@ -3,17 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -22,7 +11,8 @@ Route::resource('sites', App\Http\Controllers\SiteController::class);
 
 Route::get('sites/{sites_id}/dashboard',  [App\Http\Controllers\DashboardController::class, 'index']);
 
-Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () { // api routes must have api middleware but my application use this routes on just web pages.
+// api routes must have api middleware but my application use this routes on just web pages.
+Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () {
     Route::resource('persons', App\Http\Controllers\PersonController::class);
     Route::resource('properties', App\Http\Controllers\PropertyController::class);
     Route::resource('vaults', App\Http\Controllers\VaultController::class);
@@ -38,6 +28,8 @@ Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () { 
     Route::resource('transactions', App\Http\Controllers\TransactionController::class);
     Route::resource('inventory', App\Http\Controllers\InventoryController::class);
     Route::resource('fixtures', App\Http\Controllers\FixtureController::class);
+    Route::resource('types', App\Http\Controllers\TypeController::class);
+    Route::resource('payments', App\Http\Controllers\PaymentController::class);
 });
 
 

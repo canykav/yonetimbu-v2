@@ -256,128 +256,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       siteID: null,
-      siteDetails: {
+      site: {
         info: {},
-        stats: {}
-      }
+        stats: {},
+        unpaidExpenses: []
+      },
+      expenseLimit: 5
     };
   },
   mounted: function mounted() {
@@ -389,9 +277,18 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/sites/' + this.siteID + '/dashboard').then(function (response) {
-        _this.siteDetails = response.data;
+        _this.site = response.data;
       })["catch"](function (error) {
         console.log(error.response.data);
+      });
+    },
+    goToExpense: function goToExpense(expense) {
+      this.$router.push({
+        name: 'expense',
+        params: {
+          sites_id: this.siteID,
+          expenses_id: expense.id
+        }
       });
     }
   }
@@ -493,7 +390,20 @@ var render = function() {
               "container is-flex is-justify-content-space-between is-align-items-center"
           },
           [
-            _vm._m(0),
+            _c("div", { attrs: { name: "hero-left-side" } }, [
+              _c("p", { staticClass: "is-size-4 mb-0" }, [
+                _vm._v("\n      " + _vm._s(_vm.site.info.name) + "\n    ")
+              ]),
+              _vm._v(" "),
+              _vm.site.unpaidExpenses.length > 0
+                ? _c("p", { staticClass: "has-text-grey is-size-7" }, [
+                    _vm._v(
+                      _vm._s(_vm.site.unpaidExpenses.length) +
+                        " bekleyen ödeme var."
+                    )
+                  ])
+                : _vm._e()
+            ]),
             _vm._v(" "),
             _c(
               "div",
@@ -580,7 +490,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm._f("turkishMoney")(
-                                _vm.siteDetails.stats.total_debited_monthly
+                                _vm.site.stats.total_debited_monthly
                               )
                             )
                           )
@@ -656,7 +566,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm._f("turkishMoney")(
-                                _vm.siteDetails.stats.total_collected_monthly
+                                _vm.site.stats.total_collected_monthly
                               )
                             )
                           )
@@ -731,9 +641,7 @@ var render = function() {
                         _c("div", { staticClass: "has-text-weight-medium" }, [
                           _vm._v(
                             _vm._s(
-                              _vm._f("turkishMoney")(
-                                _vm.siteDetails.stats.total_cost
-                              )
+                              _vm._f("turkishMoney")(_vm.site.stats.total_cost)
                             )
                           )
                         ]),
@@ -808,7 +716,7 @@ var render = function() {
                           _vm._v(
                             _vm._s(
                               _vm._f("turkishMoney")(
-                                _vm.siteDetails.stats.total_receivables
+                                _vm.site.stats.total_receivables
                               )
                             )
                           )
@@ -889,89 +797,82 @@ var render = function() {
                         },
                         [
                           _c("li", [
-                            _c(
-                              "div",
-                              { staticClass: "has-text-weight-medium mb-1" },
-                              [_vm._v("Adı")]
-                            ),
+                            _c("div", { staticClass: "has-text-grey mb-1" }, [
+                              _vm._v("Adı")
+                            ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v(_vm._s(_vm.siteDetails.info.name))
-                            ])
+                            _c("div", [_vm._v(_vm._s(_vm.site.info.name))])
                           ]),
                           _vm._v(" "),
-                          _c("li", [
-                            _c(
-                              "div",
-                              { staticClass: "has-text-weight-medium mb-1" },
-                              [_vm._v("Adresi")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v(_vm._s(_vm.siteDetails.info.address))
-                            ])
-                          ]),
+                          _vm.site.info.address
+                            ? _c("li", [
+                                _c(
+                                  "div",
+                                  { staticClass: "has-text-grey mb-1" },
+                                  [_vm._v("Adresi")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(_vm._s(_vm.site.info.address))
+                                ])
+                              ])
+                            : _vm._e(),
                           _vm._v(" "),
                           _c("li", [
-                            _c(
-                              "div",
-                              { staticClass: "has-text-weight-medium mb-1" },
-                              [_vm._v("Toplam Blok - Toplam Bölüm")]
-                            ),
+                            _c("div", { staticClass: "has-text-grey mb-1" }, [
+                              _vm._v("Toplam Blok - Toplam Bölüm")
+                            ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "has-text-grey" }, [
+                            _c("div", [
                               _vm._v(
-                                _vm._s(_vm.siteDetails.info.blocks_count) +
+                                _vm._s(_vm.site.info.blocks_count) +
                                   " Blok - " +
-                                  _vm._s(
-                                    _vm.siteDetails.info.properties_count
-                                  ) +
+                                  _vm._s(_vm.site.info.properties_count) +
                                   " Bölüm"
                               )
                             ])
                           ]),
                           _vm._v(" "),
                           _c("li", [
-                            _c(
-                              "div",
-                              { staticClass: "has-text-weight-medium mb-1" },
-                              [_vm._v("Yönetim Dönemi")]
-                            ),
+                            _c("div", { staticClass: "has-text-grey mb-1" }, [
+                              _vm._v("Yönetim Dönemi")
+                            ]),
                             _vm._v(" "),
-                            _c("div", { staticClass: "has-text-grey" }, [
+                            _c("div", [
                               _vm._v(
                                 _vm._s(
                                   _vm._f("turkishDate")(
-                                    _vm.siteDetails.info.term_start
+                                    _vm.site.info.term_start
                                   )
                                 ) +
                                   " - " +
                                   _vm._s(
                                     _vm._f("turkishDate")(
-                                      _vm.siteDetails.info.term_end
+                                      _vm.site.info.term_end
                                     )
                                   )
                               )
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("li", [
-                            _c(
-                              "div",
-                              { staticClass: "has-text-weight-medium mb-1" },
-                              [_vm._v("Vergi Dairesi ve Numarası")]
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "has-text-grey" }, [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.siteDetails.info.tax_administration
-                                ) +
-                                  " - " +
-                                  _vm._s(_vm.siteDetails.info.tax_no)
-                              )
-                            ])
-                          ])
+                          _vm.site.info.tax_administration ||
+                          _vm.site.info.tax_no
+                            ? _c("li", [
+                                _c(
+                                  "div",
+                                  { staticClass: "has-text-grey mb-1" },
+                                  [_vm._v("Vergi Dairesi ve Numarası")]
+                                ),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    _vm._s(_vm.site.info.tax_administration) +
+                                      " - " +
+                                      _vm._s(_vm.site.info.tax_no)
+                                  )
+                                ])
+                              ])
+                            : _vm._e()
                         ]
                       )
                     ])
@@ -984,7 +885,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "column" },
+            { staticClass: "column is-9" },
             [
               _c(
                 "b-collapse",
@@ -1037,362 +938,86 @@ var render = function() {
                     _c("div", { staticClass: "content" }, [
                       _c(
                         "ul",
-                        {
-                          staticClass: "list",
-                          staticStyle: { "font-size": "14px" }
-                        },
-                        [
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "is-flex is-justify-content-space-between"
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "has-text-weight-medium mb-1"
-                                  },
-                                  [_vm._v("Aydınlatma Değişimi")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "calendar-month",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                13.01.2021\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "account-tie",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                Gediz Elektrik\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "cash-multiple",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                3500,00 TL\n            "
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "is-flex is-align-items-center"
-                                },
-                                [
-                                  _c(
-                                    "a",
-                                    { attrs: { href: "" } },
-                                    [
-                                      _c("b-icon", {
-                                        attrs: { icon: "chevron-right" }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]
-                              )
-                            ]
+                        { staticClass: "list unpaid-expenses-list" },
+                        _vm._l(
+                          _vm.site.unpaidExpenses.slice(
+                            0,
+                            parseInt(_vm.expenseLimit)
                           ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "is-flex is-justify-content-space-between"
-                            },
-                            [
-                              _c("div", [
+                          function(expense) {
+                            return _c(
+                              "li",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.goToExpense(expense)
+                                  }
+                                }
+                              },
+                              [
                                 _c(
                                   "div",
-                                  {
-                                    staticClass: "has-text-weight-medium mb-1"
-                                  },
-                                  [_vm._v("2021 Ocak Elektrik Faturası")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
                                   [
                                     _c("b-icon", {
-                                      attrs: {
-                                        icon: "calendar-month",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                13.01.2021\n            "
-                                    )
+                                      staticClass: "has-text-grey",
+                                      attrs: { icon: "bell" }
+                                    })
                                   ],
                                   1
                                 ),
                                 _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "account-tie",
-                                        size: "is-small"
-                                      }
-                                    }),
+                                _c("div", [
+                                  _c("span", { staticClass: "has-text-grey" }, [
                                     _vm._v(
-                                      "\n                Gediz Elektrik\n            "
+                                      "\n                " +
+                                        _vm._s(
+                                          _vm._f("turkishDate")(
+                                            expense.due_date
+                                          )
+                                        ) +
+                                        "\n            "
                                     )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "cash-multiple",
-                                        size: "is-small"
-                                      }
-                                    }),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", [
                                     _vm._v(
-                                      "\n                3500,00 TL\n            "
+                                      _vm._s(expense.description) +
+                                        " (" +
+                                        _vm._s(
+                                          _vm._f("turkishMoney")(
+                                            expense.amount -
+                                              expense.payments_sum_amount
+                                          )
+                                        ) +
+                                        ")"
                                     )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "is-flex is-align-items-center"
-                                },
-                                [
-                                  _c("b-icon", {
-                                    attrs: { icon: "chevron-right" }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "is-flex is-justify-content-space-between"
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "has-text-weight-medium mb-1"
-                                  },
-                                  [_vm._v("Aydınlatma Değişimi")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "calendar-month",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                13.01.2021\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "account-tie",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                Gediz Elektrik\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "cash-multiple",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                3500,00 TL\n            "
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "is-flex is-align-items-center"
-                                },
-                                [
-                                  _c("b-icon", {
-                                    attrs: { icon: "chevron-right" }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "li",
-                            {
-                              staticClass:
-                                "is-flex is-justify-content-space-between"
-                            },
-                            [
-                              _c("div", [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass: "has-text-weight-medium mb-1"
-                                  },
-                                  [_vm._v("Aydınlatma Değişimi")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "calendar-month",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                13.01.2021\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticStyle: { color: "rgb(100,116,139)" }
-                                  },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "account-tie",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                Gediz Elektrik\n            "
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "has-text-grey" },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        icon: "cash-multiple",
-                                        size: "is-small"
-                                      }
-                                    }),
-                                    _vm._v(
-                                      "\n                3500,00 TL\n            "
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "is-flex is-align-items-center"
-                                },
-                                [
-                                  _c("b-icon", {
-                                    attrs: { icon: "chevron-right" }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ]
+                                  ])
+                                ])
+                              ]
+                            )
+                          }
+                        ),
+                        0
                       ),
                       _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "is-flex is-justify-content-flex-end is-size-7 has-text-info",
-                          attrs: { href: "" }
-                        },
-                        [_vm._v("Devamını Göster")]
-                      )
+                      _vm.site.unpaidExpenses.length > 1 &&
+                      _vm.expenseLimit != _vm.site.unpaidExpenses.length &&
+                      _vm.expenseLimit < _vm.site.unpaidExpenses.length
+                        ? _c(
+                            "a",
+                            {
+                              staticClass:
+                                "is-flex is-justify-content-flex-end is-size-7 has-text-info",
+                              on: {
+                                click: function($event) {
+                                  _vm.expenseLimit =
+                                    _vm.site.unpaidExpenses.length
+                                }
+                              }
+                            },
+                            [_vm._v("\n        Devamını Göster\n    ")]
+                          )
+                        : _vm._e()
                     ])
                   ])
                 ]
@@ -1405,22 +1030,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { name: "hero-left-side" } }, [
-      _c("p", { staticClass: "is-size-4 mb-0" }, [
-        _vm._v("\n      Hoşgeldin, Can Yiğit Kav.\n    ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "has-text-grey is-size-7" }, [
-        _vm._v("5 adet bekleyen ödeme ve 2 yeni bildirim var.")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -154,6 +154,7 @@ export default {
                     type: 'is-success'
                 });
                 this.newCollection = {};
+                this.$router.push({ name: 'collections',  params: { sites_id: this.siteID} })
             })
             .catch(error => {
                 this.$buefy.toast.open({

@@ -34,11 +34,24 @@
                         :loading="loadingTable"
                         :striped=true
                         :data="companies"
-                        :columns="columns"
                         :hoverable=true
                         @click="goToCompany($event)"
-                        style="cursor:pointer"
+                        class="is-clickable"
                     >
+                        <b-table-column  label="Adı" v-slot="props">
+                            {{  props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column label="Telefon" v-slot="props">
+                            {{  props.row.phone1 }}
+                        </b-table-column>
+
+                        <b-table-column label="Bakiye" v-slot="props">
+                            {{  props.row.balance | turkishMoney }}
+                        </b-table-column>
+                        <template #empty>
+                            <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>
+                        </template>
                     </b-table>
                 </div>
             </div>
@@ -53,26 +66,6 @@ data() {
     return {
         companies: [],
         loadingTable: true,
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'name',
-                        label: 'Adı',
-                    },
-                    {
-                        field: 'phone1',
-                        label: 'Telefon',
-                    },
-                    {
-                        field: '',
-                        label: 'Bakiye',
-                    }
-                ]
     }
 },
     mounted() {
