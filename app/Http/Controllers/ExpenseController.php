@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(request $req, $sites_id)
     {
         if($req->companies_id && $req->transaction_type == 'expense') {
@@ -26,25 +21,10 @@ class ExpenseController extends Controller
         } else {
             $expenses = Site::find($sites_id)->expenses($req);
         }
+
         return response()->json(['data' => $expenses]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store($sites_id, Request $req)
     {
         $expense_data = $req->all();
@@ -74,12 +54,6 @@ class ExpenseController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($sites_id, $id)
     {
         $expense = Transaction::where('id', $id)
@@ -88,20 +62,15 @@ class ExpenseController extends Controller
             ->with('payments')
             ->first();
         $expense['status'] = Transaction::translateStatusToTurkish($expense['status']);
+
         return response()->json(['data' => $expense]);
       }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, $sites_id, $id)
     {
         $req['date'] = (!empty($req['date'])) ? date('Y-m-d', strtotime($req['date'])) : null;
         $expense = Transaction::find($id)->update($req->all());
+
         if($expense) {
             return response()->json(['message' => 'Gider başarıyla güncellendi.']);
         } else {
@@ -109,17 +78,12 @@ class ExpenseController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($sites_id, $id)
     {
         $transaction = Transaction::find($id)->delete();
 
         if($transaction) {
+            Payment::where('transactions_id', $id)->delete();
             return response()->json(['message' => 'Gider başarıyla silindi.']);
         } else {
             return response()->json(['message' => 'İşlem sırasında hata oluştu.'],500);

@@ -325,6 +325,10 @@ ul.pagination-list li:first-child {
   margin-top: 0.25em;
 }
 
+.sidebar-active-column {
+  margin-left: calc(270px + 0.75em);
+}
+
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 .pagination-previous,

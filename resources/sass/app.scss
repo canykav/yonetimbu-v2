@@ -243,6 +243,9 @@ ul.pagination-list {
     }
 }
 
+.sidebar-active-column {
+    margin-left: calc(270px + 0.75em);
+}
 
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";

@@ -24905,7 +24905,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.b-sidebar {\n    background-color: #0f172a;\n    width: 270px;\n    min-height: calc(100vh + 1.5rem);\n    position: sticky;\n    top: 0;\n    bottom: 0;\n    margin-left: 0.75rem!important;\n    margin-top: 0.75rem!important;\n    padding: 0.75rem;\n}\n.b-sidebar .sidebar-content {\n    background: transparent;\n    width: unset;\n    box-shadow: unset;\n}\nul.menu-list li {\n    margin: 4px 0;\n}\nul.menu-list li a span:first-child {\n    font-size: 18px;\n    margin-right: 0.5em;\n}\nul.menu-list li a span:last-child {\n    font-size: 13px;\n    font-weight: 500;\n}\n.logo {\n    display: flex;\n    justify-content: center;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.b-sidebar {\n    background-color: #0f172a;\n    width: 270px;\n    min-height: calc(100vh + 1.5rem);\n    position: fixed;\n    top: 0;\n    bottom: 0;\n    margin-left: 0.75rem!important;\n    z-index: 100;\n    padding: 0.75rem;\n}\n.b-sidebar .sidebar-content {\n    background: transparent;\n    width: unset;\n    box-shadow: unset;\n}\nul.menu-list li {\n    margin: 4px 0;\n}\nul.menu-list li a span:first-child {\n    font-size: 18px;\n    margin-right: 0.5em;\n}\nul.menu-list li a span:last-child {\n    font-size: 13px;\n    font-weight: 500;\n}\n.logo {\n    display: flex;\n    justify-content: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

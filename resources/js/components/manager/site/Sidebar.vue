@@ -61,11 +61,11 @@ export default {
     background-color: #0f172a;
     width: 270px;
     min-height: calc(100vh + 1.5rem);
-    position: sticky;
+    position: fixed;
     top: 0;
     bottom: 0;
     margin-left: 0.75rem!important;
-    margin-top: 0.75rem!important;
+    z-index: 100;
     padding: 0.75rem;
 }
 .b-sidebar .sidebar-content {

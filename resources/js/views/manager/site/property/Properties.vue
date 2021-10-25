@@ -38,7 +38,7 @@
                         class="is-clickable"
                         @click="goToProperty($event)"
                     >
-                        <b-table-column  label="Bölüm" v-slot="props">
+                        <b-table-column label="Bölüm" v-slot="props">
                             {{  props.row.doorWithBlock }}
                         </b-table-column>
 
