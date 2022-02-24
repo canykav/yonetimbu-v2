@@ -246,6 +246,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -256,7 +302,10 @@ __webpack_require__.r(__webpack_exports__);
       loadingUpdateButton: false,
       isTableEmpty: false,
       edit: 0,
-      transactions: []
+      transactions: [],
+      deleteModal: false,
+      loadingDeleteButton: false,
+      balance: null
     };
   },
   mounted: function mounted() {
@@ -288,7 +337,8 @@ __webpack_require__.r(__webpack_exports__);
           employees_id: this.employeeID
         }
       }).then(function (response) {
-        _this2.transactions = response.data.data;
+        _this2.transactions = response.data.data.transactions;
+        _this2.balance = response.data.data.balance;
       })["catch"](function (error) {
         console.log(error.response.data);
       });
@@ -335,6 +385,31 @@ __webpack_require__.r(__webpack_exports__);
         });
       }).then(function () {
         _this4.loadingUpdateButton = false;
+      });
+    },
+    deleteEmployee: function deleteEmployee() {
+      var _this5 = this;
+
+      this.loadingDeleteButton = true;
+      axios["delete"]('/api/sites/' + this.siteID + '/accounts/' + this.employeeID).then(function (response) {
+        _this5.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this5.$router.push({
+          name: 'employees',
+          params: {
+            sites_id: _this5.siteID
+          }
+        });
+      })["catch"](function (error) {
+        _this5.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this5.loadingDeleteButton = false;
       });
     },
     toggleEdit: function toggleEdit() {
@@ -434,954 +509,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("section", { staticClass: "hero" }, [
-      _c("div", { staticClass: "hero-body" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "container is-flex is-justify-content-space-between is-align-items-center"
-          },
-          [
-            _c("div", { attrs: { name: "hero-left-side" } }, [
-              _c("p", { staticClass: "is-size-4 mb-0" }, [
-                _vm._v("\n      " + _vm._s(_vm.employee.name) + "\n    ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "buttons" },
-              [
-                _c(
-                  "b-dropdown",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { "aria-role": "list" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "trigger",
-                        fn: function(ref) {
-                          var active = ref.active
-                          return [
-                            _c("b-button", {
-                              attrs: {
-                                label: "İşlemler",
-                                type: "is-primary",
-                                "icon-left": "cog",
-                                "icon-right": active ? "menu-up" : "menu-down"
-                              }
-                            })
-                          ]
-                        }
-                      }
-                    ])
-                  },
-                  [
-                    _vm._v(" "),
-                    _c(
-                      "b-dropdown-item",
-                      {
-                        attrs: { "aria-role": "listitem" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({
-                              name: "newCollection",
-                              params: { persons_id: _vm.personID }
-                            })
-                          }
-                        }
-                      },
-                      [_vm._v("Personeli Sil")]
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container block mt-6" }, [
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column is-9" }, [
-          _c("div", { staticClass: "card block" }, [
-            _c(
-              "header",
-              { staticClass: "card-header" },
-              [
-                _c("p", { staticClass: "card-header-title" }, [
-                  _vm._v(
-                    "\n                        Personel Bilgisi\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-button",
-                  {
-                    staticClass: "mr-3 mt-3",
-                    attrs: { tag: "a", size: "is-small is-link is-light" },
-                    on: {
-                      click: function($event) {
-                        return _vm.toggleEdit()
-                      }
-                    }
-                  },
-                  [
-                    _vm.edit == 0 ? _c("span", [_vm._v("Düzenle")]) : _vm._e(),
-                    _vm._v(" "),
-                    _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
-                  ]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
+  return _c(
+    "div",
+    [
+      _c("section", { staticClass: "hero" }, [
+        _c("div", { staticClass: "hero-body" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "container is-flex is-justify-content-space-between is-align-items-center"
+            },
+            [
+              _c("div", { attrs: { name: "hero-left-side" } }, [
+                _c("p", { staticClass: "is-size-4 mb-0" }, [
+                  _vm._v("\n      " + _vm._s(_vm.employee.name) + "\n    ")
+                ])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "content" },
-                [
-                  _c("table", { staticClass: "table is-fullwidth" }, [
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Personel Adı")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.employee.name))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.name,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "name",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedEmployeeData.name"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Telefon")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.phone1))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.phone1,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "phone1",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedEmployeeData.phone1"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Görevi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.employee_job))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.employee_job,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "employee_job",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.employee_job"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("TC Kimlik/Vergi No\t")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.citizenship_no))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedEmployeeData.citizenship_no,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "citizenship_no",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.citizenship_no"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Vergi Dairesi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(_vm.employee.tax_administration)
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedEmployeeData.tax_administration,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "tax_administration",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.tax_administration"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [_vm._v("IBAN")]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.employee.iban))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.iban,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "iban",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedEmployeeData.iban"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Email")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.employee.email))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.email,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "email",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedEmployeeData.email"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Adres")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.address))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.address,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "address",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedEmployeeData.address"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Sigorta No")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.social_sec_no))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.social_sec_no,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "social_sec_no",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.social_sec_no"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Çalışan Tipi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.employee.employee_type))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.employee_job,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "employee_job",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.employee_job"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Maaşı")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(
-                                        _vm.employee.employee_salary
-                                      )
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedEmployeeData.employee_job,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "employee_job",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.employee_job"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("İşe Giriş Tarihi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishDate")(
-                                        _vm.employee.employee_start_date
-                                      )
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedEmployeeData
-                                        .employee_start_date,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "employee_start_date",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.employee_start_date"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("İşten Çıkış Tarihi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishDate")(
-                                        _vm.employee.employee_leave_date
-                                      )
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedEmployeeData
-                                        .employee_leave_date,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedEmployeeData,
-                                        "employee_leave_date",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedEmployeeData.employee_leave_date"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm.edit == 1
-                    ? _c(
-                        "b-button",
-                        {
-                          staticClass: "is-small",
-                          attrs: {
-                            type: "is-primary",
-                            loading: _vm.loadingUpdateButton,
-                            expanded: ""
-                          },
-                          on: { click: _vm.updateemployee }
-                        },
-                        [_vm._v("Kaydet")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card block" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c(
-                "div",
-                { staticClass: "content" },
+                { staticClass: "buttons" },
                 [
                   _c(
-                    "b-tabs",
-                    { attrs: { type: "is-toggle" } },
-                    [
-                      _c(
-                        "b-tab-item",
+                    "b-dropdown",
+                    {
+                      staticClass: "mr-2",
+                      attrs: { "aria-role": "list" },
+                      scopedSlots: _vm._u([
                         {
-                          attrs: {
-                            label: "Personelin Kalan Alacakları",
-                            icon: "credit-card-outline"
-                          }
-                        },
-                        [
-                          _c(
-                            "b-table",
-                            {
-                              attrs: {
-                                striped: true,
-                                data: _vm.receivables,
-                                loading: _vm.loadingTable
-                              },
-                              scopedSlots: _vm._u([
-                                {
-                                  key: "empty",
-                                  fn: function() {
-                                    return [
-                                      _c(
-                                        "div",
-                                        { staticClass: "has-text-centered" },
-                                        [_vm._v("Kayıt yok")]
-                                      )
-                                    ]
-                                  },
-                                  proxy: true
+                          key: "trigger",
+                          fn: function(ref) {
+                            var active = ref.active
+                            return [
+                              _c("b-button", {
+                                attrs: {
+                                  label: "İşlemler",
+                                  type: "is-primary",
+                                  "icon-left": "cog",
+                                  "icon-right": active ? "menu-up" : "menu-down"
                                 }
-                              ])
-                            },
-                            [
-                              _c("b-table-column", {
-                                attrs: { label: "Tarih" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishDate")(
-                                                props.row.date
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Vade Tarihi" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishDate")(
-                                                props.row.due_date
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Türü" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(props.row.extract_type) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Açıklama" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(props.row.description) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Tutar" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishMoney")(
-                                                props.row.amount
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Kalan" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishMoney")(
-                                                props.row.amount -
-                                                  props.row.payments_sum_amount
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
                               })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
                       _vm._v(" "),
                       _c(
-                        "b-tab-item",
-                        { attrs: { label: "Hesap Ekstresi", icon: "receipt" } },
-                        [
-                          _c(
-                            "b-table",
-                            {
-                              attrs: { striped: true, data: _vm.transactions },
-                              scopedSlots: _vm._u([
-                                {
-                                  key: "empty",
-                                  fn: function() {
-                                    return [
-                                      _c(
-                                        "div",
-                                        { staticClass: "has-text-centered" },
-                                        [_vm._v("Kayıt yok")]
-                                      )
-                                    ]
-                                  },
-                                  proxy: true
-                                }
-                              ])
-                            },
-                            [
-                              _c("b-table-column", {
-                                attrs: { label: "Tarih" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishDate")(
-                                                props.row.date
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Vade Tarihi" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishDate")(
-                                                props.row.due_date
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Türü" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(props.row.extract_type) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Açıklama" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(props.row.description) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Tutar" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishMoney")(
-                                                props.row.amount
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              }),
-                              _vm._v(" "),
-                              _c("b-table-column", {
-                                attrs: { label: "Bakiye" },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                                " +
-                                            _vm._s(
-                                              _vm._f("turkishMoney")(
-                                                props.row.balance
-                                              )
-                                            ) +
-                                            "\n                            "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ])
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
+                        "b-dropdown-item",
+                        {
+                          attrs: { "aria-role": "listitem" },
+                          on: {
+                            click: function($event) {
+                              _vm.deleteModal = true
+                            }
+                          }
+                        },
+                        [_vm._v("Personeli Sil")]
                       )
                     ],
                     1
@@ -1389,14 +575,1032 @@ var render = function() {
                 ],
                 1
               )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container block mt-6" }, [
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-9" }, [
+            _c("div", { staticClass: "card block" }, [
+              _c(
+                "header",
+                { staticClass: "card-header" },
+                [
+                  _c("p", { staticClass: "card-header-title" }, [
+                    _vm._v(
+                      "\n                        Personel Bilgisi\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      staticClass: "mr-3 mt-3",
+                      attrs: { tag: "a", size: "is-small is-link is-light" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleEdit()
+                        }
+                      }
+                    },
+                    [
+                      _vm.edit == 0
+                        ? _c("span", [_vm._v("Düzenle")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "content" },
+                  [
+                    _c("table", { staticClass: "table is-fullwidth" }, [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Personel Adı")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.name))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedEmployeeData.name,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedEmployeeData.name"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Telefon")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.phone1))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedEmployeeData.phone1,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "phone1",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedEmployeeData.phone1"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Görevi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.employee_job))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData.employee_job,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "employee_job",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.employee_job"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("TC Kimlik/Vergi No\t")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.citizenship_no))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData.citizenship_no,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "citizenship_no",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.citizenship_no"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Vergi Dairesi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(_vm.employee.tax_administration)
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData
+                                          .tax_administration,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "tax_administration",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.tax_administration"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("IBAN")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.iban))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedEmployeeData.iban,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "iban",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedEmployeeData.iban"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Email")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.email))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedEmployeeData.email,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "email",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedEmployeeData.email"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Adres")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.address))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedEmployeeData.address,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "address",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedEmployeeData.address"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Sigorta No")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.social_sec_no))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData.social_sec_no,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "social_sec_no",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.social_sec_no"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Çalışan Tipi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.employee.employee_type))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData.employee_job,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "employee_job",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.employee_job"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Maaşı")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishMoney")(
+                                          _vm.employee.employee_salary
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData.employee_job,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "employee_job",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.employee_job"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("İşe Giriş Tarihi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishDate")(
+                                          _vm.employee.employee_start_date
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData
+                                          .employee_start_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "employee_start_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.employee_start_date"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("İşten Çıkış Tarihi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishDate")(
+                                          _vm.employee.employee_leave_date
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedEmployeeData
+                                          .employee_leave_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedEmployeeData,
+                                          "employee_leave_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedEmployeeData.employee_leave_date"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.edit == 1
+                      ? _c(
+                          "b-button",
+                          {
+                            staticClass: "is-small",
+                            attrs: {
+                              type: "is-primary",
+                              loading: _vm.loadingUpdateButton,
+                              expanded: ""
+                            },
+                            on: { click: _vm.updateemployee }
+                          },
+                          [_vm._v("Kaydet")]
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card block" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "content" },
+                  [
+                    _c(
+                      "b-notification",
+                      {
+                        class: {
+                          "is-hidden": _vm.balance == null,
+                          "is-danger is-light": _vm.balance < 0,
+                          "is-success is-light": _vm.balance >= 0
+                        },
+                        attrs: { id: "balance-info" }
+                      },
+                      [
+                        _c("b-icon", { attrs: { icon: "cash-multiple" } }),
+                        _vm._v(
+                          "\n                                Toplam Bakiye:\n                                " +
+                            _vm._s(_vm._f("turkishMoney")(_vm.balance)) +
+                            "\n                            "
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-tabs",
+                      { attrs: { type: "is-toggle" } },
+                      [
+                        _c(
+                          "b-tab-item",
+                          {
+                            attrs: {
+                              label: "Personelin Kalan Alacakları",
+                              icon: "credit-card-outline"
+                            }
+                          },
+                          [
+                            _c(
+                              "b-table",
+                              {
+                                attrs: {
+                                  striped: true,
+                                  data: _vm.receivables,
+                                  loading: _vm.loadingTable
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "empty",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "div",
+                                          { staticClass: "has-text-centered" },
+                                          [_vm._v("Kayıt yok")]
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                ])
+                              },
+                              [
+                                _c("b-table-column", {
+                                  attrs: { label: "Tarih" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishDate")(
+                                                  props.row.date
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Vade Tarihi" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishDate")(
+                                                  props.row.due_date
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Türü" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(props.row.extract_type) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Açıklama" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(props.row.description) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Tutar" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishMoney")(
+                                                  props.row.amount
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Kalan" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishMoney")(
+                                                  props.row.amount -
+                                                    props.row
+                                                      .payments_sum_amount
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-tab-item",
+                          {
+                            attrs: { label: "Hesap Ekstresi", icon: "receipt" }
+                          },
+                          [
+                            _c(
+                              "b-table",
+                              {
+                                attrs: {
+                                  striped: true,
+                                  data: _vm.transactions
+                                },
+                                scopedSlots: _vm._u([
+                                  {
+                                    key: "empty",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "div",
+                                          { staticClass: "has-text-centered" },
+                                          [_vm._v("Kayıt yok")]
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                ])
+                              },
+                              [
+                                _c("b-table-column", {
+                                  attrs: { label: "Tarih" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishDate")(
+                                                  props.row.date
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Vade Tarihi" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishDate")(
+                                                  props.row.due_date
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Türü" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(props.row.extract_type) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Açıklama" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(props.row.description) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Tutar" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishMoney")(
+                                                  props.row.amount
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                }),
+                                _vm._v(" "),
+                                _c("b-table-column", {
+                                  attrs: { label: "Bakiye" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "default",
+                                      fn: function(props) {
+                                        return [
+                                          _vm._v(
+                                            "\n                                " +
+                                              _vm._s(
+                                                _vm._f("turkishMoney")(
+                                                  props.row.balance
+                                                )
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ])
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ])
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(1)
-      ])
-    ])
-  ])
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": false,
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.deleteEmployee()
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-card", staticStyle: { width: "auto" } },
+                [
+                  _c("header", { staticClass: "modal-card-head" }, [
+                    _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v("İşlemi onaylayın")
+                    ]),
+                    _vm._v(" "),
+                    _c("button", {
+                      staticClass: "delete",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.deleteModal = false
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("section", { staticClass: "modal-card-body" }, [
+                    _vm._v(
+                      "\n                       Personel siliniyor. Devam etmek istediğinize emin misiniz?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "footer",
+                    { staticClass: "modal-card-foot" },
+                    [
+                      _c("b-button", {
+                        attrs: { label: "Vazgeç" },
+                        on: {
+                          click: function($event) {
+                            _vm.deleteModal = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("b-button", {
+                        attrs: {
+                          label: "Kaydet",
+                          type: "is-primary",
+                          loading: _vm.loadingDeleteButton,
+                          "native-type": "submit"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

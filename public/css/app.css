@@ -230,6 +230,10 @@ body {
   border: none;
 }
 
+#app > .columns > .column > div > .container {
+  padding: 0 1rem;
+}
+
 .hero {
   border-bottom: 1px solid #e2e8f0;
 }
@@ -327,6 +331,14 @@ ul.pagination-list li:first-child {
 
 .sidebar-active-column {
   margin-left: calc(270px + 0.75em);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+#balance-info .delete {
+  display: none;
 }
 
 /*! bulma.io v0.9.3 | MIT License | github.com/jgthms/bulma */
@@ -4171,8 +4183,8 @@ a.tag:hover {
   color: #363636;
   display: flex;
   flex-grow: 1;
-  font-weight: 500;
-  padding: 0.75rem 1rem;
+  font-weight: normal;
+  padding: 1rem 1rem 1rem 1.5rem;
 }
 .card-header-title.is-centered {
   justify-content: center;
@@ -4193,7 +4205,7 @@ a.tag:hover {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  padding: 0.75rem 1rem;
+  padding: 1rem 1rem 1rem 1.5rem;
 }
 
 .card-image {

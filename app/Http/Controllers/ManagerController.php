@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Manager;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -66,9 +67,17 @@ class ManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        //
+        if($req->user()->id == $id) { # Auth Control
+            $manager = Manager::find($id);
+            $manager->name = $req->name;
+            $manager->phone1 = $req->phone1;
+            $manager->save();
+            return response()->json(['message' => 'Hesap başarıyla güncellendi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.'], 500);
+        }
     }
 
     /**

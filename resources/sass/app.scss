@@ -133,10 +133,16 @@ $card-radius: 6px;
 $card-shadow:  0 1px 3px 0 #0000001a,0 1px 2px 0 #0000000f;
 $card-header-shadow: 0;
 $card-header-weight: 500;
+$card-header-padding: 1rem 1rem 1rem 1.5rem;
+$card-header-weight: normal;
+
 .card {
     border: none;
 }
 
+#app > .columns > .column > div > .container {
+    padding: 0 1rem;
+}
 // Hero
 .hero {
     border-bottom: 1px solid #e2e8f0;
@@ -247,6 +253,13 @@ ul.pagination-list {
     margin-left: calc(270px + 0.75em);
 }
 
+.table-wrapper {
+    overflow-x: auto;
+}
+
+#balance-info .delete {
+    display: none;
+}
 // Import Bulma and Buefy styles
 @import "~bulma/bulma.sass";
 @import "~buefy/src/scss/buefy";

@@ -92,8 +92,21 @@ class VaultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($sites_id, $id)
     {
-        Vault::find($id)->delete();
+        $vault = Vault::find($id);
+        $transactions = $vault->collections;
+        $payments = $vault->payments;
+        if(count($transactions) > 0 || count($payments) > 0)  {
+            return response()->json(['message' => 'Kasayla ilişkili işlem(ler) bulunmaktadır. Kasa silinemedi.'],500);
+        }
+        $deleteVault = Vault::find($id)->delete();
+
+        if($deleteVault) {
+            return response()->json(['message' => 'Kasa başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.']);
+        }
+
     }
 }

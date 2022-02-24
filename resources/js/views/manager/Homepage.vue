@@ -37,7 +37,7 @@
                 <p class="card-header-title">
                 Hesap Bilgileriniz
                 </p>
-                <b-button tag="a" href="sites/new" size="is-small is-link is-light" class="mr-3 mt-3">
+                <b-button tag="a" size="is-small is-link is-light" class="mr-3 mt-3" @click="updateManagerModal=true">
                     Düzenle
                 </b-button>
             </header>
@@ -50,7 +50,7 @@
                             </li>
                             <li>
                                 <div class="has-text-weight-medium mb-1">Telefon</div>
-                                <div class="has-text-grey"><span v-if="$attrs.manager.phone1">{{$attrs.manager.phone1}}</span><span v-else>-</span></div>
+                                <div class="has-text-grey"><span>{{$attrs.manager.phone1}}</span></div>
                             </li>
                         </ul>
                 </div>
@@ -60,18 +60,48 @@
     </div>
 </div>
 
-  <b-modal
-  v-model="isComponentModalActive"
+
+            <b-modal
+            v-model="updateManagerModal"
             has-modal-card
             trap-focus
             :destroy-on-hide="false"
-            aria-role="dialog"
-            aria-label="Example Modal"
-            aria-modal>
-            <template #default="props">
-                <modal-form v-bind="formProps" @close="props.close"></modal-form>
-            </template>
-    </b-modal>
+            aria-modal
+        >
+            <form @submit.prevent="updateManager()">
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Hesap Bilgileriniz</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="updateManagerModal=false"/>
+                    </header>
+                    <section class="modal-card-body">
+                        <b-field label="Adı Soyadı" :label-position="labelPosition">
+                            <b-input v-model="editedManagerData.name" required></b-input>
+                        </b-field>
+                        <b-field label="Telefon" :label-position="labelPosition">
+                            <b-input v-model="editedManagerData.phone"></b-input>
+                        </b-field>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Vazgeç"
+                            @click="updateManagerModal=false"
+                        />
+                        <b-button
+                            label="Kaydet"
+                            type="is-primary"
+                            :loading="loadingUpdateManagerButton"
+                            native-type="submit"
+                        />
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
+
+
 </div>
 </template>
 
@@ -81,8 +111,17 @@ export default {
         return {
             sites_id: 1,
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            isComponentModalActive: false,
-            labelPosition: 'on-border',
+            updateManagerModal: false,
+            labelPosition: 'inside',
+            loadingUpdateManagerButton: false,
+            editedManagerData: [],
+        }
+    },
+    watch: {
+        updateManagerModal : function() {
+            if(this.updateManagerModal==true) {
+                Object.assign(this.editedManagerData, this.$attrs.manager);
+            }
         }
     },
     methods: {
@@ -91,6 +130,30 @@ export default {
         },
         logout() {
             document.getElementById("logout-form").submit();
+        },
+        updateManager() {
+            this.loadingUpdateManagerButton = true;
+            axios.put('/api/managers/'+this.$attrs.manager.id, {
+                name: this.editedManagerData.name,
+                phone: this.editedManagerData.phone1,
+            })
+            .then(response => {
+                this.$buefy.toast.open({
+                    message: response.data.message,
+                    type: 'is-success'
+                });
+                Object.assign(this.$attrs.manager, this.editedManagerData);
+                Object.assign(this.$root.$children[0].$attrs.manager, this.editedManagerData);
+            })
+            .catch(error => {
+                this.$buefy.toast.open({
+                    message: error.response.data.message,
+                    type: 'is-danger'
+                })
+            })
+            .then(() => {
+                this.loadingUpdateManagerButton = false;
+            });
         }
     }
 }

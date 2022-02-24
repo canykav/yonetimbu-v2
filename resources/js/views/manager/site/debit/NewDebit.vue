@@ -7,7 +7,6 @@
                         <p class="is-size-4 mb-0">
                             Yeni Borçlandırma
                         </p>
-                        <p class="has-text-grey is-size-7">......</p>
                     </div>
                 </div>
             </div>
@@ -22,7 +21,7 @@
                                 <b-field label="Kişi"
                                     :label-position="labelPosition">
                                     <div class="control is-clearfix">
-                                        <select class="select input is-fullwidth" v-model="newDebit.selectedPerson" @change="getPersonProperties(newDebit.selectedPerson)">
+                                        <select class="select input is-fullwidth" v-model="newDebit.selectedPerson" @change="getPersonProperties(newDebit.selectedPerson)" required>
                                             <option v-for="person in persons" :key="person.id" :value="person.id">{{person.name}}</option>
                                         </select>
                                     </div>
@@ -30,13 +29,13 @@
                                 <b-field label="Bölüm"
                                     :label-position="labelPosition">
                                     <div class="control is-clearfix">
-                                        <select class="select input is-fullwidth" v-model="newDebit.occupants_id">
+                                        <select class="select input is-fullwidth" v-model="newDebit.occupants_id" required>
                                             <option v-for="property in properties" :key="property.id" :value="property.occupants_id">{{property.doorWithBlock}}</option>
                                         </select>
                                     </div>
                                 </b-field>
                                 <b-field label="Açıklama" :label-position="labelPosition">
-                                    <b-input v-model="newDebit.description"></b-input>
+                                    <b-input v-model="newDebit.description" required></b-input>
                                 </b-field>
                                 <b-field label="Türü"
                                     :label-position="labelPosition">

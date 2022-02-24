@@ -78,45 +78,34 @@
             has-modal-card
             trap-focus
             :destroy-on-hide="false"
-            aria-role="dialog"
-            aria-modal>
-            <template #default="props">
-                <occupant-form @addOccupant="addOccupant" @close="props.close"></occupant-form>
-            </template>
-        </b-modal>
-
-</div>
-</template>
-
-<script>
-
-const OccupantForm = {
-        props: ['canCancel'],
-        data() {
-            return {
-                newOccupant: {},
-                labelPosition: 'inside'
-            }
-        },
-        methods: {
-            addOccupant(newOccupant) {
-                this.$emit('addOccupant', newOccupant);
-                this.newOccupant = {};
-            }
-        },
-        template: `
-            <form @submit.prevent="addOccupant(newOccupant)">
+            aria-modal
+        >
+            <form @submit.prevent="addOccupant()">
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Oturan Ekle</p>
                         <button
                             type="button"
                             class="delete"
-                            @click="$emit('close')"/>
+                            @click="addOccupantModal=false"/>
                     </header>
-                    <section class="modal-card-body">
+                    <section class="modal-card-body" id="add-occupant-modal-body">
                         <b-field label="Kişi Adı" :label-position="labelPosition">
-                            <b-input v-model="newOccupant.name"></b-input>
+                            <div class="dropdown is-block is-active">
+                                <div class="dropdown-trigger">
+                                    <div class="control has-icons-right">
+                                        <input class="input" type="text" style="padding-top: 2rem;padding-bottom: 1rem;" v-model="newOccupant.name" v-on:keyup="searchPerson();personList=true;" required>
+                                        <span class="tag is-info is-small is-right" style="position: absolute;right: 10px;top: 0.75rem;" v-if="newOccupant.accounts_id == null && newOccupant.name!=null">Yeni Kişi</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content" style="display:none" v-bind:class="{ 'is-block' : personList }" v-if="personResults.length>0">
+                                    <a @click="prepareOccupantToAdd(person)" class="dropdown-item" :key="person.id" v-for="person in personResults" v-bind:value="person.id">
+                                        {{person.name}}
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
                         </b-field>
 
                         <b-field label="Giriş Tarihi" :label-position="labelPosition">
@@ -127,12 +116,11 @@ const OccupantForm = {
                                 >
                             </b-datepicker>
                         </b-field>
-
                     </section>
                     <footer class="modal-card-foot">
                         <b-button
                             label="Vazgeç"
-                            @click="$emit('close')"
+                            @click="addOccupantModal=false"
                         />
                         <b-button
                             label="Kaydet"
@@ -142,26 +130,32 @@ const OccupantForm = {
                     </footer>
                 </div>
             </form>
-        `
-    }
+        </b-modal>
 
+</div>
+</template>
+
+<script>
 export default {
-        components: {
-        OccupantForm
-    },
     data() {
         return {
+            newOccupant: {},
+            labelPosition: 'inside',
             siteID: null,
             properties: [{householder: {}, tenant: {}, type: {}}],
             loadingTable: true,
             addOccupantModal: false,
             occupantType: null,
             selectedProperty: null,
+            personResults: [],
+            persons: [],
+            personList: false,
         }
     },
     mounted() {
         this.siteID = this.$route.params.sites_id;
         this.getSiteProperties();
+        this.getSitePersons();
     },
     methods: {
         getSiteProperties() {
@@ -179,12 +173,13 @@ export default {
                 this.loadingTable = false;
             });
         },
-        addOccupant(newOccupant) {
+        addOccupant() {
             axios.post('/api/sites/'+this.siteID+'/occupants/', {
-                name: newOccupant.name,
+                name: this.newOccupant.name,
+                accounts_id: this.newOccupant.accounts_id,
                 type: this.occupantType,
                 properties_id: this.selectedProperty,
-                entry_date: (newOccupant.entry_date) ? newOccupant.entry_date.toLocaleDateString('tr-TR') : null,
+                entry_date: (this.newOccupant.entry_date) ? this.newOccupant.entry_date.toLocaleDateString('tr-TR') : null,
             })
             .then(response => {
                 this.$buefy.toast.open({
@@ -208,7 +203,40 @@ export default {
             if(this.addOccupantModal == false) {
                 this.$router.push({ name: 'property',  params: { sites_id: this.siteID, properties_id: property.id } })
             }
-        }
+        },
+        getSitePersons() {
+            axios.get('/api/sites/'+this.siteID+'/persons')
+                .then(response => {
+                    this.persons = response.data.data;
+                })
+                .catch(error => {
+                    console.log(error.response.data);
+                });
+        },
+        searchPerson() {
+            var i;
+            this.personResults = [];
+            this.newOccupant.accounts_id = null;
+            if(this.newOccupant.name.length>0) {
+                for (i = 0; i < this.persons.length; i++) {
+                    if(this.persons[i].name.indexOf(this.newOccupant.name)>=0) {
+                        this.personResults.push(this.persons[i]);
+                    }
+                }
+            }
+        },
+        prepareOccupantToAdd(person) {
+            this.newOccupant.name = person.name;
+            this.newOccupant.accounts_id = person.id;
+            this.personList = false;
+        },
     }
 }
 </script>
+
+<style>
+    #add-occupant-modal-body {
+        min-width: 414px;
+        min-height: 400px;
+    }
+</style>

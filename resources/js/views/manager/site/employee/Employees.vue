@@ -50,7 +50,7 @@
                     </b-table-column>
 
                     <b-table-column label="Bakiye" v-slot="props">
-                        {{  props.row.id }}
+
                     </b-table-column>
                     <template #empty>
                         <div v-if="!loadingTable" class="has-text-centered">Kayıt yok</div>

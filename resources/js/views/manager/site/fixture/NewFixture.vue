@@ -19,7 +19,7 @@
     <section>
         <form id="newFixtureForm" @submit.prevent="createFixture()">
             <b-field label="Demirbaş Adı" :label-position="labelPosition">
-                <b-input v-model="newFixture.name"></b-input>
+                <b-input v-model="newFixture.name" required></b-input>
             </b-field>
             <b-field label="Zimmetli" :label-position="labelPosition">
                 <b-input v-model="newFixture.keeper"></b-input>
@@ -35,7 +35,7 @@
             <div class="columns mt-0">
                 <div class="column">
                     <b-field label="Adet" :label-position="labelPosition">
-                        <b-input v-model="newFixture.unit"></b-input>
+                        <b-input v-model="newFixture.unit" required></b-input>
                     </b-field>
                 </div>
                 <div class="column">

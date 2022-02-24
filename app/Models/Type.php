@@ -12,4 +12,9 @@ class Type extends Model
     protected $table = "types";
 
     protected $guarded = [];
+
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'types_id', 'id');
+    }
 }

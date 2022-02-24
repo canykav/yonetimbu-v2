@@ -104,6 +104,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -267,270 +286,323 @@ var render = function() {
   return _c("div", [
     _vm._m(0),
     _vm._v(" "),
-    _c("div", { staticClass: "container block mt-6" }, [
-      _c("div", { staticClass: "card block" }, [
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [
-            _c("p", [_vm._v("Site Ayarları")]),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                attrs: { id: "updateSiteForm" },
-                on: {
-                  submit: function($event) {
-                    $event.preventDefault()
-                    return _vm.updateSite()
+    _c(
+      "div",
+      { staticClass: "container block mt-6" },
+      [
+        _c("div", { staticClass: "card block" }, [
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "content" }, [
+              _c("p", [_vm._v("Site Ayarları")]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  attrs: { id: "updateSiteForm" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateSite()
+                    }
                   }
-                }
-              },
-              [
-                _c(
-                  "b-field",
-                  {
-                    attrs: { label: "Adı", "label-position": _vm.labelPosition }
-                  },
-                  [
-                    _c("b-input", {
-                      attrs: { required: "" },
-                      model: {
-                        value: _vm.site.name,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "name", $$v)
-                        },
-                        expression: "site.name"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Adresi",
-                      "label-position": _vm.labelPosition
-                    }
-                  },
-                  [
-                    _c("b-input", {
-                      model: {
-                        value: _vm.site.address,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "address", $$v)
-                        },
-                        expression: "site.address"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Dönem Başlangıcı",
-                      "label-position": _vm.labelPosition
-                    }
-                  },
-                  [
-                    _c("b-datepicker", {
-                      attrs: { icon: "calendar-today", "trap-focus": "" },
-                      model: {
-                        value: _vm.site.term_start,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "term_start", $$v)
-                        },
-                        expression: "site.term_start"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Dönem Sonu",
-                      "label-position": _vm.labelPosition
-                    }
-                  },
-                  [
-                    _c("b-datepicker", {
-                      attrs: { icon: "calendar-today", "trap-focus": "" },
-                      model: {
-                        value: _vm.site.term_end,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "term_end", $$v)
-                        },
-                        expression: "site.term_end"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Vergi Dairesi",
-                      "label-position": _vm.labelPosition
-                    }
-                  },
-                  [
-                    _c("b-input", {
-                      model: {
-                        value: _vm.site.tax_administration,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "tax_administration", $$v)
-                        },
-                        expression: "site.tax_administration"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Vergi Numarası",
-                      "label-position": _vm.labelPosition
-                    }
-                  },
-                  [
-                    _c("b-input", {
-                      model: {
-                        value: _vm.site.tax_no,
-                        callback: function($$v) {
-                          _vm.$set(_vm.site, "tax_no", $$v)
-                        },
-                        expression: "site.tax_no"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("ul", { staticClass: "list" }, [
+                },
+                [
                   _c(
-                    "li",
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Adı",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
                     [
-                      _c(
-                        "b-field",
-                        [
-                          _c(
-                            "b-switch",
-                            {
-                              model: {
-                                value: _vm.site.debit,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.site, "debit", $$v)
-                                },
-                                expression: "site.debit"
-                              }
-                            },
-                            [_vm._v("Otomatik Aidat Borçlandırması")]
-                          )
-                        ],
-                        1
-                      )
+                      _c("b-input", {
+                        attrs: { required: "" },
+                        model: {
+                          value: _vm.site.name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "name", $$v)
+                          },
+                          expression: "site.name"
+                        }
+                      })
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "li",
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Adresi",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
                     [
-                      _c(
-                        "b-field",
-                        [
-                          _c(
-                            "b-switch",
-                            {
-                              model: {
-                                value: _vm.site.archived_at,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.site, "archived_at", $$v)
-                                },
-                                expression: "site.archived_at"
-                              }
-                            },
-                            [_vm._v("Siteyi Arşivle")]
-                          )
-                        ],
-                        1
-                      )
+                      _c("b-input", {
+                        model: {
+                          value: _vm.site.address,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "address", $$v)
+                          },
+                          expression: "site.address"
+                        }
+                      })
                     ],
                     1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("b-field", [
+                  ),
+                  _vm._v(" "),
                   _c(
-                    "p",
-                    { staticClass: "control" },
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Dönem Başlangıcı",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
+                    [
+                      _c("b-datepicker", {
+                        attrs: { icon: "calendar-today", "trap-focus": "" },
+                        model: {
+                          value: _vm.site.term_start,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "term_start", $$v)
+                          },
+                          expression: "site.term_start"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Dönem Sonu",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
+                    [
+                      _c("b-datepicker", {
+                        attrs: { icon: "calendar-today", "trap-focus": "" },
+                        model: {
+                          value: _vm.site.term_end,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "term_end", $$v)
+                          },
+                          expression: "site.term_end"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Vergi Dairesi",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
+                    [
+                      _c("b-input", {
+                        model: {
+                          value: _vm.site.tax_administration,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "tax_administration", $$v)
+                          },
+                          expression: "site.tax_administration"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Vergi Numarası",
+                        "label-position": _vm.labelPosition
+                      }
+                    },
+                    [
+                      _c("b-input", {
+                        model: {
+                          value: _vm.site.tax_no,
+                          callback: function($$v) {
+                            _vm.$set(_vm.site, "tax_no", $$v)
+                          },
+                          expression: "site.tax_no"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "list" }, [
+                    _c(
+                      "li",
+                      [
+                        _c(
+                          "b-field",
+                          [
+                            _c(
+                              "b-switch",
+                              {
+                                model: {
+                                  value: _vm.site.debit,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.site, "debit", $$v)
+                                  },
+                                  expression: "site.debit"
+                                }
+                              },
+                              [_vm._v("Otomatik Aidat Borçlandırması")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      [
+                        _c(
+                          "b-field",
+                          [
+                            _c(
+                              "b-switch",
+                              {
+                                model: {
+                                  value: _vm.site.archived_at,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.site, "archived_at", $$v)
+                                  },
+                                  expression: "site.archived_at"
+                                }
+                              },
+                              [_vm._v("Siteyi Arşivle")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("b-field", [
+                    _c(
+                      "p",
+                      { staticClass: "control" },
+                      [
+                        _c("b-button", {
+                          attrs: {
+                            expanded: "",
+                            label: "Kaydet",
+                            type: "is-primary",
+                            "native-type": "submit",
+                            loading: _vm.loadingUpdateButton,
+                            form: "updateSiteForm"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ],
+                1
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "b-collapse",
+          {
+            staticClass: "card",
+            attrs: { open: false, animation: "slide" },
+            scopedSlots: _vm._u([
+              {
+                key: "trigger",
+                fn: function(props) {
+                  return [
+                    _c(
+                      "div",
+                      { staticClass: "card-header", attrs: { role: "button" } },
+                      [
+                        _c("p", { staticClass: "card-header-title" }, [
+                          _vm._v(
+                            "\n                        Siteyi Sil\n                    "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          { staticClass: "card-header-icon" },
+                          [
+                            _c("b-icon", {
+                              attrs: {
+                                icon: props.open ? "menu-down" : "menu-up"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ]
+                }
+              }
+            ])
+          },
+          [
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "content" }, [
+                _c("div", { staticClass: "columns" }, [
+                  _c("div", { staticClass: "column" }, [
+                    _c("p", { staticClass: "is-size-7" }, [
+                      _vm._v(
+                        "Bir siteyi sildikten sonra geri dönüş yoktur. Lütfen emin olun."
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column" },
                     [
                       _c("b-button", {
                         attrs: {
                           expanded: "",
-                          label: "Kaydet",
-                          type: "is-primary",
+                          label: "Sil",
+                          type: "is-danger",
                           "native-type": "submit",
-                          loading: _vm.loadingUpdateButton,
-                          form: "updateSiteForm"
+                          loading: _vm.loadingDeleteButton
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteSite()
+                          }
                         }
                       })
                     ],
                     1
                   )
                 ])
-              ],
-              1
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card block" }, [
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [
-            _c("p", [_vm._v("Siteyi Sil")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "columns" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "column" },
-                [
-                  _c("b-button", {
-                    attrs: {
-                      expanded: "",
-                      label: "Sil",
-                      type: "is-danger",
-                      "native-type": "submit",
-                      loading: _vm.loadingDeleteButton
-                    },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteSite()
-                      }
-                    }
-                  })
-                ],
-                1
-              )
+              ])
             ])
-          ])
-        ])
-      ])
-    ])
+          ]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -553,18 +625,6 @@ var staticRenderFns = [
               ])
             ])
           ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-flex is-align-items-center" }, [
-      _c("p", { staticClass: "is-size-7" }, [
-        _vm._v(
-          "Bir siteyi sildikten sonra geri dönüş yoktur. Lütfen emin olun."
         )
       ])
     ])

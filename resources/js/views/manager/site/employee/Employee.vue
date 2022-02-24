@@ -17,7 +17,7 @@
                     icon-left="cog"
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
             </template>
-            <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newCollection', params: { persons_id: personID}})">Personeli Sil</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" @click="deleteModal=true">Personeli Sil</b-dropdown-item>
         </b-dropdown>
     </div>
   </div>
@@ -136,6 +136,17 @@
                     </header>
                     <div class="card-content">
                         <div class="content">
+                            <b-notification
+                                id="balance-info"
+                                :class="{'is-hidden' : balance==null, 'is-danger is-light': balance<0, 'is-success is-light': balance>=0 }"
+                                >
+                                <b-icon
+                                    icon="cash-multiple"
+                                >
+                                </b-icon>
+                                Toplam Bakiye:
+                                {{ balance | turkishMoney }}
+                            </b-notification>
                   <b-tabs type="is-toggle">
             <b-tab-item label="Personelin Kalan Alacakları" icon="credit-card-outline">
                         <b-table
@@ -230,6 +241,41 @@
 </div>
 
 
+        <b-modal
+            v-model="deleteModal"
+            has-modal-card
+            trap-focus
+            :destroy-on-hide="false"
+            aria-modal
+        >
+            <form @submit.prevent="deleteEmployee()">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">İşlemi onaylayın</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="deleteModal=false"/>
+                    </header>
+                    <section class="modal-card-body">
+                       Personel siliniyor. Devam etmek istediğinize emin misiniz?
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Vazgeç"
+                            @click="deleteModal=false"
+                        />
+                        <b-button
+                            label="Kaydet"
+                            type="is-primary"
+                            :loading="loadingDeleteButton"
+                            native-type="submit"
+                        />
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
+
 </div>
 </template>
 
@@ -245,6 +291,9 @@ data() {
             isTableEmpty: false,
             edit: 0,
             transactions: [],
+            deleteModal: false,
+            loadingDeleteButton: false,
+            balance: null,
     }
 },
     mounted() {
@@ -274,7 +323,8 @@ data() {
             }
         })
             .then(response => {
-                this.transactions = response.data.data;
+                this.transactions = response.data.data.transactions;
+                this.balance = response.data.data.balance;
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -321,6 +371,26 @@ data() {
             })
             .then(() => {
                 this.loadingUpdateButton = false;
+            });
+        },
+        deleteEmployee(){
+            this.loadingDeleteButton = true;
+            axios.delete('/api/sites/'+this.siteID+'/accounts/'+this.employeeID)
+            .then(response => {
+                this.$buefy.toast.open({
+                    message: response.data.message,
+                    type: 'is-success'
+                });
+                this.$router.push({ name: 'employees', params: { sites_id: this.siteID} });
+            })
+            .catch(error => {
+                this.$buefy.toast.open({
+                    message: error.response.data.message,
+                    type: 'is-danger'
+                })
+            })
+            .then(() => {
+                this.loadingDeleteButton = false;
             });
         },
         toggleEdit() {

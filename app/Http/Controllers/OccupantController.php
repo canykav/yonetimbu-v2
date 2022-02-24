@@ -51,29 +51,45 @@ class OccupantController extends Controller
      */
     public function store(Request $req, $sites_id)
     {
-        if($req->name) {
+        if(empty($req->name)) {
+            return response()->json(['message' => 'Kişi adı boş bırakılamaz.'],500);
+        }
+        if(empty($req->entry_date)) {
+            return response()->json(['message' => 'Giriş tarihi boş bırakılamaz.'],500);
+        }
+
+        if($req->accounts_id) {
+            $occ = $this->createOccupant($sites_id, $req);
+        } else if($req->name) {
             DB::beginTransaction();
 
             $acc = Account::create([
                 'name' => $req->name,
                 'sites_id' => $sites_id,
             ]);
-            $occ = Occupant::create([
-                'sites_id' => $sites_id,
-                'accounts_id' => $acc->id,
-                'properties_id' => $req->properties_id,
-                'type' => $req->type,
-                'entry_date' => (!empty($req['entry_date'])) ? date('Y-m-d', strtotime($req['entry_date'])) : null
-            ]);
+
+            $req['accounts_id'] = $acc->id;
+
+            $occ = $this->createOccupant($sites_id, $req);
 
             DB::commit();
-
-            if($occ) {
-                return response()->json(['message' => 'Oturan başarıyla kaydedildi.']);
-            } else {
-                return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
-            }
         }
+
+        if($occ) {
+            return response()->json(['message' => 'Oturan başarıyla kaydedildi.']);
+        } else {
+            return response()->json(['message' => 'Kayıt sırasında hata oluştu.'],500);
+        }
+    }
+
+    private function createOccupant($sites_id, $req) {
+        return Occupant::create([
+            'sites_id' => $sites_id,
+            'accounts_id' => $req->accounts_id,
+            'properties_id' => $req->properties_id,
+            'type' => $req->type,
+            'entry_date' => (!empty($req['entry_date'])) ? date('Y-m-d', strtotime($req['entry_date'])) : null
+        ]);
     }
 
     /**

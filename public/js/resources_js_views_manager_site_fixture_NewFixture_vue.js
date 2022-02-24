@@ -247,6 +247,7 @@ var render = function() {
                         },
                         [
                           _c("b-input", {
+                            attrs: { required: "" },
                             model: {
                               value: _vm.newFixture.name,
                               callback: function($$v) {
@@ -319,6 +320,7 @@ var render = function() {
                               },
                               [
                                 _c("b-input", {
+                                  attrs: { required: "" },
                                   model: {
                                     value: _vm.newFixture.unit,
                                     callback: function($$v) {

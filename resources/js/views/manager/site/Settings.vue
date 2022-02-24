@@ -71,21 +71,40 @@
                     </div>
                 </div>
             </div>
-            <div class="card block">
-                <div class="card-content">
-                    <div class="content">
-                            <p>Siteyi Sil</p>
-                            <div class="columns">
-                                <div class="column is-flex is-align-items-center">
-                                    <p class="is-size-7">Bir siteyi sildikten sonra geri dönüş yoktur. Lütfen emin olun.</p>
-                                </div>
-                                <div class="column">
-                                    <b-button expanded label="Sil" type="is-danger" native-type="submit" :loading="loadingDeleteButton" @click="deleteSite()"/>
-                                </div>
-                            </div>
+
+             <b-collapse
+            class="card"
+            :open="false"
+            animation="slide">
+            <template #trigger="props">
+                <div
+                    class="card-header"
+                    role="button">
+                    <p class="card-header-title">
+                        Siteyi Sil
+                    </p>
+                    <a class="card-header-icon">
+                        <b-icon
+                            :icon="props.open ? 'menu-down' : 'menu-up'">
+                        </b-icon>
+                    </a>
+                </div>
+            </template>
+
+            <div class="card-content">
+                <div class="content">
+                    <div class="columns">
+                        <div class="column">
+                            <p class="is-size-7">Bir siteyi sildikten sonra geri dönüş yoktur. Lütfen emin olun.</p>
+                        </div>
+                        <div class="column">
+                            <b-button expanded label="Sil" type="is-danger" native-type="submit" :loading="loadingDeleteButton" @click="deleteSite()"/>
+                        </div>
                     </div>
                 </div>
             </div>
+        </b-collapse>
+
 
         </div>
     </div>

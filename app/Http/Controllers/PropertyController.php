@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Property;
 use App\Models\Site;
+use App\Models\Occupant;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -81,8 +82,17 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $req, $sites_id, $id)
     {
-        //
+        if(Occupant::where('properties_id', $id)->exists()) {
+            return response()->json(['message' => 'Bu bölüme bağlanmış hesap(lar) vardır. Bölüm silinemedi.'],500);
+        } else {
+            $deleteProperty = Property::find($id)->delete();
+            if($deleteProperty) {
+                return response()->json(['message' => 'Bölüm başarıyla silindi.']);
+            } else {
+                return response()->json(['message' => 'İşlem sırasında hata oluştu.']);
+            }
+        }
     }
 }

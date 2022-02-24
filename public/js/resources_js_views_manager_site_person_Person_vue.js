@@ -250,6 +250,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var AbandonForm = {
   props: ['canCancel'],
   data: function data() {
@@ -283,7 +331,10 @@ var AbandonForm = {
       unpaidDebits: [],
       transactions: [],
       isComponentModalActive: false,
-      selectedOccupant: null
+      selectedOccupant: null,
+      deleteModal: false,
+      loadingDeleteButton: false,
+      balance: null
     };
   },
   mounted: function mounted() {
@@ -339,7 +390,8 @@ var AbandonForm = {
           persons_id: this.personID
         }
       }).then(function (response) {
-        _this3.transactions = response.data.data;
+        _this3.transactions = response.data.data.transactions;
+        _this3.balance = response.data.data.balance;
 
         _this3.transactions.forEach(function (debit) {
           debit.occupant.property.doorWithBlock = debit.occupant.property.block.name ? debit.occupant.property.block.name + '-' + debit.occupant.property.door_no : debit.occupant.property.door_no;
@@ -404,6 +456,31 @@ var AbandonForm = {
           type: 'is-danger'
         });
       });
+    },
+    deletePerson: function deletePerson() {
+      var _this6 = this;
+
+      this.loadingDeleteButton = true;
+      axios["delete"]('/api/sites/' + this.siteID + '/accounts/' + this.personID).then(function (response) {
+        _this6.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this6.$router.push({
+          name: 'persons',
+          params: {
+            sites_id: _this6.siteID
+          }
+        });
+      })["catch"](function (error) {
+        _this6.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this6.loadingDeleteButton = false;
+      });
     }
   }
 });
@@ -420,7 +497,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Person.vue?vue&type=template&id=7ed56ff0& */ "./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&");
+/* harmony import */ var _Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Person.vue?vue&type=template&id=7ed56ff0&scoped=true& */ "./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true&");
 /* harmony import */ var _Person_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Person.vue?vue&type=script&lang=js& */ "./resources/js/views/manager/site/person/Person.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -432,11 +509,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
   _Person_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "7ed56ff0",
   null
   
 )
@@ -463,26 +540,26 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0& ***!
-  \******************************************************************************************/
+/***/ "./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true& ***!
+  \******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Person.vue?vue&type=template&id=7ed56ff0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Person_vue_vue_type_template_id_7ed56ff0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Person.vue?vue&type=template&id=7ed56ff0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0& ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/manager/site/person/Person.vue?vue&type=template&id=7ed56ff0&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -580,7 +657,7 @@ var render = function() {
                           attrs: { "aria-role": "listitem" },
                           on: {
                             click: function($event) {
-                              return _vm.$router.push({ name: "" })
+                              _vm.deleteModal = true
                             }
                           }
                         },
@@ -846,6 +923,27 @@ var render = function() {
                   { staticClass: "content" },
                   [
                     _c(
+                      "b-notification",
+                      {
+                        class: {
+                          "is-hidden": _vm.balance == null,
+                          "is-danger is-light": _vm.balance < 0,
+                          "is-success is-light": _vm.balance >= 0
+                        },
+                        attrs: { id: "balance-info" }
+                      },
+                      [
+                        _c("b-icon", { attrs: { icon: "cash-multiple" } }),
+                        _vm._v(
+                          "\n                                Toplam Bakiye:\n                                " +
+                            _vm._s(_vm._f("turkishMoney")(_vm.balance)) +
+                            "\n                            "
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
                       "b-tabs",
                       { staticClass: "m-0", attrs: { type: "is-toggle" } },
                       [
@@ -1041,7 +1139,7 @@ var render = function() {
                                                 _vm._f("turkishMoney")(
                                                   props.row.amount -
                                                     props.row
-                                                      .payments_sum_amount
+                                                      .debit_collections_sum_amount
                                                 )
                                               ) +
                                               "\n                        "
@@ -1388,7 +1486,93 @@ var render = function() {
           },
           expression: "isComponentModalActive"
         }
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": false,
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.deletePerson()
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-card", staticStyle: { width: "auto" } },
+                [
+                  _c("header", { staticClass: "modal-card-head" }, [
+                    _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v("İşlemi onaylayın")
+                    ]),
+                    _vm._v(" "),
+                    _c("button", {
+                      staticClass: "delete",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.deleteModal = false
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("section", { staticClass: "modal-card-body" }, [
+                    _vm._v(
+                      "\n                       Kişi siliniyor. Devam etmek istediğinize emin misiniz?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "footer",
+                    { staticClass: "modal-card-foot" },
+                    [
+                      _c("b-button", {
+                        attrs: { label: "Vazgeç" },
+                        on: {
+                          click: function($event) {
+                            _vm.deleteModal = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("b-button", {
+                        attrs: {
+                          label: "Kaydet",
+                          type: "is-primary",
+                          loading: _vm.loadingDeleteButton,
+                          "native-type": "submit"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
     ],
     1
   )

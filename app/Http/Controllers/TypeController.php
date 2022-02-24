@@ -46,7 +46,13 @@ class TypeController extends Controller
 
     public function destroy($sites_id, $id)
     {
-        $deleteSite = Type::find($id)->delete();
+        $type = Type::find($id);
+
+        if(count($type->properties)>0) {
+            return response()->json(['message' => 'Bölüm tipine bağlı bölümler bulunmaktadır. Bölüm Tipi silinemedi.'],500);
+        }
+
+        $deleteSite = $type->delete();
 
         if($deleteSite) {
             return response()->json(['message' => 'Bölüm tipi başarıyla silindi.']);

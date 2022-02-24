@@ -1943,39 +1943,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      loginInfo: {
-        name: "",
-        email: "",
-        password: "",
-        kvkk: false
-      }
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   }
 });
@@ -24246,7 +24217,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hero[data-v-3563ad7c] {\n    border-bottom: 0;\n}\nform[name=\"signup-form\"][data-v-3563ad7c] {\n    max-width: 347px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hero[data-v-3563ad7c] {\n    border-bottom: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55962,11 +55933,11 @@ var render = function() {
           "form",
           {
             staticClass: "px-6",
-            attrs: { method: "POST", action: "/register", name: "signup-form" }
+            attrs: { name: "register-form", method: "post", action: "register" }
           },
           [
             _c("p", { staticClass: "is-size-4 has-text-weight-medium" }, [
-              _vm._v("Yönetici Kayıt Formu")
+              _vm._v("Kayıt")
             ]),
             _vm._v(" "),
             _vm._m(1),
@@ -55981,14 +55952,7 @@ var render = function() {
               { attrs: { label: "Ad Soyad" } },
               [
                 _c("b-input", {
-                  attrs: { name: "name" },
-                  model: {
-                    value: _vm.loginInfo.name,
-                    callback: function($$v) {
-                      _vm.$set(_vm.loginInfo, "name", $$v)
-                    },
-                    expression: "loginInfo.name"
-                  }
+                  attrs: { type: "text", name: "name", required: "required" }
                 })
               ],
               1
@@ -55999,14 +55963,7 @@ var render = function() {
               { attrs: { label: "Email" } },
               [
                 _c("b-input", {
-                  attrs: { type: "email", name: "email" },
-                  model: {
-                    value: _vm.loginInfo.email,
-                    callback: function($$v) {
-                      _vm.$set(_vm.loginInfo, "email", $$v)
-                    },
-                    expression: "loginInfo.email"
-                  }
+                  attrs: { type: "email", name: "email", required: "required" }
                 })
               ],
               1
@@ -56020,14 +55977,8 @@ var render = function() {
                   attrs: {
                     type: "password",
                     name: "password",
+                    required: "required",
                     "password-reveal": ""
-                  },
-                  model: {
-                    value: _vm.loginInfo.password,
-                    callback: function($$v) {
-                      _vm.$set(_vm.loginInfo, "password", $$v)
-                    },
-                    expression: "loginInfo.password"
                   }
                 })
               ],
@@ -56036,29 +55987,16 @@ var render = function() {
             _vm._v(" "),
             _c(
               "b-field",
+              { attrs: { label: "Şifre(tekrar)" } },
               [
-                _c(
-                  "b-checkbox",
-                  {
-                    staticClass: "is-size-7",
-                    attrs: { name: "kvkk" },
-                    model: {
-                      value: _vm.loginInfo.kvkk,
-                      callback: function($$v) {
-                        _vm.$set(_vm.loginInfo, "kvkk", $$v)
-                      },
-                      expression: "loginInfo.kvkk"
-                    }
-                  },
-                  [
-                    _c("a", { staticClass: "has-text-link" }, [
-                      _vm._v("KVKK Aydınlatma Metni")
-                    ]),
-                    _vm._v(
-                      "'ni okudum ve kabul ediyorum.\n                    "
-                    )
-                  ]
-                )
+                _c("b-input", {
+                  attrs: {
+                    type: "password",
+                    name: "password_confirmation",
+                    required: "required",
+                    "password-reveal": ""
+                  }
+                })
               ],
               1
             ),
@@ -56073,7 +56011,7 @@ var render = function() {
                   expanded: ""
                 }
               },
-              [_vm._v("\n                    Kayıt Ol\n                ")]
+              [_vm._v("Kayıt Ol")]
             )
           ],
           1
@@ -56113,8 +56051,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", { staticClass: "is-size-7 mb-6" }, [
-      _vm._v("Zaten hesabınız var mı?"),
-      _c("a", { staticClass: "has-text-primary" }, [_vm._v(" Giriş Yapın")])
+      _vm._v("Hesabınız var mı?"),
+      _c("a", { staticClass: "has-text-primary", attrs: { href: "/login" } }, [
+        _vm._v(" Giriş yapın")
+      ])
     ])
   }
 ]

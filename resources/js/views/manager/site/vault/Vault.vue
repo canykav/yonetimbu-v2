@@ -17,7 +17,7 @@
                     icon-left="cog"
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
             </template>
-            <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newCollection', params: { persons_id: personID}})">Kasayı Sil</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" @click="deleteModal=true">Kasayı Sil</b-dropdown-item>
         </b-dropdown>
     </div>
   </div>
@@ -63,6 +63,27 @@
                                             trap-focus
                                             custom-class="is-small">
                                             </b-datepicker>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="vault.type=='Banka Hesabı'">
+                                        <td width="30%">IBAN</td>
+                                        <td>
+                                            <span v-if="edit==0">{{vault.iban}}</span>
+                                            <b-input custom-class="is-small" v-if="edit==1" v-model="editedVaultData.iban"></b-input>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="vault.type=='Banka Hesabı'">
+                                        <td width="30%">Banka</td>
+                                        <td>
+                                            <span v-if="edit==0">{{vault.bank}}</span>
+                                            <b-input custom-class="is-small" v-if="edit==1" v-model="editedVaultData.bank"></b-input>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="vault.type=='Banka Hesabı'">
+                                        <td width="30%">Şube</td>
+                                        <td>
+                                            <span v-if="edit==0">{{vault.branch}}</span>
+                                            <b-input custom-class="is-small" v-if="edit==1" v-model="editedVaultData.branch"></b-input>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -130,6 +151,40 @@
         </div>
 </div>
 
+<b-modal
+            v-model="deleteModal"
+            has-modal-card
+            trap-focus
+            :destroy-on-hide="false"
+            aria-modal
+        >
+            <form @submit.prevent="deleteVault()">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">İşlemi onaylayın</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="deleteModal=false"/>
+                    </header>
+                    <section class="modal-card-body">
+                       Kasa siliniyor. Devam etmek istediğinize emin misiniz?
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Vazgeç"
+                            @click="deleteModal=false"
+                        />
+                        <b-button
+                            label="Kaydet"
+                            type="is-primary"
+                            :loading="loadingDeleteButton"
+                            native-type="submit"
+                        />
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
 
 </div>
 </template>
@@ -138,6 +193,7 @@
 export default {
 data() {
     return {
+            deleteModal: false,
             siteID: null,
             vaultID: null,
             vault: {},
@@ -146,6 +202,9 @@ data() {
             isTableEmpty: false,
             edit: 0,
             transactions: [],
+            loadingDeleteButton: false,
+            loadingTable: false,
+            balance : null,
     }
 },
     mounted() {
@@ -174,7 +233,8 @@ data() {
             }
         })
             .then(response => {
-                this.transactions = response.data.data;
+                this.transactions = response.data.data.transactions;
+                this.balance = response.data.data.balance;
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -182,10 +242,17 @@ data() {
         },
         updateVault(){
             this.loadingUpdateButton = true;
-            axios.put('/api/sites/'+this.siteID+'/vaults/'+this.vaultID, {
+            var updateVaultData = {
                 name: this.editedVaultData.name,
                 opening_date: (this.editedVaultData.opening_date) ? this.editedVaultData.opening_date.toLocaleDateString('tr-TR') : null
-            })
+            }
+            if(this.vault.type=='Banka Hesabı') {
+                updateVaultData['iban'] = this.editedVaultData.iban;
+                updateVaultData['bank'] = this.editedVaultData.bank;
+                updateVaultData['branch'] = this.editedVaultData.branch;
+            }
+
+            axios.put('/api/sites/'+this.siteID+'/vaults/'+this.vaultID, updateVaultData)
             .then(response => {
                 this.$buefy.toast.open({
                     message: response.data.message,
@@ -202,6 +269,26 @@ data() {
             })
             .then(() => {
                 this.loadingUpdateButton = false;
+            });
+        },
+        deleteVault() {
+            this.loadingDeleteButton = true;
+            axios.delete('/api/sites/'+this.siteID+'/vaults/'+this.vaultID)
+            .then(response => {
+                this.$buefy.toast.open({
+                    message: response.data.message,
+                    type: 'is-success'
+                });
+                this.$router.push({ name: 'vaults', params: { sites_id: this.siteID} });
+            })
+            .catch(error => {
+                this.$buefy.toast.open({
+                    message: error.response.data.message,
+                    type: 'is-danger'
+                })
+            })
+            .then(() => {
+                this.loadingDeleteButton = false;
             });
         },
         toggleEdit() {

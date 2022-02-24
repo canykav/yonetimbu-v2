@@ -19,7 +19,7 @@
             </template>
             <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newDebit', params: { persons_id: personID} })">Borçlandır</b-dropdown-item>
             <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newCollection', params: { persons_id: personID}})">Tahsil Et</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem" @click="$router.push({ name: '' })">Kişiyi Sil</b-dropdown-item>
+            <b-dropdown-item aria-role="listitem" @click="deleteModal=true">Kişiyi Sil</b-dropdown-item>
 
         </b-dropdown>
     </div>
@@ -89,6 +89,18 @@
                     </header>
                     <div class="card-content">
                         <div class="content">
+                            <b-notification
+                                id="balance-info"
+                                :class="{'is-hidden' : balance==null, 'is-danger is-light': balance<0, 'is-success is-light': balance>=0 }"
+                                >
+                                <b-icon
+                                    icon="cash-multiple"
+                                >
+                                </b-icon>
+                                Toplam Bakiye:
+                                {{ balance | turkishMoney }}
+                            </b-notification>
+
     <b-tabs type="is-toggle" class="m-0">
         <b-tab-item label="Ödenmemiş Borçlandırmalar" icon="credit-card-outline">
                     <b-table
@@ -125,7 +137,7 @@
                         </b-table-column>
 
                         <b-table-column label="Kalan" v-slot="props">
-                            {{  props.row.amount - props.row.payments_sum_amount | turkishMoney }}
+                            {{  props.row.amount - props.row.debit_collections_sum_amount | turkishMoney }}
                         </b-table-column>
                         <template #empty>
                             <div v-if="!loadingUnpaidDebitsTable" class="has-text-centered">Kayıt yok</div>
@@ -234,6 +246,42 @@
             </template>
         </b-modal>
 
+        <b-modal
+            v-model="deleteModal"
+            has-modal-card
+            trap-focus
+            :destroy-on-hide="false"
+            aria-modal
+        >
+            <form @submit.prevent="deletePerson()">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">İşlemi onaylayın</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="deleteModal=false"/>
+                    </header>
+                    <section class="modal-card-body">
+                       Kişi siliniyor. Devam etmek istediğinize emin misiniz?
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Vazgeç"
+                            @click="deleteModal=false"
+                        />
+                        <b-button
+                            label="Kaydet"
+                            type="is-primary"
+                            :loading="loadingDeleteButton"
+                            native-type="submit"
+                        />
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
+
+
 </div>
 </template>
 
@@ -307,6 +355,9 @@ export default {
                 transactions: [],
                 isComponentModalActive: false,
                 selectedOccupant: null,
+                deleteModal: false,
+                loadingDeleteButton: false,
+                balance: null,
         }
     },
     mounted() {
@@ -359,7 +410,8 @@ export default {
             }
         })
             .then(response => {
-                this.transactions = response.data.data;
+                this.transactions = response.data.data.transactions;
+                this.balance = response.data.data.balance;
                 this.transactions.forEach(debit => {
                     debit.occupant.property.doorWithBlock = (debit.occupant.property.block.name) ? debit.occupant.property.block.name + '-'+ debit.occupant.property.door_no : debit.occupant.property.door_no;
                 });
@@ -420,8 +472,31 @@ export default {
                     type: 'is-danger'
                 })
             });
-        }
+        },
+        deletePerson(){
+            this.loadingDeleteButton = true;
+            axios.delete('/api/sites/'+this.siteID+'/accounts/'+this.personID)
+            .then(response => {
+                this.$buefy.toast.open({
+                    message: response.data.message,
+                    type: 'is-success'
+                });
+                this.$router.push({ name: 'persons', params: { sites_id: this.siteID} });
+            })
+            .catch(error => {
+                this.$buefy.toast.open({
+                    message: error.response.data.message,
+                    type: 'is-danger'
+                })
+            })
+            .then(() => {
+                this.loadingDeleteButton = false;
+            });
+        },
     }
 }
 </script>
 
+<style scoped>
+
+</style>

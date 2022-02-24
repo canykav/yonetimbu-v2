@@ -149,7 +149,12 @@ class TransactionController extends Controller
             };
             $transactions = array_reverse($transactions);
         }
-        return response()->json(['data' => $transactions]);
+
+        $data = [
+            'transactions' => $transactions,
+            'balance' => isset($transactions[0]['balance']) ? $transactions[0]['balance'] : 0
+        ];
+        return response()->json(['data' => $data]);
 
     }
 

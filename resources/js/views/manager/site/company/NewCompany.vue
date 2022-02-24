@@ -7,7 +7,6 @@
     <p class="is-size-4 mb-0">
       Yeni Firma
     </p>
-    <p class="has-text-grey is-size-7">......</p>
         </div>
   </div>
   </div>

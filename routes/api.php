@@ -11,6 +11,12 @@ Route::resource('sites', App\Http\Controllers\SiteController::class);
 
 Route::get('sites/{sites_id}/dashboard',  [App\Http\Controllers\DashboardController::class, 'index']);
 
+Route::get('data/debit-types', [App\Http\Controllers\JsonController::class, 'getDebitTypes']);
+Route::get('data/expense-types', [App\Http\Controllers\JsonController::class, 'getExpenseTypes']);
+Route::get('data/banks', [App\Http\Controllers\JsonController::class, 'getBanks']);
+
+Route::resource('managers', App\Http\Controllers\ManagerController::class);
+
 // api routes must have api middleware but my application use this routes on just web pages.
 Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () {
     Route::resource('persons', App\Http\Controllers\PersonController::class);
@@ -26,7 +32,7 @@ Route::prefix('sites/{sites_id}/')->middleware('auth:web')->group(function () {
     Route::resource('occupants', App\Http\Controllers\OccupantController::class);
     Route::resource('accounts', App\Http\Controllers\AccountController::class);
     Route::resource('transactions', App\Http\Controllers\TransactionController::class);
-    Route::resource('inventory', App\Http\Controllers\InventoryController::class);
+    //Route::resource('inventory', App\Http\Controllers\InventoryController::class);
     Route::resource('fixtures', App\Http\Controllers\FixtureController::class);
     Route::resource('types', App\Http\Controllers\TypeController::class);
     Route::resource('payments', App\Http\Controllers\PaymentController::class);

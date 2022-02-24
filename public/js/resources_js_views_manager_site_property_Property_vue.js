@@ -423,7 +423,7 @@ var render = function() {
                 _c("p", { staticClass: "is-size-4 mb-0" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.property.name) +
+                      _vm._s(_vm.property.doorWithBlock) +
                       "\n                    "
                   )
                 ])

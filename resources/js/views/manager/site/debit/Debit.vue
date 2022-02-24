@@ -17,8 +17,8 @@
                     icon-left="cog"
                     :icon-right="active ? 'menu-up' : 'menu-down'" />
             </template>
-            <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newDebitCollection', params: { debits_id: debitID , persons_id: debit.occupant.accounts_id, occupants_id: debit.occupants_id }})">Tahsilat Ekle</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem" @click="$router.push({ name: 'newDebitCollection', params: { persons_id: personID}})">Tahsilatla İlişkilendir</b-dropdown-item>
+            <b-dropdown-item @click="$router.push({ name: 'newDebitCollection', params: { debits_id: debitID , persons_id: debit.occupant.accounts_id, occupants_id: debit.occupants_id }})">Tahsilat Ekle</b-dropdown-item>
+            <b-dropdown-item @click="deleteModal=true">Borçlandırmayı Sil</b-dropdown-item>
         </b-dropdown>
     </div>
   </div>
@@ -186,6 +186,40 @@
         </div>
 </div>
 
+        <b-modal
+            v-model="deleteModal"
+            has-modal-card
+            trap-focus
+            :destroy-on-hide="false"
+            aria-modal
+        >
+            <form @submit.prevent="deleteDebit()">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">İşlemi onaylayın</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="deleteModal=false"/>
+                    </header>
+                    <section class="modal-card-body">
+                       Borçlandırma siliniyor. Devam etmek istediğinize emin misiniz?
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Vazgeç"
+                            @click="deleteModal=false"
+                        />
+                        <b-button
+                            label="Kaydet"
+                            type="is-primary"
+                            :loading="loadingDeleteButton"
+                            native-type="submit"
+                        />
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
 
 </div>
 </template>
@@ -203,6 +237,8 @@ data() {
             edit: 0,
             transactions: [],
             receivables: [],
+            deleteModal: false,
+            loadingDeleteButton: false,
     }
 },
     mounted() {
@@ -216,7 +252,6 @@ data() {
             .then(response => {
                 this.debit = response.data.data;
                 this.debit.occupant.property.doorWithBlock = (this.debit.occupant.property.block.name) ? this.debit.occupant.property.block.name + '-'+ this.debit.occupant.property.door_no : this.debit.occupant.property.door_no;
-
             })
             .catch(error => {
                 console.log(error.response.data);
@@ -254,6 +289,26 @@ data() {
             })
             .then(() => {
                 this.loadingUpdateButton = false;
+            });
+        },
+            deleteDebit(){
+            this.loadingDeleteButton = true;
+            axios.delete('/api/sites/'+this.siteID+'/debits/'+this.debitID)
+            .then(response => {
+                this.$buefy.toast.open({
+                    message: response.data.message,
+                    type: 'is-success'
+                });
+                this.$router.push({ name: 'debits', params: { sites_id: this.siteID} });
+            })
+            .catch(error => {
+                this.$buefy.toast.open({
+                    message: error.response.data.message,
+                    type: 'is-danger'
+                })
+            })
+            .then(() => {
+                this.loadingDeleteButton = false;
             });
         },
         toggleEdit() {

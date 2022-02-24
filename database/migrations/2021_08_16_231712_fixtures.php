@@ -16,10 +16,10 @@ class Fixtures extends Migration
         Schema::create('fixtures', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('keeper');
+            $table->string('keeper')->nullable();
             $table->integer('unit');
             $table->decimal('unit_price',19,2);
-            $table->date('bought_date');
+            $table->date('bought_date')->nullable();
             $table->unsignedBigInteger('sites_id');
             $table->foreign('sites_id')->references('id')->on('sites')->onDelete('cascade');
         });

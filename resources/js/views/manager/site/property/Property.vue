@@ -5,7 +5,7 @@
             <div class="container is-flex is-justify-content-space-between is-align-items-center">
                 <div name="hero-left-side">
                     <p class="is-size-4 mb-0">
-                    {{property.name}}
+                    {{property.doorWithBlock}}
                     </p>
                 </div>
                 <div class="buttons">

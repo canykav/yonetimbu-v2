@@ -21,8 +21,8 @@ class Sites extends Migration
             $table->string('city')->nullable();
             $table->string('tax_administration')->nullable();
             $table->string('tax_no')->nullable();
-            $table->date('term_start');
-            $table->date('term_end');
+            $table->date('term_start')->nullable();
+            $table->date('term_end')->nullable();
             $table->boolean('debit')->default(0);
             $table->dateTime('archived_at')->nullable();
             $table->timestamps();

@@ -20,13 +20,12 @@ class DebitController extends Controller
             $status = (isset($req->status)) ? $req->status : null;
             $debits = Site::find($sites_id)->debits($status);
         } else if ($req->except=='paid' && $req->persons_id) {
-                $debits = Account::find($req->persons_id)->getUnpaidDebits();
+            $debits = Account::find($req->persons_id)->getUnpaidDebits();
         } else if ($req->except=='paid' && $req->occupants_id) {
             $debits = Occupant::find($req->occupants_id)->getUnpaidDebits();
         }
         return response()->json(['data' => $debits]);
     }
-
 
     public function store($sites_id, Request $req)
     {
@@ -49,7 +48,8 @@ class DebitController extends Controller
 
             foreach($occupant->collections as $collection) {
                 $collections_used_amount = DebitCollection::where('collections_id',$collection['id'])->sum('amount');
-                if($remaining_amount>0 && ($collection['amount'] - $collections_used_amount)>=$remaining_amount) {  // borcun ödenmemiş kısmı varsa ve tahsilatın boşta tutarı varsa bu borca say
+                $collection_remaining_amount = $collection['amount'] - $collections_used_amount;
+                if($remaining_amount>0 && $collection_remaining_amount>=$remaining_amount) {  // borcun ödenmemiş kısmı varsa ve tahsilatın boşta tutarı varsa bu borca say
                     DebitCollection::create([
                         'debits_id' => $debit['id'],
                         'collections_id' => $collection['id'],
@@ -58,6 +58,20 @@ class DebitController extends Controller
                     $debit->update([
                         'status' => Transaction::PAID
                     ]);
+                    $remaining_amount=0;
+                }
+                elseif($remaining_amount>0 && $collection_remaining_amount>0 && $collection_remaining_amount<$remaining_amount ) {
+                    DebitCollection::create([
+                        'debits_id' => $debit['id'],
+                        'collections_id' => $collection['id'],
+                        'amount' => $collection_remaining_amount
+                    ]);
+                    $debit->update([
+                        'status' => Transaction::PARTIAL
+                    ]);
+                    $remaining_amount-=$collection_remaining_amount;
+                } else {
+                    break;
                 }
             }
 
@@ -127,24 +141,6 @@ class DebitController extends Controller
         return response()->json(['data' => $debit]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, $sites_id, $id)
     {
         $req['date'] = (!empty($req['date'])) ? date('Y-m-d', strtotime($req['date'])) : null;
@@ -158,14 +154,29 @@ class DebitController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy($sites_id, $id)
     {
-        //
+        $debit = DB::transaction(function() use ($id) {
+            Transaction::find($id)->delete();
+            DebitCollection::where('debits_id', $id)->delete();
+            return true;
+        });
+
+        if($debit) {
+            return response()->json(['message' => 'Borçlandırma başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.'],500);
+        }
     }
+   /* public function DebitTypesJSON() {
+        $types = [
+            'Aidat',
+            'Demirbaş',
+            'Elektrik',
+            'Sıcak Su',
+            'Temizlik',
+            'Yakıt'
+        ];
+        return response()->json(['data' => $types]);
+    }*/
 }

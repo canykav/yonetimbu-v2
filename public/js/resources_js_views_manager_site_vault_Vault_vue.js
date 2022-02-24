@@ -147,9 +147,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      deleteModal: false,
       siteID: null,
       vaultID: null,
       vault: {},
@@ -157,7 +213,10 @@ __webpack_require__.r(__webpack_exports__);
       loadingUpdateButton: false,
       isTableEmpty: false,
       edit: 0,
-      transactions: []
+      transactions: [],
+      loadingDeleteButton: false,
+      loadingTable: false,
+      balance: null
     };
   },
   mounted: function mounted() {
@@ -187,7 +246,8 @@ __webpack_require__.r(__webpack_exports__);
           vaults_id: this.vaultID
         }
       }).then(function (response) {
-        _this2.transactions = response.data.data;
+        _this2.transactions = response.data.data.transactions;
+        _this2.balance = response.data.data.balance;
       })["catch"](function (error) {
         console.log(error.response.data);
       });
@@ -196,10 +256,18 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loadingUpdateButton = true;
-      axios.put('/api/sites/' + this.siteID + '/vaults/' + this.vaultID, {
+      var updateVaultData = {
         name: this.editedVaultData.name,
         opening_date: this.editedVaultData.opening_date ? this.editedVaultData.opening_date.toLocaleDateString('tr-TR') : null
-      }).then(function (response) {
+      };
+
+      if (this.vault.type == 'Banka Hesabı') {
+        updateVaultData['iban'] = this.editedVaultData.iban;
+        updateVaultData['bank'] = this.editedVaultData.bank;
+        updateVaultData['branch'] = this.editedVaultData.branch;
+      }
+
+      axios.put('/api/sites/' + this.siteID + '/vaults/' + this.vaultID, updateVaultData).then(function (response) {
         _this3.$buefy.toast.open({
           message: response.data.message,
           type: 'is-success'
@@ -215,6 +283,31 @@ __webpack_require__.r(__webpack_exports__);
         });
       }).then(function () {
         _this3.loadingUpdateButton = false;
+      });
+    },
+    deleteVault: function deleteVault() {
+      var _this4 = this;
+
+      this.loadingDeleteButton = true;
+      axios["delete"]('/api/sites/' + this.siteID + '/vaults/' + this.vaultID).then(function (response) {
+        _this4.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this4.$router.push({
+          name: 'vaults',
+          params: {
+            sites_id: _this4.siteID
+          }
+        });
+      })["catch"](function (error) {
+        _this4.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this4.loadingDeleteButton = false;
       });
     },
     toggleEdit: function toggleEdit() {
@@ -314,387 +407,601 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("section", { staticClass: "hero" }, [
-      _c("div", { staticClass: "hero-body" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "container is-flex is-justify-content-space-between is-align-items-center"
-          },
-          [
-            _c("div", { attrs: { name: "hero-left-side" } }, [
-              _c("p", { staticClass: "is-size-4 mb-0" }, [
-                _vm._v("\n      " + _vm._s(_vm.vault.name) + "\n    ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "buttons" },
-              [
-                _c(
-                  "b-dropdown",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { "aria-role": "list" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "trigger",
-                        fn: function(ref) {
-                          var active = ref.active
-                          return [
-                            _c("b-button", {
-                              attrs: {
-                                label: "İşlemler",
-                                type: "is-primary",
-                                "icon-left": "cog",
-                                "icon-right": active ? "menu-up" : "menu-down"
-                              }
-                            })
-                          ]
-                        }
-                      }
-                    ])
-                  },
-                  [
-                    _vm._v(" "),
-                    _c(
-                      "b-dropdown-item",
-                      {
-                        attrs: { "aria-role": "listitem" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({
-                              name: "newCollection",
-                              params: { persons_id: _vm.personID }
-                            })
-                          }
-                        }
-                      },
-                      [_vm._v("Kasayı Sil")]
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container block mt-6" }, [
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column is-9" }, [
-          _c("div", { staticClass: "card block" }, [
-            _c(
-              "header",
-              { staticClass: "card-header" },
-              [
-                _c("p", { staticClass: "card-header-title" }, [
-                  _vm._v(
-                    "\n                        Kasa/Banka Bilgisi\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-button",
-                  {
-                    staticClass: "mr-3 mt-3",
-                    attrs: { tag: "a", size: "is-small is-link is-light" },
-                    on: {
-                      click: function($event) {
-                        return _vm.toggleEdit()
-                      }
-                    }
-                  },
-                  [
-                    _vm.edit == 0 ? _c("span", [_vm._v("Düzenle")]) : _vm._e(),
-                    _vm._v(" "),
-                    _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
-                  ]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
+  return _c(
+    "div",
+    [
+      _c("section", { staticClass: "hero" }, [
+        _c("div", { staticClass: "hero-body" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "container is-flex is-justify-content-space-between is-align-items-center"
+            },
+            [
+              _c("div", { attrs: { name: "hero-left-side" } }, [
+                _c("p", { staticClass: "is-size-4 mb-0" }, [
+                  _vm._v("\n      " + _vm._s(_vm.vault.name) + "\n    ")
+                ])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "content" },
-                [
-                  _c("table", { staticClass: "table is-fullwidth" }, [
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Kasa/Banka Adı")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.vault.name))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedVaultData.name,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.editedVaultData, "name", $$v)
-                                    },
-                                    expression: "editedVaultData.name"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [_vm._v("Tipi")]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.vault.type))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: {
-                                    "custom-class": "is-small",
-                                    readonly: ""
-                                  },
-                                  model: {
-                                    value: _vm.editedVaultData.type,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.editedVaultData, "type", $$v)
-                                    },
-                                    expression: "editedVaultData.type"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Açılış Tarihi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishDate")(
-                                        _vm.vault.opening_date
-                                      )
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-datepicker", {
-                                  attrs: {
-                                    icon: "calendar-today",
-                                    "trap-focus": "",
-                                    "custom-class": "is-small"
-                                  },
-                                  model: {
-                                    value: _vm.editedVaultData.opening_date,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedVaultData,
-                                        "opening_date",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedVaultData.opening_date"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm.edit == 1
-                    ? _c(
-                        "b-button",
-                        {
-                          staticClass: "is-small",
-                          attrs: {
-                            type: "is-primary",
-                            loading: _vm.loadingUpdateButton,
-                            expanded: ""
-                          },
-                          on: { click: _vm.updateVault }
-                        },
-                        [_vm._v("Kaydet")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card block" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c(
-                "div",
-                { staticClass: "content" },
+                { staticClass: "buttons" },
                 [
                   _c(
-                    "b-table",
+                    "b-dropdown",
                     {
-                      attrs: {
-                        striped: true,
-                        data: _vm.transactions,
-                        loading: _vm.loadingTable
-                      },
+                      staticClass: "mr-2",
+                      attrs: { "aria-role": "list" },
                       scopedSlots: _vm._u([
                         {
-                          key: "empty",
-                          fn: function() {
+                          key: "trigger",
+                          fn: function(ref) {
+                            var active = ref.active
                             return [
-                              _c("div", { staticClass: "has-text-centered" }, [
-                                _vm._v("Kayıt yok")
-                              ])
+                              _c("b-button", {
+                                attrs: {
+                                  label: "İşlemler",
+                                  type: "is-primary",
+                                  "icon-left": "cog",
+                                  "icon-right": active ? "menu-up" : "menu-down"
+                                }
+                              })
                             ]
-                          },
-                          proxy: true
+                          }
                         }
                       ])
                     },
                     [
-                      _c("b-table-column", {
-                        attrs: { label: "Tarih" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm._f("turkishDate")(props.row.date)
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
                       _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Türü" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(props.row.extract_type) +
-                                    "\n                            "
-                                )
-                              ]
+                      _c(
+                        "b-dropdown-item",
+                        {
+                          attrs: { "aria-role": "listitem" },
+                          on: {
+                            click: function($event) {
+                              _vm.deleteModal = true
                             }
                           }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Açıklama" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(props.row.description) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Tutar" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(props.row.amount)
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      }),
-                      _vm._v(" "),
-                      _c("b-table-column", {
-                        attrs: { label: "Bakiye" },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(props.row.balance)
-                                    ) +
-                                    "\n                            "
-                                )
-                              ]
-                            }
-                          }
-                        ])
-                      })
+                        },
+                        [_vm._v("Kasayı Sil")]
+                      )
                     ],
                     1
                   )
                 ],
                 1
               )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container block mt-6" }, [
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-9" }, [
+            _c("div", { staticClass: "card block" }, [
+              _c(
+                "header",
+                { staticClass: "card-header" },
+                [
+                  _c("p", { staticClass: "card-header-title" }, [
+                    _vm._v(
+                      "\n                        Kasa/Banka Bilgisi\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      staticClass: "mr-3 mt-3",
+                      attrs: { tag: "a", size: "is-small is-link is-light" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleEdit()
+                        }
+                      }
+                    },
+                    [
+                      _vm.edit == 0
+                        ? _c("span", [_vm._v("Düzenle")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "content" },
+                  [
+                    _c("table", { staticClass: "table is-fullwidth" }, [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Kasa/Banka Adı")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [_vm._v(_vm._s(_vm.vault.name))])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedVaultData.name,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedVaultData,
+                                          "name",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedVaultData.name"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Tipi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [_vm._v(_vm._s(_vm.vault.type))])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: {
+                                      "custom-class": "is-small",
+                                      readonly: ""
+                                    },
+                                    model: {
+                                      value: _vm.editedVaultData.type,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedVaultData,
+                                          "type",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedVaultData.type"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Açılış Tarihi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishDate")(
+                                          _vm.vault.opening_date
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-datepicker", {
+                                    attrs: {
+                                      icon: "calendar-today",
+                                      "trap-focus": "",
+                                      "custom-class": "is-small"
+                                    },
+                                    model: {
+                                      value: _vm.editedVaultData.opening_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedVaultData,
+                                          "opening_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedVaultData.opening_date"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.vault.type == "Banka Hesabı"
+                          ? _c("tr", [
+                              _c("td", { attrs: { width: "30%" } }, [
+                                _vm._v("IBAN")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _vm.edit == 0
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(_vm.vault.iban))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.edit == 1
+                                    ? _c("b-input", {
+                                        attrs: { "custom-class": "is-small" },
+                                        model: {
+                                          value: _vm.editedVaultData.iban,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedVaultData,
+                                              "iban",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedVaultData.iban"
+                                        }
+                                      })
+                                    : _vm._e()
+                                ],
+                                1
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.vault.type == "Banka Hesabı"
+                          ? _c("tr", [
+                              _c("td", { attrs: { width: "30%" } }, [
+                                _vm._v("Banka")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _vm.edit == 0
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(_vm.vault.bank))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.edit == 1
+                                    ? _c("b-input", {
+                                        attrs: { "custom-class": "is-small" },
+                                        model: {
+                                          value: _vm.editedVaultData.bank,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedVaultData,
+                                              "bank",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedVaultData.bank"
+                                        }
+                                      })
+                                    : _vm._e()
+                                ],
+                                1
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.vault.type == "Banka Hesabı"
+                          ? _c("tr", [
+                              _c("td", { attrs: { width: "30%" } }, [
+                                _vm._v("Şube")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "td",
+                                [
+                                  _vm.edit == 0
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(_vm.vault.branch))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.edit == 1
+                                    ? _c("b-input", {
+                                        attrs: { "custom-class": "is-small" },
+                                        model: {
+                                          value: _vm.editedVaultData.branch,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.editedVaultData,
+                                              "branch",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "editedVaultData.branch"
+                                        }
+                                      })
+                                    : _vm._e()
+                                ],
+                                1
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.edit == 1
+                      ? _c(
+                          "b-button",
+                          {
+                            staticClass: "is-small",
+                            attrs: {
+                              type: "is-primary",
+                              loading: _vm.loadingUpdateButton,
+                              expanded: ""
+                            },
+                            on: { click: _vm.updateVault }
+                          },
+                          [_vm._v("Kaydet")]
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card block" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "content" },
+                  [
+                    _c(
+                      "b-table",
+                      {
+                        attrs: {
+                          striped: true,
+                          data: _vm.transactions,
+                          loading: _vm.loadingTable
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "empty",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "div",
+                                  { staticClass: "has-text-centered" },
+                                  [_vm._v("Kayıt yok")]
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ])
+                      },
+                      [
+                        _c("b-table-column", {
+                          attrs: { label: "Tarih" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function(props) {
+                                return [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm._f("turkishDate")(props.row.date)
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("b-table-column", {
+                          attrs: { label: "Türü" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function(props) {
+                                return [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(props.row.extract_type) +
+                                      "\n                            "
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("b-table-column", {
+                          attrs: { label: "Açıklama" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function(props) {
+                                return [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(props.row.description) +
+                                      "\n                            "
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("b-table-column", {
+                          attrs: { label: "Tutar" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function(props) {
+                                return [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm._f("turkishMoney")(props.row.amount)
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("b-table-column", {
+                          attrs: { label: "Bakiye" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function(props) {
+                                return [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm._f("turkishMoney")(
+                                          props.row.balance
+                                        )
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ]
+                              }
+                            }
+                          ])
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ])
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(1)
-      ])
-    ])
-  ])
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": false,
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.deleteVault()
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-card", staticStyle: { width: "auto" } },
+                [
+                  _c("header", { staticClass: "modal-card-head" }, [
+                    _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v("İşlemi onaylayın")
+                    ]),
+                    _vm._v(" "),
+                    _c("button", {
+                      staticClass: "delete",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.deleteModal = false
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("section", { staticClass: "modal-card-body" }, [
+                    _vm._v(
+                      "\n                       Kasa siliniyor. Devam etmek istediğinize emin misiniz?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "footer",
+                    { staticClass: "modal-card-foot" },
+                    [
+                      _c("b-button", {
+                        attrs: { label: "Vazgeç" },
+                        on: {
+                          click: function($event) {
+                            _vm.deleteModal = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("b-button", {
+                        attrs: {
+                          label: "Kaydet",
+                          type: "is-primary",
+                          loading: _vm.loadingDeleteButton,
+                          "native-type": "submit"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

@@ -203,6 +203,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -214,7 +248,9 @@ __webpack_require__.r(__webpack_exports__);
       isTableEmpty: false,
       edit: 0,
       transactions: [],
-      receivables: []
+      receivables: [],
+      deleteModal: false,
+      loadingDeleteButton: false
     };
   },
   mounted: function mounted() {
@@ -267,6 +303,31 @@ __webpack_require__.r(__webpack_exports__);
         });
       }).then(function () {
         _this2.loadingUpdateButton = false;
+      });
+    },
+    deleteDebit: function deleteDebit() {
+      var _this3 = this;
+
+      this.loadingDeleteButton = true;
+      axios["delete"]('/api/sites/' + this.siteID + '/debits/' + this.debitID).then(function (response) {
+        _this3.$buefy.toast.open({
+          message: response.data.message,
+          type: 'is-success'
+        });
+
+        _this3.$router.push({
+          name: 'debits',
+          params: {
+            sites_id: _this3.siteID
+          }
+        });
+      })["catch"](function (error) {
+        _this3.$buefy.toast.open({
+          message: error.response.data.message,
+          type: 'is-danger'
+        });
+      }).then(function () {
+        _this3.loadingDeleteButton = false;
       });
     },
     toggleEdit: function toggleEdit() {
@@ -367,689 +428,791 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("section", { staticClass: "hero" }, [
-      _c("div", { staticClass: "hero-body" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "container is-flex is-justify-content-space-between is-align-items-center"
-          },
-          [
-            _c("div", { attrs: { name: "hero-left-side" } }, [
-              _c("p", { staticClass: "is-size-4 mb-0" }, [
-                _vm._v("\n      " + _vm._s(_vm.debit.description) + "\n    ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "buttons" },
-              [
-                _c(
-                  "b-dropdown",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { "aria-role": "list" },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "trigger",
-                        fn: function(ref) {
-                          var active = ref.active
-                          return [
-                            _c("b-button", {
-                              attrs: {
-                                label: "İşlemler",
-                                type: "is-primary",
-                                "icon-left": "cog",
-                                "icon-right": active ? "menu-up" : "menu-down"
-                              }
-                            })
-                          ]
-                        }
-                      }
-                    ])
-                  },
-                  [
-                    _vm._v(" "),
-                    _c(
-                      "b-dropdown-item",
-                      {
-                        attrs: { "aria-role": "listitem" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({
-                              name: "newDebitCollection",
-                              params: {
-                                debits_id: _vm.debitID,
-                                persons_id: _vm.debit.occupant.accounts_id,
-                                occupants_id: _vm.debit.occupants_id
-                              }
-                            })
-                          }
-                        }
-                      },
-                      [_vm._v("Tahsilat Ekle")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-dropdown-item",
-                      {
-                        attrs: { "aria-role": "listitem" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({
-                              name: "newDebitCollection",
-                              params: { persons_id: _vm.personID }
-                            })
-                          }
-                        }
-                      },
-                      [_vm._v("Tahsilatla İlişkilendir")]
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container block mt-6" }, [
-      _c("div", { staticClass: "columns" }, [
-        _c("div", { staticClass: "column is-9" }, [
-          _c("div", { staticClass: "card block" }, [
-            _c(
-              "header",
-              { staticClass: "card-header" },
-              [
-                _c("p", { staticClass: "card-header-title" }, [
-                  _vm._v(
-                    "\n                        Borçlandırma Bilgisi\n                        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-button",
-                  {
-                    staticClass: "mr-3 mt-3",
-                    attrs: { tag: "a", size: "is-small is-link is-light" },
-                    on: {
-                      click: function($event) {
-                        return _vm.toggleEdit()
-                      }
-                    }
-                  },
-                  [
-                    _vm.edit == 0 ? _c("span", [_vm._v("Düzenle")]) : _vm._e(),
-                    _vm._v(" "),
-                    _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
-                  ]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
+  return _c(
+    "div",
+    [
+      _c("section", { staticClass: "hero" }, [
+        _c("div", { staticClass: "hero-body" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "container is-flex is-justify-content-space-between is-align-items-center"
+            },
+            [
+              _c("div", { attrs: { name: "hero-left-side" } }, [
+                _c("p", { staticClass: "is-size-4 mb-0" }, [
+                  _vm._v("\n      " + _vm._s(_vm.debit.description) + "\n    ")
+                ])
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "content" },
+                { staticClass: "buttons" },
                 [
-                  _c("table", { staticClass: "table is-fullwidth" }, [
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Açıklama")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.debit.description))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedDebitData.description,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData,
-                                        "description",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedDebitData.description"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [_vm._v("Türü")]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(_vm._s(_vm.debit.debit_type))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value: _vm.editedDebitData.debit_type,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData,
-                                        "debit_type",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedDebitData.debit_type"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [_vm._v("Kişi")]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(_vm.debit.occupant.account.name)
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedDebitData.occupant.account.name,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData.occupant.account,
-                                        "name",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedDebitData.occupant.account.name"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Bölüm")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.debit.occupant.property.doorWithBlock
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: { "custom-class": "is-small" },
-                                  model: {
-                                    value:
-                                      _vm.editedDebitData.occupant.property
-                                        .doorWithBlock,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData.occupant.property,
-                                        "doorWithBlock",
-                                        $$v
-                                      )
-                                    },
-                                    expression:
-                                      "editedDebitData.occupant.property.doorWithBlock"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Tutar")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(_vm.debit.amount)
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("vue-autonumeric", {
-                                  staticClass: "input is-small",
-                                  attrs: {
-                                    options: "commaDecimalCharDotSeparator"
-                                  },
-                                  model: {
-                                    value: _vm.editedDebitData.amount,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData,
-                                        "amount",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedDebitData.amount"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Kalan Tutar")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishMoney")(
-                                        _vm.debit.amount -
-                                          _vm.debit.debit_collections_sum_amount
-                                      )
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-input", {
-                                  attrs: {
-                                    "custom-class": "is-small",
-                                    readonly: ""
-                                  },
-                                  model: {
-                                    value: _vm.editedDebitData.email,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData,
-                                        "email",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedDebitData.email"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Tarih")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishDate")(_vm.debit.date)
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-datepicker", {
-                                  attrs: {
-                                    icon: "calendar-today",
-                                    "trap-focus": "",
-                                    "custom-class": "is-small"
-                                  },
-                                  model: {
-                                    value: _vm.editedDebitData.date,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.editedDebitData, "date", $$v)
-                                    },
-                                    expression: "editedDebitData.date"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Durumu")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [_vm._v(_vm._s(_vm.debit.status))])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c(
-                                  "b-select",
-                                  {
-                                    attrs: { size: "is-small", expanded: "" },
-                                    model: {
-                                      value: _vm.editedDebitData.status,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.editedDebitData,
-                                          "status",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "editedDebitData.status"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "pending" } },
-                                      [_vm._v("Ödenmedi")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "partial" } },
-                                      [_vm._v("Kısmi Ödeme")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("option", { attrs: { value: "paid" } }, [
-                                      _vm._v("Ödendi")
-                                    ])
-                                  ]
-                                )
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", { attrs: { width: "30%" } }, [
-                          _vm._v("Son Ödeme Tarihi")
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _vm.edit == 0
-                              ? _c("span", [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm._f("turkishDate")(_vm.debit.due_date)
-                                    )
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.edit == 1
-                              ? _c("b-datepicker", {
-                                  attrs: {
-                                    icon: "calendar-today",
-                                    "trap-focus": "",
-                                    "custom-class": "is-small"
-                                  },
-                                  model: {
-                                    value: _vm.editedDebitData.due_date,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.editedDebitData,
-                                        "due_date",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "editedDebitData.due_date"
-                                  }
-                                })
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm.edit == 1
-                    ? _c(
-                        "b-button",
-                        {
-                          staticClass: "is-small",
-                          attrs: {
-                            type: "is-primary",
-                            loading: _vm.loadingUpdateButton,
-                            expanded: ""
-                          },
-                          on: { click: _vm.updateDebit }
-                        },
-                        [_vm._v("Kaydet")]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _vm.debit.status != "Ödenmedi"
-            ? _c("div", { staticClass: "card block" }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-content" }, [
                   _c(
-                    "div",
-                    { staticClass: "content" },
-                    [
-                      _c(
-                        "b-table",
+                    "b-dropdown",
+                    {
+                      staticClass: "mr-2",
+                      attrs: { "aria-role": "list" },
+                      scopedSlots: _vm._u([
                         {
-                          attrs: {
-                            striped: true,
-                            data: _vm.debit.debit_collections,
-                            loading: _vm.loadingTable
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "empty",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "div",
-                                      { staticClass: "has-text-centered" },
-                                      [_vm._v("Kayıt yok")]
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            false,
-                            3343670916
-                          )
+                          key: "trigger",
+                          fn: function(ref) {
+                            var active = ref.active
+                            return [
+                              _c("b-button", {
+                                attrs: {
+                                  label: "İşlemler",
+                                  type: "is-primary",
+                                  "icon-left": "cog",
+                                  "icon-right": active ? "menu-up" : "menu-down"
+                                }
+                              })
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "b-dropdown-item",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({
+                                name: "newDebitCollection",
+                                params: {
+                                  debits_id: _vm.debitID,
+                                  persons_id: _vm.debit.occupant.accounts_id,
+                                  occupants_id: _vm.debit.occupants_id
+                                }
+                              })
+                            }
+                          }
                         },
-                        [
-                          _c("b-table-column", {
-                            attrs: { label: "Tarih" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(props) {
-                                    return [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            _vm._f("turkishDate")(
-                                              props.row.collection.date
-                                            )
-                                          ) +
-                                          "\n                            "
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3798325878
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c("b-table-column", {
-                            attrs: { label: "Açıklama" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(props) {
-                                    return [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            props.row.collection.description
-                                          ) +
-                                          "\n                            "
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              578335619
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c("b-table-column", {
-                            attrs: { label: "Kasa" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(props) {
-                                    return [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            props.row.collection.vault.name
-                                          ) +
-                                          "\n                            "
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              3875384438
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c("b-table-column", {
-                            attrs: { label: "Tutar" },
-                            scopedSlots: _vm._u(
-                              [
-                                {
-                                  key: "default",
-                                  fn: function(props) {
-                                    return [
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            _vm._f("turkishMoney")(
-                                              props.row.amount
-                                            )
-                                          ) +
-                                          "\n                            "
-                                      )
-                                    ]
-                                  }
-                                }
-                              ],
-                              null,
-                              false,
-                              4277973362
-                            )
-                          })
-                        ],
-                        1
+                        [_vm._v("Tahsilat Ekle")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-dropdown-item",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.deleteModal = true
+                            }
+                          }
+                        },
+                        [_vm._v("Borçlandırmayı Sil")]
                       )
                     ],
                     1
                   )
-                ])
+                ],
+                1
+              )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container block mt-6" }, [
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-9" }, [
+            _c("div", { staticClass: "card block" }, [
+              _c(
+                "header",
+                { staticClass: "card-header" },
+                [
+                  _c("p", { staticClass: "card-header-title" }, [
+                    _vm._v(
+                      "\n                        Borçlandırma Bilgisi\n                        "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      staticClass: "mr-3 mt-3",
+                      attrs: { tag: "a", size: "is-small is-link is-light" },
+                      on: {
+                        click: function($event) {
+                          return _vm.toggleEdit()
+                        }
+                      }
+                    },
+                    [
+                      _vm.edit == 0
+                        ? _c("span", [_vm._v("Düzenle")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.edit == 1 ? _c("span", [_vm._v("Vazgeç")]) : _vm._e()
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "content" },
+                  [
+                    _c("table", { staticClass: "table is-fullwidth" }, [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Açıklama")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.debit.description))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedDebitData.description,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "description",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.description"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Türü")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(_vm._s(_vm.debit.debit_type))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value: _vm.editedDebitData.debit_type,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "debit_type",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.debit_type"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Kişi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(_vm.debit.occupant.account.name)
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedDebitData.occupant.account
+                                          .name,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData.occupant.account,
+                                          "name",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedDebitData.occupant.account.name"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Bölüm")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.debit.occupant.property
+                                          .doorWithBlock
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: { "custom-class": "is-small" },
+                                    model: {
+                                      value:
+                                        _vm.editedDebitData.occupant.property
+                                          .doorWithBlock,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData.occupant.property,
+                                          "doorWithBlock",
+                                          $$v
+                                        )
+                                      },
+                                      expression:
+                                        "editedDebitData.occupant.property.doorWithBlock"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Tutar")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishMoney")(_vm.debit.amount)
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("vue-autonumeric", {
+                                    staticClass: "input is-small",
+                                    attrs: {
+                                      options: "commaDecimalCharDotSeparator"
+                                    },
+                                    model: {
+                                      value: _vm.editedDebitData.amount,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "amount",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.amount"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Kalan Tutar")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishMoney")(
+                                          _vm.debit.amount -
+                                            _vm.debit
+                                              .debit_collections_sum_amount
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-input", {
+                                    attrs: {
+                                      "custom-class": "is-small",
+                                      readonly: ""
+                                    },
+                                    model: {
+                                      value: _vm.editedDebitData.email,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "email",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.email"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Tarih")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishDate")(_vm.debit.date)
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-datepicker", {
+                                    attrs: {
+                                      icon: "calendar-today",
+                                      "trap-focus": "",
+                                      "custom-class": "is-small"
+                                    },
+                                    model: {
+                                      value: _vm.editedDebitData.date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "date",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.date"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Durumu")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [_vm._v(_vm._s(_vm.debit.status))])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c(
+                                    "b-select",
+                                    {
+                                      attrs: { size: "is-small", expanded: "" },
+                                      model: {
+                                        value: _vm.editedDebitData.status,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.editedDebitData,
+                                            "status",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "editedDebitData.status"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "pending" } },
+                                        [_vm._v("Ödenmedi")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "partial" } },
+                                        [_vm._v("Kısmi Ödeme")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "option",
+                                        { attrs: { value: "paid" } },
+                                        [_vm._v("Ödendi")]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("tr", [
+                          _c("td", { attrs: { width: "30%" } }, [
+                            _vm._v("Son Ödeme Tarihi")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            [
+                              _vm.edit == 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("turkishDate")(
+                                          _vm.debit.due_date
+                                        )
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.edit == 1
+                                ? _c("b-datepicker", {
+                                    attrs: {
+                                      icon: "calendar-today",
+                                      "trap-focus": "",
+                                      "custom-class": "is-small"
+                                    },
+                                    model: {
+                                      value: _vm.editedDebitData.due_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.editedDebitData,
+                                          "due_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "editedDebitData.due_date"
+                                    }
+                                  })
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.edit == 1
+                      ? _c(
+                          "b-button",
+                          {
+                            staticClass: "is-small",
+                            attrs: {
+                              type: "is-primary",
+                              loading: _vm.loadingUpdateButton,
+                              expanded: ""
+                            },
+                            on: { click: _vm.updateDebit }
+                          },
+                          [_vm._v("Kaydet")]
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
               ])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm._m(1)
-      ])
-    ])
-  ])
+            ]),
+            _vm._v(" "),
+            _vm.debit.status != "Ödenmedi"
+              ? _c("div", { staticClass: "card block" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-content" }, [
+                    _c(
+                      "div",
+                      { staticClass: "content" },
+                      [
+                        _c(
+                          "b-table",
+                          {
+                            attrs: {
+                              striped: true,
+                              data: _vm.debit.debit_collections,
+                              loading: _vm.loadingTable
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "empty",
+                                  fn: function() {
+                                    return [
+                                      _c(
+                                        "div",
+                                        { staticClass: "has-text-centered" },
+                                        [_vm._v("Kayıt yok")]
+                                      )
+                                    ]
+                                  },
+                                  proxy: true
+                                }
+                              ],
+                              null,
+                              false,
+                              3343670916
+                            )
+                          },
+                          [
+                            _c("b-table-column", {
+                              attrs: { label: "Tarih" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              _vm._f("turkishDate")(
+                                                props.row.collection.date
+                                              )
+                                            ) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3798325878
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { label: "Açıklama" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              props.row.collection.description
+                                            ) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                578335619
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { label: "Kasa" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              props.row.collection.vault.name
+                                            ) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3875384438
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { label: "Tutar" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [
+                                        _vm._v(
+                                          "\n                                " +
+                                            _vm._s(
+                                              _vm._f("turkishMoney")(
+                                                props.row.amount
+                                              )
+                                            ) +
+                                            "\n                            "
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                4277973362
+                              )
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            "destroy-on-hide": false,
+            "aria-modal": ""
+          },
+          model: {
+            value: _vm.deleteModal,
+            callback: function($$v) {
+              _vm.deleteModal = $$v
+            },
+            expression: "deleteModal"
+          }
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.deleteDebit()
+                }
+              }
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "modal-card", staticStyle: { width: "auto" } },
+                [
+                  _c("header", { staticClass: "modal-card-head" }, [
+                    _c("p", { staticClass: "modal-card-title" }, [
+                      _vm._v("İşlemi onaylayın")
+                    ]),
+                    _vm._v(" "),
+                    _c("button", {
+                      staticClass: "delete",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.deleteModal = false
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("section", { staticClass: "modal-card-body" }, [
+                    _vm._v(
+                      "\n                       Borçlandırma siliniyor. Devam etmek istediğinize emin misiniz?\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "footer",
+                    { staticClass: "modal-card-foot" },
+                    [
+                      _c("b-button", {
+                        attrs: { label: "Vazgeç" },
+                        on: {
+                          click: function($event) {
+                            _vm.deleteModal = false
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("b-button", {
+                        attrs: {
+                          label: "Kaydet",
+                          type: "is-primary",
+                          loading: _vm.loadingDeleteButton,
+                          "native-type": "submit"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

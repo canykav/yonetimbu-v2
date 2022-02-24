@@ -18,4 +18,7 @@ class DebitCollection extends Model
     public function collection() {
         return $this->belongsTo(Transaction::class, 'collections_id', 'id')->with('vault');
     }
+    public function debit() {
+        return $this->hasOne(Transaction::class, 'id', 'debits_id');
+    }
 }

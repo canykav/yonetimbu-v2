@@ -335,13 +335,7 @@ var render = function() {
                       {
                         key: "default",
                         fn: function(props) {
-                          return [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(props.row.id) +
-                                "\n                    "
-                            )
-                          ]
+                          return undefined
                         }
                       }
                     ])

@@ -74,10 +74,10 @@ class Site extends Model
 
     public function getCompanies()
     {
-        $companies = $this->accounts()->where('type','company')->withSum('getCompanyPayments','amount')->withSum('getCompanyExpenses','amount')->get();
+        $companies = $this->accounts()->where('type','company')->withSum('payments','amount')->withSum('getCompanyExpenses','amount')->get();
 
         foreach($companies as $company) {
-            $company['balance'] = $company['get_company_expenses_sum_amount'] - $company['get_company_payments_sum_amount'];
+            $company['balance'] = $company['get_company_expenses_sum_amount'] - $company['payments_sum_amount'];
         }
         return $companies;
     }
@@ -187,8 +187,8 @@ class Site extends Model
             ->paginate(20);
 
         foreach($debits as $debit)  { // TODO: fix n+1
-            $debit['account'] = ($debit['occupant']['accounts_id']) ? Account::find($debit['occupant']['accounts_id'])->hidePassword() : null;
-            $debit['property'] = Property::find($debit['occupant']['properties_id']);
+            $debit['account'] = (isset($debit['occupant'])) ? Account::find($debit['occupant']['accounts_id'])->hidePassword() : null;
+            $debit['property'] = (isset($debit['occupant'])) ? Property::find($debit['occupant']['properties_id']) : null ;
             $debit['property']->block;
         }
         return $debits;

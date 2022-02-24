@@ -101,7 +101,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -322,6 +321,7 @@ var render = function() {
                                   }
                                 ],
                                 staticClass: "select input is-fullwidth",
+                                attrs: { required: "" },
                                 on: {
                                   change: [
                                     function($event) {
@@ -390,6 +390,7 @@ var render = function() {
                                   }
                                 ],
                                 staticClass: "select input is-fullwidth",
+                                attrs: { required: "" },
                                 on: {
                                   change: function($event) {
                                     var $$selectedVal = Array.prototype.filter
@@ -437,6 +438,7 @@ var render = function() {
                         },
                         [
                           _c("b-input", {
+                            attrs: { required: "" },
                             model: {
                               value: _vm.newDebit.description,
                               callback: function($$v) {
@@ -633,10 +635,6 @@ var staticRenderFns = [
                 _vm._v(
                   "\n                        Yeni Borçlandırma\n                    "
                 )
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "has-text-grey is-size-7" }, [
-                _vm._v("......")
               ])
             ])
           ]

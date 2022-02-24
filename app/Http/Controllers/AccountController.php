@@ -96,8 +96,38 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $sites_id, $id)
     {
-        //
+
+        $account = Account::find($id);
+
+        if($account['type'] == 'person') {
+            $accountProperties = $account->getPersonProperties();
+            if(count($accountProperties)>0) {
+                return response()->json(['message' => 'Hesapla ilişkili bölüm(ler) bulunmaktadır. Hesap silinemedi.'],500);
+            }
+        }
+
+        if($account['type'] == 'employee' || $account['type'] == 'company') {
+            $accountTransactions = $account->getTransactions();
+
+            if(count($accountTransactions)>0) {
+                return response()->json(['message' => 'Hesapla ilişkili işlem(ler) bulunmaktadır. Hesap silinemedi.'],500);
+            }
+
+            $accountPayments = $account->payments;
+
+            if(count($accountPayments)>0) {
+                return response()->json(['message' => 'Hesapla ilişkili işlem(ler) bulunmaktadır. Hesap silinemedi.'],500);
+            }
+        }
+
+        $deleteAccount = Account::find($id)->delete();
+
+        if($deleteAccount) {
+            return response()->json(['message' => 'Hesap başarıyla silindi.']);
+        } else {
+            return response()->json(['message' => 'İşlem sırasında hata oluştu.']);
+        }
     }
 }

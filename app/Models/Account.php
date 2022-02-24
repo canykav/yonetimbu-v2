@@ -40,7 +40,7 @@ class Account extends Model
         ->leftjoin('occupants','transactions.occupants_id','occupants.id')
         ->where('occupants.accounts_id', $this->id)
         ->with('occupant')
-        ->withSum('payments','amount')
+        ->withSum('debitCollections','amount')
         ->orderBy('date','desc')
         ->get();
 
@@ -69,7 +69,8 @@ class Account extends Model
     public function getCompanyExpenses() {
         return $this->hasMany(Transaction::class, 'accounts_id', 'id')->where('transaction_type','expense');
     }
-    public function getCompanyPayments() {
+
+    public function payments() {
         return $this->hasManyThrough(
             Payment::class,
             Transaction::class,
@@ -78,5 +79,9 @@ class Account extends Model
             'id',
             'id'
         );
+    }
+
+    public function getTransactions() {
+        return $this->hasMany(Transaction::class, 'accounts_id', 'id')->get();
     }
 }
